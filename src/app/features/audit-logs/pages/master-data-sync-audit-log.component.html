@@ -1,0 +1,185 @@
+<p-toast></p-toast>
+<div class="page-container">
+  <div class="page-header">
+    <h1>Master Data Sync Audit Logs</h1>
+  </div>
+  <div class="grid filter-grid">
+    <!-- Row 1: 6 filters -->
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="search-input">Search</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon class="pi pi-search" />
+          <input
+            id="search-input"
+            pInputText
+            type="text"
+            placeholder="Search..."
+            [ngModel]="searchText()"
+            (ngModelChange)="searchText.set($event)"
+          />
+        </p-iconField>
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="correlationId">Correlation ID</label>
+        <input
+          id="correlationId"
+          pInputText
+          type="text"
+          placeholder="Correlation ID..."
+          [ngModel]="correlationId()"
+          (ngModelChange)="correlationId.set($event)"
+        />
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="installation">Installation</label>
+        <select
+          id="installation"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedInstallation()"
+          (ngModelChange)="selectedInstallation.set($event)"
+          [compareWith]="compareOptions"
+        >
+          @for (option of installationOptions(); track option.value ?? "all") {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="level">Level</label>
+        <select
+          id="level"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedLevel()"
+          (ngModelChange)="selectedLevel.set($event)"
+          [compareWith]="compareOptions"
+        >
+          @for (option of levelOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="action">Action</label>
+        <select
+          id="action"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedAction()"
+          (ngModelChange)="selectedAction.set($event)"
+          [compareWith]="compareOptions"
+        >
+          @for (option of actionOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="date-from">Date From</label>
+        <input
+          id="date-from"
+          type="date"
+          class="p-inputtext p-component w-full"
+          [ngModel]="dateFromValue()"
+          (ngModelChange)="dateFromValue.set($event)"
+        />
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="date-to">Date To</label>
+        <input
+          id="date-to"
+          type="date"
+          class="p-inputtext p-component w-full"
+          [ngModel]="dateToValue()"
+          (ngModelChange)="dateToValue.set($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Row 2: Buttons -->
+    <div class="col-12 md:col-10">
+      <div class="filter-item filter-actions-item">
+        <span class="filter-actions-label" aria-hidden="true">Actions</span>
+        <div class="filter-actions">
+          <button pButton label="Apply" icon="pi pi-check" (click)="applyFilters()"></button>
+          <button pButton label="Clear" icon="pi pi-times" class="p-button-secondary" (click)="clearFilters()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner"><i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i></div>
+    } @else if (logs().length === 0) {
+      <div class="empty-message">
+        <i class="pi pi-info-circle"></i>
+        <p>No audit logs found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="logs()"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="timestampUtc" style="width: 140px">
+              Timestamp <p-sortIcon field="timestampUtc"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 100px">Level</th>
+            <th scope="col" style="width: 120px">Action</th>
+            <th scope="col">Message</th>
+            <th scope="col" pSortableColumn="durationMs" style="width: 110px">
+              Duration (ms) <p-sortIcon field="durationMs"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 120px">Installation ID</th>
+            <th scope="col" style="width: 90px">Processed</th>
+            <th scope="col" style="width: 80px">Created</th>
+            <th scope="col" style="width: 80px">Updated</th>
+            <th scope="col" style="width: 120px">Correlation ID</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-log>
+          <tr>
+            <td style="width: 140px">{{ auditHelper.formatUtcToLocal(log.timestampUtc) }}</td>
+            <td style="width: 100px"><p-tag [value]="log.level" [severity]="auditHelper.getLevelSeverity(log.level)"></p-tag></td>
+            <td style="width: 120px">
+              <p-tag [value]="log.action" [severity]="auditHelper.getMasterDataSyncActionSeverity(log.action)"></p-tag>
+            </td>
+            <td class="message-cell">
+              <div class="message-text" [pTooltip]="log.message" tooltipPosition="top">{{ log.message }}</div>
+            </td>
+            <td style="width: 110px">{{ log.durationMs }}</td>
+            <td style="width: 120px">{{ log.installationId }}</td>
+            <td style="width: 90px">{{ log.itemsProcessed }}</td>
+            <td style="width: 80px">{{ log.itemsCreated }}</td>
+            <td style="width: 80px">{{ log.itemsUpdated }}</td>
+            <td style="width: 120px">
+              <span class="correlation-id">{{ log.correlationId }}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>

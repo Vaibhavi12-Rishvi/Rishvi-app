@@ -1,0 +1,133 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--p-text-color);
+  margin: 0;
+}
+
+:host ::ng-deep .p-tooltip {
+  max-width: 600px !important;
+}
+
+.filter-grid {
+  margin-bottom: 1.5rem;
+}
+
+.filter-item {
+  padding: 0.5rem;
+}
+
+.filter-item label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--p-text-color);
+  font-size: 0.875rem;
+}
+
+.filter-item input,
+.filter-item select {
+  width: 100%;
+}
+
+.filter-item select.p-inputtext {
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--p-form-field-border-color);
+  border-radius: var(--p-border-radius);
+  background: var(--p-form-field-background);
+  color: var(--p-text-color);
+  transition: border-color 0.2s;
+}
+
+.filter-item select.p-inputtext:hover {
+  border-color: var(--p-form-field-hover-border-color);
+}
+
+.filter-item select.p-inputtext:focus {
+  outline: 0;
+  border-color: var(--p-form-field-focus-border-color);
+  box-shadow: 0 0 0 0.2rem var(--p-focus-ring);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  height: fit-content;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.filter-actions-item {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+}
+
+.filter-actions-label {
+  visibility: hidden;
+}
+
+.filter-actions button {
+  white-space: nowrap;
+}
+
+.table-container {
+  background: var(--p-content-background);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.loading-spinner,
+.empty-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 3rem;
+  color: var(--p-text-muted-color);
+}
+
+.empty-message i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.correlation-id {
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: var(--p-primary-color);
+}
+
+.message-cell {
+  max-width: 400px;
+}
+
+.message-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .filter-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .filter-actions button {
+    flex: 1;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+}

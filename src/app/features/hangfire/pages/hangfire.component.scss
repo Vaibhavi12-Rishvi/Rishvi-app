@@ -1,0 +1,86 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--p-text-color);
+    margin: 0;
+  }
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+}
+
+.table-container {
+  background: var(--p-content-background);
+  border-radius: 8px;
+  overflow-x: auto;
+  padding: 1.5rem;
+}
+
+.job-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cron-expression {
+  font-family: "Courier New", monospace;
+  background: var(--p-highlight-background);
+  color: var(--p-highlight-text-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.text-muted {
+  color: var(--p-text-muted-color);
+  font-style: italic;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--p-text-secondary-color);
+
+  i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+    padding: 1rem;
+  }
+}

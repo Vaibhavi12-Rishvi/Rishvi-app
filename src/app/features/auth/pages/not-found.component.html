@@ -1,0 +1,32 @@
+<div class="not-found-wrapper">
+  <div class="not-found-container">
+    <div class="not-found-content">
+      <p-card>
+        <div class="card-inner">
+          <!-- Icon with animated background -->
+          <div class="not-found-icon-wrapper">
+            <div class="icon-background"></div>
+            <i class="pi pi-compass not-found-icon"></i>
+          </div>
+
+          <!-- Title -->
+          <h1 class="not-found-title">Page Not Found</h1>
+
+          <!-- Status Code -->
+          <div class="status-code">404</div>
+
+          <!-- Message -->
+          <p class="not-found-message">
+            Oops! The page you're looking for doesn't exist.<br />
+            It might have been moved or deleted.
+          </p>
+
+          <!-- Action Button -->
+          <div class="not-found-actions">
+            <p-button label="Go to Home" icon="pi pi-home" (onClick)="goToHome()" severity="primary" size="large"> </p-button>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Identifiers</h1>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="grid filter-grid">
+    <div class="col-12 md:col-2">
+      <div class="filter-item search-item">
+        <label for="search-input">Search</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon class="pi pi-search" />
+          <input
+            id="search-input"
+            pInputText
+            type="text"
+            placeholder="Search..."
+            [ngModel]="searchText()"
+            (ngModelChange)="searchText.set($event)"
+          />
+        </p-iconField>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-10">
+      <div class="filter-item filter-actions-item">
+        <span class="filter-actions-label" aria-hidden="true">Actions</span>
+        <div class="filter-actions">
+          <button pButton label="Apply" icon="pi pi-check" (click)="applyFilters()"></button>
+          <button pButton label="Clear" icon="pi pi-times" class="p-button-secondary" (click)="clearFilters()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    } @else if (identifiers().length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>No identifiers found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="identifiers()"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        [tableStyle]="{ 'min-width': '40rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="id">ID <p-sortIcon field="id" /></th>
+            <th scope="col" pSortableColumn="tag">Tag <p-sortIcon field="tag" /></th>
+            <th scope="col">Photo</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-identifier>
+          <tr>
+            <td>{{ identifier.id }}</td>
+            <td>{{ identifier.tag }}</td>
+            <td>
+              @if (identifier.imageUrl) {
+                <img [src]="identifier.imageUrl" [alt]="identifier.tag" class="identifier-photo" />
+              } @else {
+                <span class="no-photo">No photo</span>
+              }
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="text-center">No identifiers found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>

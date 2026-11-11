@@ -1,0 +1,224 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Webhook Events</h1>
+  </div>
+
+    <app-audit-log-filter-bar
+    [searchText]="searchText()"
+    [correlationId]="correlationId()"
+    [dateFrom]="dateFromValue()"
+    [dateTo]="dateToValue()"
+    [selectedIntegration]="selectedIntegration()"
+    [integrationOptions]="integrationOptions()"
+    (selectedIntegrationChange)="selectedIntegration.set($event)"
+    (searchTextChange)="searchText.set($event)"
+    (correlationIdChange)="correlationId.set($event)"
+    (dateFromChange)="dateFromValue.set($event)"
+    [showCorrelationIdFilter]="true"
+    (dateToChange)="dateToValue.set($event)"
+    [showDateFilter]="true"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+  >
+
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="event-code">Event Code</label>
+        <input
+          id="event-code"
+          pInputText
+          type="text"
+          placeholder="Event Code"
+          [ngModel]="eventCode()"
+          (ngModelChange)="eventCode.set($event)"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="identifier">Identifier</label>
+        <input
+          id="identifier"
+          pInputText
+          type="text"
+          placeholder="Identifier"
+          [ngModel]="identifier()"
+          (ngModelChange)="identifier.set($event)"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="party-id">Party ID</label>
+        <input id="party-id" pInputText type="text" placeholder="Party ID" [ngModel]="partyId()" (ngModelChange)="partyId.set($event)" />
+      </div>
+    </div>
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="status-select">Status</label>
+        <select
+          id="status-select"
+          class="p-inputtext p-component"
+          [ngModel]="selectedStatus()"
+          (ngModelChange)="selectedStatus.set($event)"
+          [compareWith]="compareOptions"
+        >
+          @for (option of statusOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="has-errors">Processing Error</label>
+        <select
+          id="has-errors"
+          class="p-inputtext p-component"
+          [ngModel]="selectedHasErrors()"
+          (ngModelChange)="selectedHasErrors.set($event)"
+          [compareWith]="compareOptions"
+        >
+          @for (option of hasErrorsOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+  </app-audit-log-filter-bar>
+
+
+
+
+
+  <!-- Table -->
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    } @else if (events().length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>No webhook events found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="events()"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        [tableStyle]="{ 'min-width': '100rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="id" style="width: 80px">ID <p-sortIcon field="id" /></th>
+            <th scope="col" pSortableColumn="receivedAtUtc" style="width: 140px">Received <p-sortIcon field="receivedAtUtc" /></th>
+            <th scope="col" pSortableColumn="eventCode" style="width: 150px">Event Code <p-sortIcon field="eventCode" /></th>
+            <th scope="col" pSortableColumn="identifier" style="width: 120px">Identifier <p-sortIcon field="identifier" /></th>
+            <th scope="col" pSortableColumn="partyId" style="width: 120px">Party ID <p-sortIcon field="partyId" /></th>
+            <th scope="col" style="width: 200px">Idempotency Key</th>
+            <th scope="col" pSortableColumn="status" style="width: 110px">Status <p-sortIcon field="status" /></th>
+            <th scope="col" pSortableColumn="processedAtUtc" style="width: 140px">Processed <p-sortIcon field="processedAtUtc" /></th>
+            <th scope="col">Processing Error</th>
+            <th scope="col" pSortableColumn="retryCount" style="width: 90px">Retries <p-sortIcon field="retryCount" /></th>
+            <th scope="col" pSortableColumn="integrationId" style="width: 110px">Integration ID<p-sortIcon field="integrationId" /></th>
+            <th scope="col" style="width: 120px">Correlation ID</th>
+            <th scope="col" style="width: 100px">Payload</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-event>
+          <tr>
+            <td style="width: 80px">{{ event.id }}</td>
+            <td style="width: 140px">{{ event.receivedAtUtc | date: "M/d/yy, h:mm a" }}</td>
+            <td style="width: 150px">
+              <strong>{{ event.eventCode }}</strong>
+            </td>
+            <td style="width: 120px">{{ event.identifier }}</td>
+            <td style="width: 120px">{{ event.partyId }}</td>
+            <td style="width: 200px">
+              <span class="text-sm">{{ event.idempotencyKey }}</span>
+            </td>
+            <td style="width: 110px">
+              <p-tag [value]="event.status" [severity]="getStatusSeverity(event.status)"></p-tag>
+            </td>
+            <td style="width: 140px">
+              {{ event.processedAtUtc ? (event.processedAtUtc | date: "M/d/yy, h:mm a") : "N/A" }}
+            </td>
+            <td>
+              <span class="text-sm" [pTooltip]="event.processingError || 'No errors'" tooltipPosition="top">
+                {{ event.processingError || "N/A" }}
+              </span>
+            </td>
+            <td style="width: 90px">{{ event.retryCount }}</td>
+            <td style="width: 110px">{{ event.integrationId }}</td>
+               <td style="width: 140px">
+              @if (event.correlationId) {
+                <div class="correlation-id-cell">
+                  <span class="correlation-id" [pTooltip]="event.correlationId" tooltipPosition="top">{{
+                    truncateId(event.correlationId)
+                  }}</span>
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-copy"
+                    class="p-button-rounded p-button-text p-button-sm copy-btn"
+
+                    tooltipPosition="top"
+                    (click)="copyToClipboard(event.correlationId)"
+                  ></button>
+                </div>
+              } @else {
+                <span>-</span>
+              }
+            </td>
+            <td style="width: 100px">
+              <button
+                pButton
+                icon="pi pi-file"
+                label="View"
+                class="p-button-sm p-button-text"
+                (click)="viewRawPayload(event.rawPayload)"
+                pTooltip="View Raw Payload"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="displayDialog"
+  [header]="'Raw Payload JSON'"
+  [modal]="true"
+  [style]="{ width: '90vw', maxHeight: '85vh' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="json-container">
+    <pre class="json-content">{{ rawPayloadJson() }}</pre>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" (click)="closeDialog()"></button>
+  </ng-template>
+</p-dialog>

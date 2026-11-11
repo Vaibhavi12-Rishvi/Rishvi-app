@@ -1,0 +1,313 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ isEditMode() ? "Edit Integration" : "Add Integration" }}</h1>
+  </div>
+
+  <p-card>
+    <div class="grid form-grid">
+      @if (authService.isAdmin()) {
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="installation-id" class="required">Installation</label>
+            <select
+              id="installation-id"
+              class="p-inputtext p-component"
+              [disabled]="installationsLoading()"
+              [ngModel]="selectedInstallationId()"
+              (ngModelChange)="selectedInstallationId.set($event !== '' ? +$event : null); installationIdError.set('')"
+              [class.p-invalid]="installationIdError()"
+            >
+              <option value="">Select installation</option>
+              @for (option of installationOptions(); track option.id) {
+                <option [value]="option.id">{{ option.email }}</option>
+              }
+            </select>
+            @if (installationIdError()) {
+              <small class="error-message">{{ installationIdError() }}</small>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="stream-client-id" class="required">Stream Client ID</label>
+          <input
+            id="stream-client-id"
+            pInputText
+            type="text"
+            [ngModel]="streamClientId()"
+            (ngModelChange)="streamClientId.set($event); streamClientIdError.set('')"
+            [class.p-invalid]="streamClientIdError()"
+          />
+          @if (streamClientIdError()) {
+            <small class="error-message">{{ streamClientIdError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="stream-client-secret" class="required">Stream Client Secret</label>
+          <p-password
+            inputId="stream-client-secret"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="w-full"
+            [inputStyle]="{ width: '100%' }"
+            [ngModel]="streamClientSecret()"
+            (ngModelChange)="streamClientSecret.set($event); streamClientSecretError.set('')"
+            [class.p-invalid]="streamClientSecretError()"
+          ></p-password>
+          @if (streamClientSecretError()) {
+            <small class="error-message">{{ streamClientSecretError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="stream-url" class="required">Stream URL</label>
+          <input
+            id="stream-url"
+            pInputText
+            type="text"
+            [ngModel]="streamUrl()"
+            (ngModelChange)="streamUrl.set($event); streamUrlError.set('')"
+            [class.p-invalid]="streamUrlError()"
+          />
+          @if (streamUrlError()) {
+            <small class="error-message">{{ streamUrlError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="integration-name" class="required">Integration Name</label>
+          <input
+            id="integration-name"
+            pInputText
+            type="text"
+            [ngModel]="integrationName()"
+            (ngModelChange)="integrationName.set($event); integrationNameError.set('')"
+            [class.p-invalid]="integrationNameError()"
+          />
+          @if (integrationNameError()) {
+            <small class="error-message">{{ integrationNameError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="order-lookback-days" class="required">Order Lookback Days</label>
+          <input
+            id="order-lookback-days"
+            pInputText
+            type="number"
+            min="0"
+            [ngModel]="orderLookbackDays()"
+            (ngModelChange)="orderLookbackDays.set(+$event); orderLookbackDaysError.set('')"
+            [class.p-invalid]="orderLookbackDaysError()"
+          />
+          @if (orderLookbackDaysError()) {
+            <small class="error-message">{{ orderLookbackDaysError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="profile-type" class="required">Profile Type</label>
+          <select
+            id="profile-type"
+            class="p-inputtext p-component"
+            [disabled]="profileTypesLoading()"
+            [ngModel]="profileType()"
+            (ngModelChange)="profileType.set($event); profileTypeError.set('')"
+            [class.p-invalid]="profileTypeError()"
+          >
+            <option value="">Select profile type</option>
+            @for (option of profileTypeOptions(); track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (profileTypeError()) {
+            <small class="error-message">{{ profileTypeError() }}</small>
+          }
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="order-num-prefix">Order Number Prefix</label>
+          <input
+            id="order-num-prefix"
+            pInputText
+            type="text"
+            [ngModel]="orderNumPrefix()"
+            (ngModelChange)="orderNumPrefix.set($event); orderNumPrefixError.set('')"
+            [class.p-invalid]="orderNumPrefixError()"
+            placeholder="Alphanumeric only"
+          />
+          @if (orderNumPrefixError()) {
+            <small class="error-message">{{ orderNumPrefixError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="using-stream-partner-account" class="checkbox-label">
+          <input
+            id="using-stream-partner-account"
+            type="checkbox"
+            [ngModel]="isUsingStreamPartnerAccount()"
+            (ngModelChange)="
+              isUsingStreamPartnerAccount.set($event); streamPartnerAccountIdError.set(''); streamPartnerAccountNameError.set('')
+            "
+          />
+          <span>Is Using Stream Partner Account</span>
+        </label>
+      </div>
+
+      @if (isUsingStreamPartnerAccount()) {
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="stream-partner-account-id" class="required">Stream Partner Account ID</label>
+            <input
+              id="stream-partner-account-id"
+              pInputText
+              type="text"
+              [ngModel]="streamPartnerAccountId()"
+              (ngModelChange)="streamPartnerAccountId.set($event); streamPartnerAccountIdError.set('')"
+              [class.p-invalid]="streamPartnerAccountIdError()"
+            />
+            @if (streamPartnerAccountIdError()) {
+              <small class="error-message">{{ streamPartnerAccountIdError() }}</small>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="stream-partner-account-name" class="required">Stream Partner Account Name</label>
+            <input
+              id="stream-partner-account-name"
+              pInputText
+              type="text"
+              [ngModel]="streamPartnerAccountName()"
+              (ngModelChange)="streamPartnerAccountName.set($event); streamPartnerAccountNameError.set('')"
+              [class.p-invalid]="streamPartnerAccountNameError()"
+            />
+            @if (streamPartnerAccountNameError()) {
+              <small class="error-message">{{ streamPartnerAccountNameError() }}</small>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="col-12 md:col-6">
+        <label for="order-sync-enabled" class="checkbox-label">
+          <input id="order-sync-enabled" type="checkbox" [ngModel]="isOrderSyncEnabled()" (ngModelChange)="isOrderSyncEnabled.set($event)" />
+          <span>Is Order Sync Enabled</span>
+        </label>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="order-dispatch-sync-enabled" class="checkbox-label">
+          <input
+            id="order-dispatch-sync-enabled"
+            type="checkbox"
+            [ngModel]="isOrderDispatchSyncEnabled()"
+            (ngModelChange)="isOrderDispatchSyncEnabled.set($event)"
+          />
+          <span>Is Order Dispatch Sync Enabled</span>
+        </label>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="use-current-date-as-hands-on-date" class="checkbox-label">
+          <input
+            id="use-current-date-as-hands-on-date"
+            type="checkbox"
+            [ngModel]="useCurrentDateAsHandsOnDate()"
+            (ngModelChange)="useCurrentDateAsHandsOnDate.set($event)"
+          />
+          <span>Use Current Date As HandsOn Date</span>
+        </label>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="update-tracking-after-planning" class="checkbox-label">
+          <input
+            id="update-tracking-after-planning"
+            type="checkbox"
+            [ngModel]="updateTrackingAfterPlanning()"
+            (ngModelChange)="updateTrackingAfterPlanning.set($event)"
+          />
+          <span>Update Tracking After Planning</span>
+        </label>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="webhook-features-enabled" class="checkbox-label">
+          <input
+            id="webhook-features-enabled"
+            type="checkbox"
+            [ngModel]="isWebhookFeaturesEnabled()"
+            (ngModelChange)="isWebhookFeaturesEnabled.set($event)"
+          />
+          <span>Is Webhook Features Enabled</span>
+        </label>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="add-tracking-to-order-note" class="checkbox-label">
+          <input
+            id="add-tracking-to-order-note"
+            type="checkbox"
+            [ngModel]="addTrackingToOrderNote()"
+            (ngModelChange)="addTrackingToOrderNote.set($event)"
+          />
+          <span>Add Tracking To Order Note</span>
+        </label>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <label for="enable-automatic-order-sync" class="checkbox-label">
+          <input
+            id="enable-automatic-order-sync"
+            type="checkbox"
+            [ngModel]="enableAutomaticOrderSync()"
+            (ngModelChange)="enableAutomaticOrderSync.set($event)"
+          />
+          <span>Enable Automatic Order Sync</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        style="margin-right: 10px"
+        pButton
+        type="button"
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        routerLink="/integrations"
+        [disabled]="submitting() || formLoading()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        [label]="isEditMode() ? 'Update Integration' : 'Save Integration'"
+        icon="pi pi-check"
+        [loading]="submitting()"
+        [disabled]="submitting() || formLoading()"
+        (click)="saveIntegration()"
+      ></button>
+    </div>
+  </p-card>
+</div>

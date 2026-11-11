@@ -1,0 +1,474 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Order Queue</h1>
+  </div>
+
+  <!-- Filter Bar -->
+  <app-audit-log-filter-bar
+     [selectedInstallation]="selectedInstallation()"
+    [installationOptions]="installationOptions()"
+    (selectedInstallationChange)="selectedInstallation.set($event)"
+    [searchText]="searchText()"
+    [dateFrom]="dateFromValue()"
+    [dateTo]="dateToValue()"
+    (searchTextChange)="searchText.set($event)"
+    (dateFromChange)="dateFromValue.set($event)"
+    (dateToChange)="dateToValue.set($event)"
+    [showDateFilter]="true"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+  >
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="orderName">Order Name</label>
+        <input
+          id="orderName"
+          pInputText
+          type="text"
+          placeholder="Order Name..."
+          [ngModel]="orderName()"
+          (ngModelChange)="orderName.set($event)"
+          (keydown.enter)="applyFilters()"
+        />
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="streamOrderId">Stream Order Id</label>
+        <input
+          id="streamOrderId"
+          pInputText
+          type="text"
+          placeholder="E.g., #1001, ORD1001"
+          [ngModel]="streamOrderId()"
+          (ngModelChange)="streamOrderId.set($event)"
+          (keydown.enter)="applyFilters()"
+        />
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="syncStatus">Sync Status</label>
+        <select
+          id="syncStatus"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedSyncStatus()"
+          (ngModelChange)="selectedSyncStatus.set($event)"
+          [compareWith]="compareOptions"
+          (keydown.enter)="applyFilters()"
+        >
+          @for (option of syncStatusOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    </app-audit-log-filter-bar>
+
+
+
+
+
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner"><i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i></div>
+    } @else if (orders().length === 0) {
+      <div class="empty-message">
+        <i class="pi pi-info-circle"></i>
+        <p>No order queue items found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="orders()"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="orderName" style="width: 140px">Order Name <p-sortIcon field="orderName"></p-sortIcon></th>
+            <th scope="col" style="width: 130px">Sync Status</th>
+            <th scope="col" pSortableColumn="streamOrderId" style="width: 160px">
+              Stream Order ID <p-sortIcon field="streamOrderId"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="streamConsignmentId" style="width: 160px">
+              Consignment ID <p-sortIcon field="streamConsignmentId"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 200px">Tracking URL</th>
+            <th scope="col" pSortableColumn="sentToStreamAtUtc" style="width: 150px">
+              Sent <p-sortIcon field="sentToStreamAtUtc"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="completedAtUtc" style="width: 150px">
+              Completed <p-sortIcon field="completedAtUtc"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="failedAtUtc" style="width: 150px">Failed <p-sortIcon field="failedAtUtc"></p-sortIcon></th>
+            <th scope="col" pSortableColumn="retryCount" style="width: 90px">Retry <p-sortIcon field="retryCount"></p-sortIcon></th>
+            <th scope="col" pSortableColumn="lastHttpStatusCode" style="width: 120px">
+              HTTP <p-sortIcon field="lastHttpStatusCode"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="installationId" style="width: 110px">
+              Installation ID <p-sortIcon field="installationId"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 170px">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td style="width: 140px">
+              <span class="small-value">{{ item.orderName || "-" }}</span>
+            </td>
+            <td style="width: 130px">
+              <p-tag [value]="getSyncStatusLabel(item.syncStatus)" [severity]="getSyncStatusSeverity(item.syncStatus)"></p-tag>
+            </td>
+            <td style="width: 160px">
+              <span class="uuid-text small-value">{{ item.streamOrderId || "-" }}</span>
+            </td>
+            <td style="width: 160px">
+              <span class="uuid-text small-value">{{ item.streamConsignmentId || "-" }}</span>
+            </td>
+            <td style="width: 200px">
+              @if (item.streamTrackingUrl) {
+                <a class="link-text small-link" [href]="item.streamTrackingUrl" target="_blank" rel="noopener">{{
+                  item.streamTrackingUrl
+                }}</a>
+              } @else {
+                <span class="text-muted">-</span>
+              }
+            </td>
+            <td style="width: 150px">{{ item.sentToStreamAtUtc ? (item.sentToStreamAtUtc | date: "M/d/yy, h:mm a") : "-" }}</td>
+            <td style="width: 150px">{{ item.completedAtUtc ? (item.completedAtUtc | date: "M/d/yy, h:mm a") : "-" }}</td>
+            <td style="width: 150px">{{ item.failedAtUtc ? (item.failedAtUtc | date: "M/d/yy, h:mm a") : "-" }}</td>
+            <td style="width: 90px">{{ item.retryCount ?? "-" }}</td>
+            <td style="width: 120px">{{ item.lastHttpStatusCode ?? "-" }}</td>
+            <td style="width: 110px">{{ item.installationId ?? "-" }}</td>
+            <td style="width: 170px">
+              <div class="action-buttons">
+                <button
+                  pButton
+                  icon="pi pi-info-circle"
+                  label="Queue"
+                  class="p-button-text p-button-sm"
+                  pTooltip="View queue details"
+                  tooltipPosition="top"
+                  (click)="viewQueueInfo(item)"
+                ></button>
+                <button
+                  pButton
+                  icon="pi pi-file"
+                  label="Order"
+                  class="p-button-text p-button-sm"
+                  pTooltip="View order details"
+                  tooltipPosition="top"
+                  (click)="viewOrderDetails(item)"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="displayQueueDialog"
+  [header]="'Order Queue Details'"
+  [modal]="true"
+  [style]="{ width: '80vw', maxHeight: '85vh' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  @if (selectedQueueItem()) {
+    <div class="details-grid queue-grid">
+      <p-card class="detail-card section-card">
+        <ng-template pTemplate="header">Queue Summary</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Queue ID</span>
+          <span class="detail-value">
+            @if (selectedQueueItem()?.id) {
+              <a class="link-text" style="cursor: pointer" (click)="navigateToApiLogs(selectedQueueItem()!.id)">{{
+                selectedQueueItem()!.id
+              }}</a>
+            } @else {
+              -
+            }
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Shopify Order ID</span
+          ><span class="detail-value">{{ selectedQueueItem()?.shopifyOrderId || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Installation</span
+          ><span class="detail-value">
+            {{ selectedQueueItem()?.installationId ?? "-"
+            }}{{ selectedQueueItem()?.installationEmail ? " - " + selectedQueueItem()?.installationEmail : "" }}
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Status</span
+          ><span class="detail-value">
+            <p-tag
+              [value]="getSyncStatusLabel(selectedQueueItem()?.syncStatus || 0)"
+              [severity]="getSyncStatusSeverity(selectedQueueItem()?.syncStatus || 0)"
+            ></p-tag>
+          </span>
+        </div>
+      </p-card>
+
+      <p-card class="detail-card section-card">
+        <ng-template pTemplate="header">Stream Details</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Stream Order ID</span><span class="detail-value">{{ selectedQueueItem()?.streamOrderId || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Consignment ID</span
+          ><span class="detail-value">{{ selectedQueueItem()?.streamConsignmentId || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Tracking #</span
+          ><span class="detail-value">{{ selectedQueueItem()?.streamTrackingNumber || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Tracking URL</span
+          ><span class="detail-value">
+            @if (selectedQueueItem()?.streamTrackingUrl) {
+              <a class="link-text small-link" [href]="selectedQueueItem()?.streamTrackingUrl" target="_blank" rel="noopener">{{
+                selectedQueueItem()?.streamTrackingUrl
+              }}</a>
+            } @else {
+              <span class="text-muted">-</span>
+            }
+          </span>
+        </div>
+      </p-card>
+
+      <p-card class="detail-card section-card">
+        <ng-template pTemplate="header">Timing</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Sent</span
+          ><span class="detail-value">{{
+            selectedQueueItem()?.sentToStreamAtUtc ? (selectedQueueItem()?.sentToStreamAtUtc | date: "M/d/yy, h:mm a") : "-"
+          }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Completed</span
+          ><span class="detail-value">{{
+            selectedQueueItem()?.completedAtUtc ? (selectedQueueItem()?.completedAtUtc | date: "M/d/yy, h:mm a") : "-"
+          }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Failed</span
+          ><span class="detail-value">{{
+            selectedQueueItem()?.failedAtUtc ? (selectedQueueItem()?.failedAtUtc | date: "M/d/yy, h:mm a") : "-"
+          }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Last Attempt</span
+          ><span class="detail-value">{{
+            selectedQueueItem()?.lastAttemptedAtUtc ? (selectedQueueItem()?.lastAttemptedAtUtc | date: "M/d/yy, h:mm a") : "-"
+          }}</span>
+        </div>
+      </p-card>
+
+      <p-card class="detail-card section-card error-card full-width">
+        <ng-template pTemplate="header">Error Details</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Retry Count</span><span class="detail-value">{{ selectedQueueItem()?.retryCount ?? "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Last HTTP</span><span class="detail-value">{{ selectedQueueItem()?.lastHttpStatusCode ?? "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Message</span
+          ><span class="detail-value detail-pre">{{ selectedQueueItem()?.lastErrorMessage || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Details</span>
+          <span class="detail-value">{{
+            selectedQueueItem()?.lastErrorDetails ? formatJsonString(selectedQueueItem()?.lastErrorDetails || "") : "-"
+          }}</span>
+        </div>
+      </p-card>
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" (click)="closeQueueDialog()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="displayOrderDialog"
+  [header]="'Order Details'"
+  [modal]="true"
+  [style]="{ width: '90vw', maxHeight: '90vh' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  @if (dialogLoading()) {
+    <div class="dialog-loading">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      <p>Loading order details...</p>
+    </div>
+  } @else if (selectedOrder()) {
+    <div class="details-grid order-details-grid">
+      <p-card class="detail-card section-card">
+        <ng-template pTemplate="header">Order Summary</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Shopify Order Id</span><span class="detail-value">{{ selectedOrder()?.shopifyOrderId || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Order Name</span><span class="detail-value">{{ selectedOrder()?.orderName || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Email</span><span class="detail-value">{{ selectedOrder()?.email || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Phone</span><span class="detail-value">{{ selectedOrder()?.phone || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Installation</span
+          ><span class="detail-value"
+            >{{ selectedOrder()?.installationId ?? "-" }} - {{ selectedOrder()?.installationShopDomain || "-" }}</span
+          >
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Created</span
+          ><span class="detail-value">{{
+            selectedOrder()?.createdAtUtc ? (selectedOrder()?.createdAtUtc | date: "M/d/yy, h:mm a") : "-"
+          }}</span>
+        </div>
+      </p-card>
+
+      <p-card class="detail-card section-card">
+        <ng-template pTemplate="header">Customer</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Name</span><span class="detail-value">{{ selectedOrder()?.customerInfo?.displayName || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Shopify Customer Id</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.shopifyCustomerId || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Email</span><span class="detail-value">{{ selectedOrder()?.customerInfo?.email || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Phone</span><span class="detail-value">{{ selectedOrder()?.customerInfo?.phone || "-" }}</span>
+        </div>
+      </p-card>
+
+      <p-card class="detail-card section-card">
+        <ng-template pTemplate="header">Client Address</ng-template>
+        <div class="detail-row">
+          <span class="detail-label">Name</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.defaultAddress?.addressName || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Address 1</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.defaultAddress?.address1 || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Address 2</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.defaultAddress?.address2 || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Zip</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.defaultAddress?.zip || "-" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Country</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.defaultAddress?.country || "-" }}</span>
+        </div>
+         <div class="detail-row">
+          <span class="detail-label">Phone No</span
+          ><span class="detail-value">{{ selectedOrder()?.customerInfo?.defaultAddress?.phone || "-" }}</span>
+        </div>
+      </p-card>
+
+      <p-card class="detail-card full-width section-card">
+        <ng-template pTemplate="header">
+          <div class="table-header">
+            <span>Shipping address</span>
+          </div>
+        </ng-template>
+        <p-table [value]="selectedOrder()?.fulfillments || []" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Address 1</th>
+              <th scope="col">Address 2</th>
+              <th scope="col">Country</th>
+              <th scope="col">City</th>
+              <th scope="col">Zip</th>
+              <th scope="col">Phone</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-fulfillment>
+            <tr>
+              <td>{{ selectedOrder()?.shippingAddress?.addressName || "-" }}</td>
+              <td>{{ selectedOrder()?.shippingAddress?.address1 || "-" }}</td>
+              <td>{{ selectedOrder()?.shippingAddress?.address2 || "-" }}</td>
+              <td>{{ selectedOrder()?.shippingAddress?.country || "-" }}</td>
+              <td>{{ selectedOrder()?.shippingAddress?.city || "-" }}</td>
+              <td>{{ selectedOrder()?.shippingAddress?.zip || "-" }}</td>
+              <td>{{ selectedOrder()?.shippingAddress?.phone || "-" }}</td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+
+      <p-card class="detail-card full-width section-card">
+        <ng-template pTemplate="header">
+          <div class="table-header">
+            <span>Items</span>
+            <span class="table-subtitle">{{ selectedOrder()?.items?.length || 0 }} item(s)</span>
+          </div>
+        </ng-template>
+        <p-table [value]="selectedOrder()?.items || []" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Title</th>
+              <th scope="col" style="width: 90px">Qty</th>
+              <th scope="col" style="width: 120px">Price</th>
+              <th scope="col" style="width: 120px">Currency</th>
+              <th scope="col" style="width: 120px">Line Total</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>{{ item.sku || "-" }}</td>
+              <td>{{ item.title || "-" }}</td>
+              <td>{{ item.quantity ?? "-" }}</td>
+              <td>{{ item.pricePerUnit ?? "-" }}</td>
+              <td>{{ item.currency || "-" }}</td>
+              <td>{{ item.quantity != null && item.pricePerUnit != null ? item.quantity * item.pricePerUnit : "-" }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+  } @else {
+    <div class="empty-message">
+      <i class="pi pi-info-circle"></i>
+      <p>No order details found</p>
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" (click)="closeOrderDialog()"></button>
+  </ng-template>
+</p-dialog>

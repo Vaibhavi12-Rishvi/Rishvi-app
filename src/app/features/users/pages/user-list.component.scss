@@ -1,0 +1,269 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--p-text-color);
+    margin: 0;
+  }
+}
+
+.filter-grid {
+  margin-bottom: 1.5rem;
+}
+
+.filter-item {
+  padding: 0.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--p-text-color);
+    font-size: 0.875rem;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
+
+  select.p-inputtext {
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--p-form-field-border-color);
+    border-radius: var(--p-border-radius);
+    background: var(--p-form-field-background);
+    color: var(--p-text-color);
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--p-form-field-hover-border-color);
+    }
+
+    &:focus {
+      outline: 0;
+      border-color: var(--p-form-field-focus-border-color);
+      box-shadow: 0 0 0 0.2rem var(--p-focus-ring);
+    }
+  }
+}
+
+.search-item {
+  ::ng-deep {
+    .p-iconfield {
+      width: 100%;
+    }
+
+    .p-inputtext {
+      width: 100%;
+    }
+  }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.filter-actions-item {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+}
+
+.filter-actions-label {
+  visibility: hidden;
+}
+
+.table-container {
+  background: var(--p-content-background);
+  border-radius: 8px;
+  overflow-x: auto;
+  padding: 1.5rem;
+}
+
+.table-header {
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  &.status-active {
+    background: var(--p-green-100);
+    color: var(--p-green-700);
+  }
+
+  &.status-inactive {
+    background: var(--p-gray-100);
+    color: var(--p-gray-700);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--p-text-secondary-color);
+
+  i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .filter-actions {
+    width: 100%;
+    justify-content: stretch;
+
+    button {
+      flex: 1;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Reset Password Dialog Styles
+.reset-dialog-content {
+  .warning-message {
+    text-align: center;
+    padding: 1rem;
+    background: var(--p-highlight-background);
+    border: 1px solid var(--p-highlight-text-color);
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+
+    i {
+      color: var(--p-orange-500);
+    }
+
+    h3 {
+      margin: 0.5rem 0;
+      color: var(--p-text-color);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0.75rem 0 0.5rem;
+      color: var(--p-text-color);
+      text-align: left;
+    }
+
+    ul {
+      text-align: left;
+      margin: 0.5rem 0;
+      padding-left: 1.5rem;
+      color: var(--p-text-color);
+
+      li {
+        margin: 0.25rem 0;
+      }
+
+      strong {
+        color: var(--p-primary-color);
+      }
+    }
+  }
+
+  .confirmation-section {
+    .confirmation-instruction {
+      margin-bottom: 1rem;
+      font-weight: 500;
+      color: var(--p-text-color);
+    }
+
+    .code-display {
+      background: var(--p-surface-50);
+      border: 2px dashed var(--p-primary-color);
+      padding: 1rem;
+      text-align: center;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      user-select: none;
+
+      strong {
+        font-size: 1.5rem;
+        letter-spacing: 0.3rem;
+        color: var(--p-primary-color);
+        font-family: "Courier New", monospace;
+      }
+    }
+
+    .form-field {
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--p-text-color);
+      }
+
+      input {
+        font-family: "Courier New", monospace;
+        font-size: 1.1rem;
+        letter-spacing: 0.2rem;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .p-dialog .p-dialog-header {
+    background: var(--p-content-background);
+    border-bottom: 2px solid var(--p-content-border-color);
+  }
+
+  .p-dialog .p-dialog-content {
+    padding: 1.5rem;
+    background: var(--p-content-background);
+  }
+
+  .p-dialog .p-dialog-footer {
+    background: var(--p-content-background);
+    border-top: 1px solid var(--p-content-border-color);
+  }
+}

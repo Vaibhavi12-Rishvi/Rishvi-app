@@ -1,0 +1,121 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>User Audit Logs</h1>
+  </div>
+
+   <app-audit-log-filter-bar
+    [searchText]="searchText()"
+    (searchTextChange)="searchText.set($event)"
+    [dateFrom]="dateFromValue()"
+    (dateFromChange)="dateFromValue.set($event)"
+    [dateTo]="dateToValue()"
+    (dateToChange)="dateToValue.set($event)"
+    [correlationId]="correlationId()"
+    (correlationIdChange)="correlationId.set($event)"
+    [showCorrelationIdFilter]="true"
+    [selectedLevel]="selectedLevel()"
+    [levelOptions]="levelOptions"
+    (selectedLevelChange)="selectedLevel.set($event)"
+    [selectedAction]="selectedAction()"
+    [actionOptions]="actionOptions"
+    (selectedActionChange)="selectedAction.set($event)"
+    [showLevelFilter]="true"
+    [showActionFilter]="true"
+    [showDateFilter]="true"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+  >
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          pInputText
+          type="text"
+          placeholder="Email..."
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          (keydown.enter)="applyFilters()"
+        />
+      </div>
+    </div>
+   </app-audit-log-filter-bar>
+
+
+
+
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner"><i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i></div>
+    } @else if (logs().length === 0) {
+      <div class="empty-message">
+        <i class="pi pi-info-circle"></i>
+        <p>No audit logs found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="logs()"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="timestampUtc" style="width: 140px">
+              Timestamp <p-sortIcon field="timestampUtc"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 100px">Level</th>
+            <th scope="col" style="width: 120px">Action</th>
+            <th scope="col" style="width: 200px">Email</th>
+            <th scope="col" pSortableColumn="userId" style="width: 100px">User ID <p-sortIcon field="userId"></p-sortIcon></th>
+            <th scope="col">Message</th>
+            <th scope="col" style="width: 150px">IP Address</th>
+            <th scope="col" style="width: 120px">Correlation ID</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-log>
+          <tr>
+            <td style="width: 140px">{{ auditHelper.formatUtcToLocal(log.timestampUtc) }}</td>
+            <td style="width: 100px"><p-tag [value]="log.level" [severity]="auditHelper.getLevelSeverity(log.level)"></p-tag></td>
+            <td style="width: 120px"><p-tag [value]="getUserActionLabel(log.action)"></p-tag></td>
+            <td style="width: 200px">{{ log.email }}</td>
+            <td style="width: 100px">{{ log.userId }}</td>
+            <td class="message-cell">
+              <div class="message-text" [pTooltip]="log.message" tooltipPosition="top">{{ log.message }}</div>
+            </td>
+            <td style="width: 150px">{{ log.ipAddress }}</td>
+            <td style="width: 140px">
+              @if (log.correlationId) {
+                <div class="correlation-id-cell">
+                  <span class="correlation-id" [pTooltip]="log.correlationId" tooltipPosition="top">{{
+                    truncateId(log.correlationId)
+                  }}</span>
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-copy"
+                    class="p-button-rounded p-button-text p-button-sm copy-btn"
+                    tooltipPosition="top"
+                    (click)="copyToClipboard(log.correlationId)"
+                  ></button>
+                </div>
+              } @else {
+                <span>-</span>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>

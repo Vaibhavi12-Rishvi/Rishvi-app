@@ -1,0 +1,232 @@
+<div class="grid filter-grid">
+  @if(showSearchFilter()) {
+  <div class="col-12 md:col-2">
+    <div class="filter-item search-item">
+      <label for="search-input">Search</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-search" />
+        <input
+          id="search-input"
+          pInputText
+          type="text"
+          placeholder="Search..."
+          [ngModel]="searchText()"
+          (ngModelChange)="searchTextChange.emit($event)"
+          (keydown.enter)="filtersApplied.emit()"
+        />
+      </p-iconField>
+    </div>
+  </div>
+}
+
+   @if (statusOptions().length > 0) {
+   <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="status-select">Status</label>
+        <select
+          id="status-select"
+          class="p-inputtext p-component"
+          [ngModel]="selectedStatus()"
+          (ngModelChange)="selectedStatusChange.emit($event)"
+          [compareWith]="compareStatusOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of statusOptions(); track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    }
+
+  <!-- if i not send corelation id in <audit-log-filter-bar>
+    than not show correlation id filter in filter bar, because correlation id is optional filter -->
+
+  @if (showCorrelationIdFilter()) {
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="correlationId">Correlation ID</label>
+        <input
+          id="correlationId"
+          pInputText
+          type="text"
+          placeholder="Correlation ID..."
+          [ngModel]="correlationId()"
+          (ngModelChange)="correlationIdChange.emit($event)"
+          (keydown.enter)="filtersApplied.emit()"
+        />
+      </div>
+    </div>
+  }
+
+  @if (installationOptions().length > 0) {
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="installation">Installation ID</label>
+        <select
+          id="installation"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedInstallation()"
+          (ngModelChange)="selectedInstallationChange.emit($event)"
+          [compareWith]="compareOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of installationOptions(); track option.value ?? "all") {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+
+  @if (integrationOptions().length > 0) {
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="integration">Integration ID</label>
+        <select
+          id="integration"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedIntegration()"
+          (ngModelChange)="selectedIntegrationChange.emit($event)"
+          [compareWith]="compareOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of integrationOptions(); track option.value ?? "all") {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+
+
+  @if (showStatusFilter() && (statusOptions().length > 0 || statusOption().length > 0)) {
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="status-filter">{{ succesFilterLabel() }}</label>
+        <select
+          id="status-filter"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedStatus()"
+          (ngModelChange)="selectedStatusChange.emit($event)"
+          [compareWith]="compareOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of statusOptions().length > 0 ? statusOptions() : statusOption(); track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+
+  <!-- if i not send http method options in <audit-log-filter-bar>
+    than not show http method filter in filter bar, because http method is optional filter -->
+
+  @if (httpMethodOption().length > 0) {
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="httpMethod">HTTP Method</label>
+        <select
+          id="httpMethod"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedHttpMethod()"
+          (ngModelChange)="selectedHttpMethodChange.emit($event)"
+          [compareWith]="compareOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of httpMethodOption(); track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+
+  <ng-content></ng-content>
+
+
+@if (levelOptions().length > 0) {
+   <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="level">Level</label>
+        <select
+          id="level"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedLevel()"
+          (ngModelChange)="selectedLevelChange.emit($event)"
+          [compareWith]="compareOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of levelOptions(); track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    }
+
+@if (actionOptions().length > 0) {
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="action">Action</label>
+        <select
+          id="action"
+          class="p-inputtext p-component w-full"
+          [ngModel]="selectedAction()"
+          (ngModelChange)="selectedActionChange.emit($event)"
+          [compareWith]="compareOptions()"
+          (keydown.enter)="filtersApplied.emit()"
+        >
+          @for (option of actionOptions(); track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+
+
+ @if (showDateFilter()) {
+  <div class="col-12 md:col-2">
+    <div class="filter-item">
+      <label for="date-from">Date From</label>
+      <input
+        id="date-from"
+        type="date"
+        class="p-inputtext p-component w-full"
+        [ngModel]="dateFrom()"
+        (ngModelChange)="dateFromChange.emit($event)"
+        (keydown.enter)="filtersApplied.emit()"
+      />
+    </div>
+  </div>
+  <div class="col-12 md:col-2">
+    <div class="filter-item">
+      <label for="date-to">Date To</label>
+      <input
+        id="date-to"
+        type="date"
+        class="p-inputtext p-component w-full"
+        [ngModel]="dateTo()"
+        (ngModelChange)="dateToChange.emit($event)"
+        (keydown.enter)="filtersApplied.emit()"
+      />
+    </div>
+  </div>
+  }
+  <div class="col-12 md:col-12">
+    <div class="filter-item filter-actions-item">
+      <div class="filter-actions">
+        <button pButton label="Apply" icon="pi pi-check" class="apply-filter-btn" (click)="filtersApplied.emit()"></button>
+        <button
+          pButton
+          label="Clear"
+          icon="pi pi-times"
+          class="clear-filter-btn p-button-secondary"
+          (click)="filtersCleared.emit()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,193 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p class="subtitle">Overview of installations, integrations, and orders</p>
+    </div>
+    <div class="last-updated">
+      <span>Last updated</span>
+      <strong>{{ stats().lastUpdatedUtc | date:'M/d/yy, h:mm a' }}</strong>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-spinner"><i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i></div>
+  } @else {
+    <div class="section">
+      <div class="section-title">Installations</div>
+      <div class="grid">
+        <div class="col-12 md:col-4">
+          <p-card class="stat-card accent-blue">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-box"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Total</div>
+                <div class="metric-value">{{ stats().installations.total }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4">
+          <p-card class="stat-card accent-green">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-check-circle"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Active</div>
+                <div class="metric-value">{{ stats().installations.active }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4">
+          <p-card class="stat-card accent-muted">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-ban"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Inactive</div>
+                <div class="metric-value">{{ stats().installations.inactive }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Integrations</div>
+      <div class="grid">
+        <div class="col-12 md:col-4">
+          <p-card class="stat-card accent-indigo">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-link"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Total</div>
+                <div class="metric-value">{{ stats().integrations.total }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4">
+          <p-card class="stat-card accent-teal">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-check-circle"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Active</div>
+                <div class="metric-value">{{ stats().integrations.active }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4">
+          <p-card class="stat-card accent-muted">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-ban"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Inactive</div>
+                <div class="metric-value">{{ stats().integrations.inactive }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Orders</div>
+      <div class="grid">
+        <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-slate">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-shopping-cart"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Total</div>
+                <div class="metric-value">{{ stats().orders.total }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-blue">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-clock"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Pending</div>
+                <div class="metric-value">{{ stats().orders.pending }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-green">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-check"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Completed</div>
+                <div class="metric-value">{{ stats().orders.completed }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-amber">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-refresh"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Ready For Retry</div>
+                <div class="metric-value">{{ stats().orders.readyForRetry }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-red">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-times-circle"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Failed</div>
+                <div class="metric-value">{{ stats().orders.failed }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+
+         <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-orange">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-exclamation-triangle"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Validation Failed</div>
+                <div class="metric-value">{{ stats().orders.validationFailed }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+         <div class="col-12 md:col-4 xl:col-3">
+          <p-card class="stat-card accent-teal">
+            <div class="metric-row">
+              <div class="metric-icon lg"><i class="pi pi-send"></i></div>
+              <div class="metric-content">
+                <div class="metric-title">Sent to Stream</div>
+                <div class="metric-value">{{ stats().orders.sentToStream }}</div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-12 xl:col-6">
+          <p-card class="stat-card chart-card">
+            <ng-template pTemplate="header">
+              <div class="card-header">
+                <span>Orders Breakdown</span>
+                <i class="pi pi-chart-pie"></i>
+              </div>
+            </ng-template>
+            <div class="chart-wrapper">
+              <p-chart type="pie" [data]="ordersChartData()" [options]="ordersChartOptions()"></p-chart>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </div>
+  }
+</div>

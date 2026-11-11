@@ -1,0 +1,84 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* PrimeIcons */
+@import "primeicons/primeicons.css";
+/* PrimeFlex */
+@import "primeflex/primeflex.css";
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  background: var(--p-surface-ground);
+  color: var(--p-text-color);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--p-surface-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--p-surface-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--p-surface-400);
+}
+
+label.required::after,
+.required::after {
+  content: " *";
+  color: var(--p-red-500) !important;
+}
+
+.error-message,
+.p-error {
+  color: var(--p-red-500) !important;
+}
+
+input.p-invalid,
+textarea.p-invalid,
+select.p-invalid,
+.p-inputtext.p-invalid,
+.p-select.p-invalid,
+.p-dropdown.p-invalid,
+.p-multiselect.p-invalid {
+  border-color: var(--p-red-500) !important;
+}
+
+.p-inputtext.p-invalid:enabled:focus,
+select.p-invalid:enabled:focus,
+textarea.p-invalid:enabled:focus,
+.p-select.p-invalid:focus-within,
+.p-dropdown.p-invalid:focus-within,
+.p-multiselect.p-invalid:focus-within {
+  box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.2) !important;
+}
+
+.p-password.p-invalid .p-inputtext,
+.p-password .p-inputtext.p-invalid {
+  border-color: var(--p-red-500) !important;
+}
+
+/* Show dash for empty values in table cells */
+.p-datatable .p-datatable-tbody > tr > td:empty::before {
+  content: "-";
+  color: var(--p-text-muted-color);
+}

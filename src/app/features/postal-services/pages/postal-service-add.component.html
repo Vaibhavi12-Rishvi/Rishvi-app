@@ -1,0 +1,282 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ pageTitle() }}</h1>
+  </div>
+
+  <p-card>
+    <div class="grid form-grid">
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="integration-id" class="required">Integration</label>
+          <select
+            id="integration-id"
+            class="p-inputtext p-component"
+            [ngModel]="selectedIntegrationId()"
+            (ngModelChange)="onIntegrationChange($event)"
+            [class.p-invalid]="integrationError()"
+            [disabled]="isIntegrationDisabled()"
+          >
+            <option [ngValue]="null">Select integration</option>
+            @for (option of integrationOptions(); track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (integrationError()) {
+            <small class="error-message">{{ integrationError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="service-name" class="required">Service Name</label>
+          <input
+            id="service-name"
+            pInputText
+            type="text"
+            [ngModel]="serviceName()"
+            (ngModelChange)="onServiceNameChange($event)"
+            [class.p-invalid]="serviceNameError()"
+          />
+          @if (serviceNameError()) {
+            <small class="error-message">{{ serviceNameError() }}</small>
+          }
+        </div>
+      </div>
+
+      @if (!isUsingStreamPartnerAccount()) {
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="default-location" class="required">Default Location</label>
+            <select
+              id="default-location"
+              class="p-inputtext p-component"
+              [ngModel]="selectedDefaultLocation()"
+              (ngModelChange)="onDefaultLocationChange($event)"
+              [class.p-invalid]="locationError()"
+              [disabled]="isDefaultLocationDisabled()"
+            >
+              <option [ngValue]="null">Select location</option>
+              @for (option of locationOptions(); track option.value.stockLocationId) {
+                <option [ngValue]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            @if (locationError()) {
+              <small class="error-message">{{ locationError() }}</small>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="dimension-unit" class="required">Default Dimension Unit</label>
+          <select
+            id="dimension-unit"
+            class="p-inputtext p-component"
+            [ngModel]="selectedDimensionUnit()"
+            (ngModelChange)="selectedDimensionUnit.set(+$event); dimensionUnitError.set('')"
+            [class.p-invalid]="dimensionUnitError()"
+            [disabled]="submitting()"
+          >
+            @for (option of dimensionUnitOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (dimensionUnitError()) {
+            <small class="error-message">{{ dimensionUnitError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="order-type" class="required">Order Type</label>
+          <select
+            id="order-type"
+            class="p-inputtext p-component"
+            [ngModel]="selectedOrderType()"
+            (ngModelChange)="onOrderTypeChange($event)"
+            [class.p-invalid]="orderTypeError()"
+            [disabled]="submitting()"
+          >
+            @for (option of orderTypeOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (orderTypeError()) {
+            <small class="error-message">{{ orderTypeError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="label-type" class="required">Label Type</label>
+          <select
+            id="label-type"
+            class="p-inputtext p-component"
+            [ngModel]="selectedLabelType()"
+            (ngModelChange)="selectedLabelType.set(+$event); labelTypeError.set('')"
+            [class.p-invalid]="labelTypeError()"
+            [disabled]="submitting()"
+          >
+            @for (option of labelTypeOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (labelTypeError()) {
+            <small class="error-message">{{ labelTypeError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="copies" class="required">Copies</label>
+          <select
+            id="copies"
+            class="p-inputtext p-component"
+            [ngModel]="selectedCopies()"
+            (ngModelChange)="selectedCopies.set(+$event); copiesError.set('')"
+            [class.p-invalid]="copiesError()"
+            [disabled]="submitting()"
+          >
+            @for (option of copiesOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          @if (copiesError()) {
+            <small class="error-message">{{ copiesError() }}</small>
+          }
+        </div>
+      </div>
+
+      @if (isUsingStreamPartnerAccount()) {
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="manual-delivery-method" class="required">Manual Delivery Method</label>
+            <input
+              id="manual-delivery-method"
+              pInputText
+              type="text"
+              [ngModel]="manualDeliveryMethod()"
+              (ngModelChange)="manualDeliveryMethod.set($event); manualDeliveryMethodError.set('')"
+              [class.p-invalid]="manualDeliveryMethodError()"
+              [disabled]="submitting()"
+            />
+            @if (manualDeliveryMethodError()) {
+              <small class="error-message">{{ manualDeliveryMethodError() }}</small>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="manual-stock-location" class="required">Manual Stock Location</label>
+            <input
+              id="manual-stock-location"
+              pInputText
+              type="text"
+              [ngModel]="manualStockLocation()"
+              (ngModelChange)="manualStockLocation.set($event); manualStockLocationError.set('')"
+              [class.p-invalid]="manualStockLocationError()"
+              [disabled]="submitting()"
+            />
+            @if (manualStockLocationError()) {
+              <small class="error-message">{{ manualStockLocationError() }}</small>
+            }
+          </div>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="stream-partner-id">Stream Partner ID</label>
+            <input
+              id="stream-partner-id"
+              pInputText
+              type="text"
+              [ngModel]="streamPartnerId()"
+              (ngModelChange)="streamPartnerId.set($event)"
+              [disabled]="submitting()"
+            />
+          </div>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <div class="form-field">
+            <label for="stream-partner-name">Stream Partner Name</label>
+            <input
+              id="stream-partner-name"
+              pInputText
+              type="text"
+              [ngModel]="streamPartnerName()"
+              (ngModelChange)="streamPartnerName.set($event)"
+              [disabled]="submitting()"
+            />
+          </div>
+        </div>
+      }
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="service">Service</label>
+          <input
+            id="service"
+            pInputText
+            type="text"
+            [ngModel]="service()"
+            (ngModelChange)="service.set($event); serviceError.set('')"
+            [class.p-invalid]="serviceError()"
+            [disabled]="submitting()"
+          />
+          @if (serviceError()) {
+            <small class="error-message">{{ serviceError() }}</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="form-field">
+          <label for="service-level">Service Level</label>
+          <input
+            id="service-level"
+            pInputText
+            type="text"
+            [ngModel]="serviceLevel()"
+            (ngModelChange)="serviceLevel.set($event); serviceLevelError.set('')"
+            [class.p-invalid]="serviceLevelError()"
+            [disabled]="submitting()"
+          />
+          @if (serviceLevelError()) {
+            <small class="error-message">{{ serviceLevelError() }}</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        style="margin-right: 10px"
+        pButton
+        type="button"
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        routerLink="/postal-services"
+        [disabled]="submitting() || formLoading()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        [label]="submitButtonLabel()"
+        icon="pi pi-check"
+        [loading]="submitting() || formLoading()"
+        [disabled]="submitting() || formLoading()"
+        (click)="savePostalService()"
+      ></button>
+    </div>
+  </p-card>
+</div>

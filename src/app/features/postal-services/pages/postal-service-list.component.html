@@ -1,0 +1,180 @@
+<p-toast></p-toast>
+<p-confirmDialog [draggable]="false"></p-confirmDialog>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Postal Services</h1>
+    <button
+      pButton
+      type="button"
+      label="Add Postal Service"
+      icon="pi pi-plus"
+      class="p-button-primary"
+      (click)="goToAddPostalService()"
+    ></button>
+  </div>
+
+  <!-- Filter Bar -->
+ <app-audit-log-filter-bar
+    [searchText]="searchText()"
+    [selectedIntegration]="selectedIntegration()"
+    [integrationOptions]="integrationOptions()"
+    (selectedIntegrationChange)="selectedIntegration.set($event)"
+    (searchTextChange)="searchText.set($event)"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+  >
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="order-type-select">Order Type</label>
+        <select
+          id="order-type-select"
+          class="p-inputtext p-component"
+          [ngModel]="selectedOrderType()"
+          (ngModelChange)="selectedOrderType.set($event)"
+          [compareWith]="compareNumberFilterOptions"
+          (keydown.enter)="applyFilters()"
+        >
+          @for (option of orderTypeOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+ </app-audit-log-filter-bar>
+
+  <!-- Table -->
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    } @else if (postalServices().length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>No postal services found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="postalServices()"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        [tableStyle]="{ 'min-width': '60rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="id">ID <p-sortIcon field="id" /></th>
+            <th scope="col" pSortableColumn="defaultDimensionUnit">Dimension Unit <p-sortIcon field="defaultDimensionUnit" /></th>
+            <th scope="col" pSortableColumn="serviceName">Service Name <p-sortIcon field="serviceName" /></th>
+            <th scope="col" pSortableColumn="service">Service <p-sortIcon field="service" /></th>
+            <th scope="col" pSortableColumn="serviceLevel">Service Level <p-sortIcon field="serviceLevel" /></th>
+            <th scope="col" pSortableColumn="stockLocationId">Location <p-sortIcon field="stockLocationId" /></th>
+            <th scope="col" pSortableColumn="integrationId">Integration ID <p-sortIcon field="integrationId" /></th>
+            <th scope="col" pSortableColumn="labelType">Label Type <p-sortIcon field="labelType" /></th>
+            <th scope="col" pSortableColumn="orderType">Order Type <p-sortIcon field="orderType" /></th>
+            <th scope="col" pSortableColumn="createdAtUtc">Created At <p-sortIcon field="createdAtUtc" /></th>
+            <th scope="col" pSortableColumn="isActive">Status <p-sortIcon field="isActive" /></th>
+            <th scope="col">Actions</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-service>
+          <tr>
+            <td>{{ service.id }}</td>
+            <td>{{ service.defaultDimensionUnit }}</td>
+            <td>{{ service.serviceName }}</td>
+            <td>{{ service.service || "-" }}</td>
+            <td>{{ service.serviceLevel || "-" }}</td>
+            <td>{{ service.stockLocationName }}</td>
+            <td>{{ service.integrationId }}</td>
+            <td>{{ service.labelType }}</td>
+            <td>{{ service.orderType }}</td>
+            <td>{{ service.createdAtUtc | date: "short" }}</td>
+            <td>
+              <p-tag [value]="service.isActive ? 'Active' : 'Inactive'" [severity]="getStatusSeverity(service)"> </p-tag>
+            </td>
+            <td>
+              <div class="row-actions">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-text p-button-sm"
+                  aria-label="View postal service"
+                  pTooltip="View postal service"
+                  tooltipPosition="top"
+                  (click)="viewPostalServiceDetails(service)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-text p-button-sm"
+                  aria-label="Edit postal service"
+                  pTooltip="Edit postal service"
+                  tooltipPosition="top"
+                  (click)="goToEditPostalService(service.id)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-sm p-button-danger"
+                  aria-label="Delete postal service"
+                  pTooltip="Delete postal service"
+                  tooltipPosition="top"
+                  (click)="confirmDeletePostalService(service)"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="9" class="text-center">No postal services found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>
+<!-- View Postal Service Details Dialog -->
+<p-dialog
+  [visible]="displayDialog()"
+  (visibleChange)="displayDialog.set($event)"
+  [header]="'Postal Service Details - ' + (selectedPostalService()?.serviceName || '')"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeDialog()"
+>
+  <div class="integration-details-grid">
+    @for (item of getPostalServiceDetailsArray(); track item.label) {
+      <div class="detail-row">
+        <div class="detail-label">{{ item.label }}</div>
+        <div class="detail-value">
+          @if (item.value !== null && item.value !== undefined && item.value !== "") {
+            {{ item.value }}
+          } @else {
+            <span class="text-muted">N/A</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" (click)="closeDialog()"></button>
+  </ng-template>
+</p-dialog>

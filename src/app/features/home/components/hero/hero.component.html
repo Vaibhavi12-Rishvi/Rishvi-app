@@ -1,0 +1,132 @@
+<section class="rv-hero" aria-labelledby="rv-hero-title">
+  <div class="rv-hero__bg" aria-hidden="true"></div>
+
+  <div class="rv-hero__inner">
+    <!-- LEFT -->
+    <div class="rv-hero__copy">
+      <p class="rv-eyebrow"><span class="rv-eyebrow__dot"></span>Your technology partner for digital growth</p>
+
+      <h1 id="rv-hero-title" class="rv-hero__title">
+        Transforming Business Ideas Into
+        <span class="rv-grad">Powerful Digital Solutions.</span>
+      </h1>
+
+      <p class="rv-hero__lead">
+        From custom software development and intelligent integrations to scalable enterprise solutions, we help businesses simplify
+        operations and accelerate digital growth.
+      </p>
+
+      <div class="rv-hero__actions">
+        <a class="rv-btn rv-btn--primary" routerLink="/home" fragment="contact">
+          Let's Discuss Your Project
+          <i class="pi pi-arrow-right" aria-hidden="true"></i>
+        </a>
+        <a class="rv-btn rv-btn--ghost" routerLink="/home" fragment="services">Explore Our Expertise</a>
+      </div>
+
+      <ul class="rv-trust" aria-label="Credentials">
+        @for (t of trustItems; track t.label) {
+          <li><i class="pi" [class]="t.icon" aria-hidden="true"></i>{{ t.label }}</li>
+        }
+      </ul>
+    </div>
+
+    <!-- RIGHT: illustrative product visual -->
+    <div class="rv-visual" aria-hidden="true">
+      <!-- Logo-inspired geometric petals -->
+      <svg class="rv-visual__petals" viewBox="0 0 400 400" fill="none">
+        <defs>
+          <linearGradient id="rvPetal" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#118CFF" />
+            <stop offset=".55" stop-color="#7D5BFF" />
+            <stop offset="1" stop-color="#E42BFD" />
+          </linearGradient>
+        </defs>
+        <g stroke="url(#rvPetal)" stroke-width="2" opacity=".55">
+          <path d="M200 10c44 52 44 110 0 190-44-80-44-138 0-190Z" />
+          <path d="M200 390c44-52 44-110 0-190-44 80-44 138 0 190Z" />
+          <path d="M10 200c52-44 110-44 190 0-80 44-138 44-190 0Z" />
+          <path d="M390 200c-52 44-110 44-190 0 80-44 138-44 190 0Z" />
+          <rect x="70" y="70" width="260" height="260" rx="10" />
+        </g>
+      </svg>
+
+      <!-- Main dashboard window -->
+      <div class="rv-window">
+        <div class="rv-window__bar">
+          <span></span><span></span><span></span>
+          <b>Integration Hub</b>
+        </div>
+        <div class="rv-window__body">
+          <aside class="rv-window__side">
+            <i class="pi pi-th-large is-on"></i>
+            <i class="pi pi-share-alt"></i>
+            <i class="pi pi-database"></i>
+            <i class="pi pi-cog"></i>
+          </aside>
+
+          <div class="rv-window__main">
+            <div class="rv-kpis">
+              <div class="rv-kpi">
+                <small>Orders synced</small>
+                <strong>12,480</strong>
+                <em class="up">+18%</em>
+              </div>
+              <div class="rv-kpi">
+                <small>API uptime</small>
+                <strong>99.98%</strong>
+                <em class="up">Stable</em>
+              </div>
+              <div class="rv-kpi">
+                <small>Automations</small>
+                <strong>42</strong>
+                <em>Active</em>
+              </div>
+            </div>
+
+            <div class="rv-chart">
+              <svg viewBox="0 0 320 110" preserveAspectRatio="none" fill="none">
+                <defs>
+                  <linearGradient id="rvArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#118CFF" stop-opacity=".28" />
+                    <stop offset="1" stop-color="#7D5BFF" stop-opacity="0" />
+                  </linearGradient>
+                  <linearGradient id="rvLine" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#118CFF" />
+                    <stop offset=".6" stop-color="#7D5BFF" />
+                    <stop offset="1" stop-color="#E42BFD" />
+                  </linearGradient>
+                </defs>
+                <path d="M0 90 C30 80 45 86 70 66 S115 70 140 50 S190 58 215 34 S275 40 320 12 V110 H0Z" fill="url(#rvArea)" />
+                <path d="M0 90 C30 80 45 86 70 66 S115 70 140 50 S190 58 215 34 S275 40 320 12" stroke="url(#rvLine)" stroke-width="2.5" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <ul class="rv-systems">
+              @for (s of systems; track s.name) {
+                <li>
+                  <span class="rv-systems__name"><i class="pi pi-link"></i>{{ s.name }}</span>
+                  <span class="rv-pill" [class.rv-pill--busy]="s.tone === 'busy'">{{ s.status }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="rv-float rv-float--code">
+        <div class="rv-float__head"><i class="pi pi-code"></i> POST /api/orders</div>
+        <code><span class="k">status</span>: <span class="s">"200 OK"</span></code>
+      </div>
+
+      <div class="rv-float rv-float--deploy">
+        <span class="rv-float__icon"><i class="pi pi-check"></i></span>
+        <div>
+          <strong>Deployment successful</strong>
+          <small>Production · just now</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,121 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Create New User</h1>
+  </div>
+
+  <div class="form-container">
+    <p-card>
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Email Field -->
+          <div class="form-field">
+            <label for="email" class="required">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              pInputText
+              placeholder="Enter email address"
+              [ngModel]="email()"
+              (ngModelChange)="email.set($event)"
+              [class.p-invalid]="emailError()"
+              [disabled]="loading()"
+            />
+            @if (emailError()) {
+              <small class="error-message">{{ emailError() }}</small>
+            }
+          </div>
+
+          <!-- Role Field -->
+          <div class="form-field">
+            <label for="role" class="required">Role</label>
+            <select
+              id="role"
+              name="role"
+              class="p-inputtext p-component"
+              [ngModel]="selectedRole()"
+              (ngModelChange)="selectedRole.set($event); onRoleChange()"
+              [compareWith]="compareRoleOptions"
+              [class.p-invalid]="roleError()"
+              [disabled]="loading()"
+            >
+              @for (option of roleOptions; track option.value) {
+                <option [ngValue]="option">{{ option.label }}</option>
+              }
+            </select>
+            @if (roleError()) {
+              <small class="error-message">{{ roleError() }}</small>
+            }
+          </div>
+
+          <!-- Installation Field (only for Client role) -->
+          @if (selectedRole().value === UserRole.Client) {
+            <div class="form-field">
+              <label for="installation" class="required">Installation</label>
+              <select
+                id="installation"
+                name="installation"
+                class="p-inputtext p-component"
+                [ngModel]="selectedInstallation()"
+                (ngModelChange)="selectedInstallation.set($event)"
+                [compareWith]="compareInstallationOptions"
+                [class.p-invalid]="installationError()"
+                [disabled]="loading() || loadingInstallations()"
+              >
+                <option [ngValue]="null">Select an installation</option>
+                @for (option of installations(); track option.value) {
+                  <option [ngValue]="option">{{ option.label }}</option>
+                }
+              </select>
+              @if (installationError()) {
+                <small class="error-message">{{ installationError() }}</small>
+              }
+              @if (loadingInstallations()) {
+                <small class="help-text">Loading installations...</small>
+              }
+            </div>
+          }
+
+          @if (selectedRole().value === UserRole.Admin) {
+            <div class="form-field">
+              <div class="info-message">
+                <i class="pi pi-info-circle"></i>
+                <span>Admin users are not linked to any specific installation.</span>
+              </div>
+            </div>
+          }
+
+          <!-- Send Welcome Email Checkbox -->
+          <div class="form-field checkbox-field">
+            <p-checkbox
+              inputId="sendWelcomeEmail"
+              name="sendWelcomeEmail"
+              [binary]="true"
+              [ngModel]="sendWelcomeEmail()"
+              (ngModelChange)="sendWelcomeEmail.set($event)"
+              [disabled]="loading()"
+            >
+            </p-checkbox>
+            <label for="sendWelcomeEmail" class="checkbox-label"> Send welcome email to the user </label>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button
+              pButton
+              type="button"
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="onCancel()"
+              [disabled]="loading()"
+            ></button>
+            <button pButton type="submit" label="Create User" icon="pi pi-check" [loading]="loading()" [disabled]="loading()"></button>
+          </div>
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>

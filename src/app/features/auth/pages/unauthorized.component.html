@@ -1,0 +1,32 @@
+<div class="unauthorized-wrapper">
+  <div class="unauthorized-container">
+    <div class="unauthorized-content">
+      <p-card>
+        <div class="card-inner">
+          <!-- Icon with animated background -->
+          <div class="unauthorized-icon-wrapper">
+            <div class="icon-background"></div>
+            <i class="pi pi-ban unauthorized-icon"></i>
+          </div>
+
+          <!-- Title -->
+          <h1 class="unauthorized-title">Access Denied</h1>
+
+          <!-- Status Code -->
+          <div class="status-code">403</div>
+
+          <!-- Message -->
+          <p class="unauthorized-message">
+            You don't have permission to access this page.<br />
+            Please contact your administrator if you believe this is a mistake.
+          </p>
+
+          <!-- Action Button -->
+          <div class="unauthorized-actions">
+            <p-button label="Go to Home" icon="pi pi-home" (onClick)="goToHome()" severity="primary" size="large"> </p-button>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

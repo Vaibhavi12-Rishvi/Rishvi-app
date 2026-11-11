@@ -1,0 +1,128 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Webhook Subscriptions</h1>
+  </div>
+
+    <!-- Filter Bar -->
+  <app-audit-log-filter-bar
+    [searchText]="searchText()"
+    [dateFrom]="dateFromValue()"
+    [dateTo]="dateToValue()"
+    [selectedStatus]="selectedStatus()"
+    [statusOptions]="statusOptions()"
+    [selectedIntegration]="selectedIntegration()"
+    [integrationOptions]="installationOptions()"
+    (searchTextChange)="searchText.set($event)"
+    (selectedStatusChange)="selectedStatus.set($event)"
+     (selectedIntegrationChange)="selectedIntegration.set($event)"
+    (dateFromChange)="dateFromValue.set($event)"
+    (dateToChange)="dateToValue.set($event)"
+    [showDateFilter]="true"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+  >
+
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="event-name">Event Name</label>
+        <input
+          id="event-name"
+          pInputText
+          type="text"
+          placeholder="Event Name"
+          [ngModel]="eventName()"
+          (ngModelChange)="eventName.set($event)"
+        />
+      </div>
+    </div>
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="identifier">Identifier</label>
+        <input
+          id="identifier"
+          pInputText
+          type="text"
+          placeholder="Identifier"
+          [ngModel]="identifier()"
+          (ngModelChange)="identifier.set($event)"
+        />
+      </div>
+    </div>
+  </app-audit-log-filter-bar>
+
+
+
+
+
+
+  <!-- Table -->
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    } @else if (subscriptions().length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>No webhook subscriptions found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="subscriptions()"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        [tableStyle]="{ 'min-width': '80rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="id" style="width: 80px">ID <p-sortIcon field="id" /></th>
+            <th scope="col" pSortableColumn="eventName" style="width: 150px">Event Name <p-sortIcon field="eventName" /></th>
+            <th scope="col" pSortableColumn="identifier" style="width: 120px">Identifier <p-sortIcon field="identifier" /></th>
+            <th scope="col">Callback URL</th>
+            <th scope="col" pSortableColumn="httpMethod" style="width: 100px">Method <p-sortIcon field="httpMethod" /></th>
+            <th scope="col" pSortableColumn="contentType" style="width: 140px">Content Type <p-sortIcon field="contentType" /></th>
+            <th scope="col" pSortableColumn="isActive" style="width: 100px">Status <p-sortIcon field="isActive" /></th>
+            <th scope="col" pSortableColumn="integrationId" style="width: 120px">Integration ID <p-sortIcon field="integrationId" /></th>
+            <th scope="col" pSortableColumn="createdAtUtc" style="width: 140px">Created <p-sortIcon field="createdAtUtc" /></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-subscription>
+          <tr>
+            <td style="width: 80px">{{ subscription.id }}</td>
+            <td style="width: 150px">
+              <strong>{{ subscription.eventName || '-' }}</strong>
+            </td>
+            <td style="width: 120px">{{ subscription.identifier }}</td>
+            <td>
+              <span class="text-sm">{{ subscription.callbackUrl }}</span>
+            </td>
+            <td style="width: 100px">
+              <p-tag [value]="subscription.httpMethod" severity="info"></p-tag>
+            </td>
+            <td style="width: 140px">
+              <span class="text-sm">{{ subscription.contentType }}</span>
+            </td>
+            <td style="width: 100px">
+              <p-tag [value]="subscription.isActive ? 'Active' : 'Inactive'" [severity]="getStatusSeverity(subscription)"> </p-tag>
+            </td>
+            <td style="width: 120px">{{ subscription.integrationId }}</td>
+            <td style="width: 140px">{{ subscription.createdAtUtc | date: "short" }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>

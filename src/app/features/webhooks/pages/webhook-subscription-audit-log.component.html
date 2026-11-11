@@ -1,0 +1,156 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Webhook Subscription Audit Logs</h1>
+  </div>
+
+  <app-audit-log-filter-bar
+    [searchText]="searchText()"
+    [correlationId]="correlationId()"
+    [dateFrom]="dateFromValue()"
+    [dateTo]="dateToValue()"
+    (searchTextChange)="searchText.set($event)"
+    (correlationIdChange)="correlationId.set($event)"
+    (dateFromChange)="dateFromValue.set($event)"
+     [levelOptions]="levelOptions"
+    (selectedLevelChange)="selectedLevel.set($event)"
+    [actionOptions]="actionOptions"
+    (selectedActionChange)="selectedAction.set($event)"
+    [showCorrelationIdFilter]="true"
+    (dateToChange)="dateToValue.set($event)"
+    [showDateFilter]="true"
+    [showLevelFilter]="true"
+    [showActionFilter]="true"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+  >
+
+
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="event-name">Event Name</label>
+        <input
+          id="event-name"
+          pInputText
+          type="text"
+          placeholder="Event Name"
+          [ngModel]="eventName()"
+          (ngModelChange)="eventName.set($event)"
+        />
+      </div>
+    </div>
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="identifier">Identifier</label>
+        <input
+          id="identifier"
+          pInputText
+          type="text"
+          placeholder="Identifier"
+          [ngModel]="identifier()"
+          (ngModelChange)="identifier.set($event)"
+        />
+      </div>
+    </div>
+
+
+  </app-audit-log-filter-bar>
+
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    } @else if (logs().length === 0) {
+      <div class="empty-message">
+        <i class="pi pi-info-circle"></i>
+        <p>No audit logs found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="logs()"
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        styleClass="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="timestampUtc" style="width: 140px">
+              Timestamp <p-sortIcon field="timestampUtc"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 100px">Level</th>
+            <th scope="col" style="width: 120px">Action</th>
+            <th scope="col" pSortableColumn="eventName" style="width: 150px">Event Name <p-sortIcon field="eventName"></p-sortIcon></th>
+            <th scope="col" pSortableColumn="identifier" style="width: 120px">Identifier <p-sortIcon field="identifier"></p-sortIcon></th>
+            <th scope="col">Message</th>
+            <th scope="col" pSortableColumn="webhooksProcessed" style="width: 100px">
+              Processed <p-sortIcon field="webhooksProcessed"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="webhooksCreated" style="width: 100px">
+              Created <p-sortIcon field="webhooksCreated"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="webhooksFailed" style="width: 100px">
+              Failed <p-sortIcon field="webhooksFailed"></p-sortIcon>
+            </th>
+            <th scope="col" pSortableColumn="durationMs" style="width: 110px">
+              Duration (ms) <p-sortIcon field="durationMs"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 120px">Correlation ID</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-log>
+          <tr>
+             <td style="width: 140px">{{ auditHelper.formatUtcToLocal(log.timestampUtc) }}</td>
+            <td style="width: 100px">
+              <p-tag [value]="log.level" [severity]="auditHelper.getLevelSeverity(log.level)"></p-tag>
+            </td>
+            <td style="width: 120px">
+              <span class="text-sm">{{ log.action }}</span>
+            </td>
+            <td style="width: 150px">
+              <strong>{{ log.eventName || '-' }}</strong>
+            </td>
+            <td style="width: 120px">{{ log.identifier }}</td>
+            <td class="message-cell">
+              <div class="message-text" [pTooltip]="log.message" tooltipPosition="top">{{ log.message }}</div>
+            </td>
+            <td style="width: 100px">{{ log.webhooksProcessed }}</td>
+            <td style="width: 100px">{{ log.webhooksCreated }}</td>
+            <td style="width: 100px">{{ log.webhooksFailed }}</td>
+            <td style="width: 110px">{{ log.durationMs }}</td>
+             <td style="width: 140px">
+              @if (log.correlationId) {
+                <div class="correlation-id-cell">
+                  <span class="correlation-id" [pTooltip]="log.correlationId" tooltipPosition="top">{{
+                    truncateId(log.correlationId)
+                  }}</span>
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-copy"
+                    class="p-button-rounded p-button-text p-button-sm copy-btn"
+
+                    tooltipPosition="top"
+                    (click)="copyToClipboard(log.correlationId)"
+                  ></button>
+                </div>
+              } @else {
+                <span>-</span>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>

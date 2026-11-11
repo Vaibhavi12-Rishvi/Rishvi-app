@@ -1,0 +1,142 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--p-surface-ground);
+}
+
+.unauthorized-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0.02) 50%, transparent 100%);
+}
+
+.unauthorized-container {
+  width: 100%;
+  max-width: 650px;
+}
+
+.unauthorized-content {
+  width: 100%;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.card-inner {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.unauthorized-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.icon-background {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.unauthorized-icon {
+  position: relative;
+  font-size: 5rem;
+  color: #ef4444;
+  z-index: 1;
+  filter: drop-shadow(0 4px 12px rgba(239, 68, 68, 0.3));
+}
+
+.unauthorized-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--p-text-color);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.status-code {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--p-text-muted-color);
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+.unauthorized-message {
+  font-size: 1.125rem;
+  color: var(--p-text-color);
+  opacity: 0.8;
+  line-height: 1.8;
+  margin: 0 0 2.5rem 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.unauthorized-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 576px) {
+  .unauthorized-wrapper {
+    padding: 1rem;
+  }
+
+  .card-inner {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .unauthorized-title {
+    font-size: 2rem;
+  }
+
+  .unauthorized-message {
+    font-size: 1rem;
+  }
+
+  .icon-background {
+    width: 110px;
+    height: 110px;
+  }
+
+  .unauthorized-icon {
+    font-size: 4rem;
+  }
+
+  .status-code {
+    font-size: 0.875rem;
+  }
+}

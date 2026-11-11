@@ -1,0 +1,194 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1>Users List</h1>
+    @if (authService.isAdmin()) {
+      <button pButton label="Create User" icon="pi pi-plus" (click)="navigateToCreate()"></button>
+    }
+  </div>
+
+   <!-- Filter Bar -->
+  <app-audit-log-filter-bar
+    [searchText]="searchText()"
+    [selectedInstallation]="selectedInstallation()"
+    [installationOptions]="installationOptions()"
+    (searchTextChange)="searchText.set($event)"
+    (selectedInstallationChange)="selectedInstallation.set($event)"
+    (filtersApplied)="applyFilters()"
+    (filtersCleared)="clearFilters()"
+    [showDateFilter]="false"
+  >
+
+    <div class="col-12 md:col-2">
+      <div class="filter-item">
+        <label for="role-select">Role</label>
+        <select
+          id="role-select"
+          class="p-inputtext p-component"
+          [ngModel]="selectedRole()"
+          (ngModelChange)="selectedRole.set($event)"
+          [compareWith]="compareRoleOptions"
+          (keydown.enter)="applyFilters()"
+        >
+          @for (option of roleOptions; track option.label) {
+            <option [ngValue]="option">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    </app-audit-log-filter-bar>
+
+
+
+
+  <!-- Table -->
+  <div class="table-container">
+    @if (loading()) {
+      <div class="loading-spinner">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+    } @else if (users().length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>No users found</p>
+      </div>
+    } @else {
+      <p-table
+        [value]="users()"
+        [paginator]="true"
+        [rows]="pageSize()"
+        [totalRecords]="totalCount()"
+        [first]="firstRow()"
+        [lazy]="true"
+        (onPage)="onPageChange($event)"
+        [loading]="loading()"
+        [sortField]="sortField()"
+        [sortOrder]="sortOrder()"
+        (onSort)="onSort($event)"
+        [tableStyle]="{ 'min-width': '60rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="email">Email <p-sortIcon field="email" /></th>
+            <th scope="col" pSortableColumn="role">Role <p-sortIcon field="role" /></th>
+            <th scope="col" pSortableColumn="installationId">Installation ID <p-sortIcon field="installationId" /></th>
+            <th scope="col" pSortableColumn="isActive">Status <p-sortIcon field="isActive" /></th>
+            <th scope="col" pSortableColumn="createdAtUtc">Created <p-sortIcon field="createdAtUtc" /></th>
+            @if (authService.isAdmin()) {
+              <th scope="col" style="width: 100px">Actions</th>
+            }
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td>
+              <strong>{{ user.email }}</strong>
+            </td>
+            <td>
+              <p-tag [value]="getRoleLabel(user.role)" [severity]="getRoleSeverity(user.role)"> </p-tag>
+            </td>
+            <td>
+              @if (user.installationId) {
+                <span>{{ user.installationId }}</span>
+              } @else {
+                <span class="text-500">-</span>
+              }
+            </td>
+
+            <td>
+              <p-tag [value]="getStatusLabel(user)" [severity]="getStatusSeverity(user)"> </p-tag>
+            </td>
+            <td>{{ user.createdAtUtc | date: "short" }}</td>
+            @if (authService.isAdmin()) {
+              <td>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-key"
+                  class="p-button-rounded p-button-text p-button-warning"
+                  pTooltip="Reset Password"
+                  tooltipPosition="top"
+                  (click)="openResetPasswordDialog(user)"
+                ></button>
+              </td>
+            }
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+</div>
+
+<!-- Reset Password Confirmation Dialog -->
+<p-dialog
+  [(visible)]="displayResetDialog"
+  [header]="'Reset Password Confirmation'"
+  [modal]="true"
+  [style]="{ width: '500px' }"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="!resetLoading()"
+>
+  <div class="reset-dialog-content">
+    <div class="warning-message">
+      <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: var(--p-orange-500); margin-bottom: 1rem"></i>
+      <h3>Warning: This action cannot be undone!</h3>
+      <p>Resetting the password will:</p>
+      <ul>
+        <li>Generate a new random password</li>
+        <li>
+          Send the new password to <strong>{{ selectedUserForReset()?.email }}</strong>
+        </li>
+        <li>Immediately invalidate the current password</li>
+        <li>Force the user to use the new password</li>
+      </ul>
+    </div>
+
+    <div class="confirmation-section">
+      <p class="confirmation-instruction">To proceed, please type the following code:</p>
+      <div class="code-display" (copy)="$event.preventDefault()">
+        <strong>{{ generatedCode() }}</strong>
+      </div>
+      <div class="form-field">
+        <label for="confirmation-code">Enter Confirmation Code:</label>
+        <input
+          id="confirmation-code"
+          type="text"
+          pInputText
+          [ngModel]="confirmationCode()"
+          (ngModelChange)="confirmationCode.set($event)"
+          placeholder="Enter code here"
+          class="w-full"
+          [disabled]="resetLoading()"
+          autocomplete="off"
+          (keyup.enter)="confirmResetPassword()"
+          style="text-transform: uppercase"
+        />
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      style="margin-top: 20px"
+      pButton
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-secondary"
+      (click)="closeResetPasswordDialog()"
+      [disabled]="resetLoading()"
+    ></button>
+    <button
+      style="margin-top: 20px"
+      pButton
+      label="Reset Password"
+      icon="pi pi-check"
+      class="p-button-primary"
+      (click)="confirmResetPassword()"
+      [loading]="resetLoading()"
+      [disabled]="!confirmationCode().trim() || resetLoading()"
+    ></button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,65 @@
+/*
+ * Rishvi brand tokens for the public homepage. Children (header, hero) read these via var(--rv-*).
+ * --rv-primary follows PrimeNG's dynamic primary colour (--p-primary-*), so the ThemeService still drives it.
+ * Dark mode uses the app-wide `.dark-theme` class on <html>.
+ */
+:host {
+  display: block;
+  font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  // brand constants
+  --rv-blue: #118cff;
+  --rv-violet: #7d5bff;
+  --rv-purple: #9e4bfd;
+  --rv-magenta: #e42bfd;
+  --rv-gradient: linear-gradient(100deg, #118cff 0%, #7d5bff 55%, #e42bfd 100%);
+
+  // semantic (light)
+  --rv-primary: var(--p-primary-600, #0a72f0); // AA contrast on white for text/links
+  --rv-accent-text: #6240e0;
+  --rv-heading: #111827;
+  --rv-body: #475569;
+  --rv-muted: #64748b;
+  --rv-header-bg: rgba(255, 255, 255, 0.97);
+  --rv-hero-bg: #f8fafc;
+  --rv-surface: #ffffff;
+  --rv-surface-2: #f8fafc;
+  --rv-border: #e5e9f0;
+  --rv-border-strong: #cfd6e2;
+  --rv-hover-bg: #f1f5fb;
+  --rv-cta-bg: #111827;
+  --rv-cta-fg: #ffffff;
+  --rv-shadow: rgba(17, 24, 39, 0.28);
+  --rv-shadow-strong: rgba(17, 24, 39, 0.35);
+  --rv-frame: rgba(17, 140, 255, 0.07);
+  --rv-glow-a: rgba(125, 91, 255, 0.14);
+  --rv-glow-b: rgba(17, 140, 255, 0.12);
+}
+
+:host-context(.dark-theme) {
+  --rv-primary: var(--p-primary-400, #59b2ff);
+  --rv-accent-text: #b7a4ff;
+  --rv-heading: #f8fafc;
+  --rv-body: #aab6c8;
+  --rv-muted: #8493a8;
+  --rv-header-bg: rgba(15, 23, 42, 0.97);
+  --rv-hero-bg: #0b1220;
+  --rv-surface: #111a2e;
+  --rv-surface-2: #0e1627;
+  --rv-border: #1e2a42;
+  --rv-border-strong: #2b3a58;
+  --rv-hover-bg: #17233b;
+  --rv-cta-bg: #f8fafc;
+  --rv-cta-fg: #111827;
+  --rv-shadow: rgba(0, 0, 0, 0.6);
+  --rv-shadow-strong: rgba(0, 0, 0, 0.7);
+  --rv-frame: rgba(125, 91, 255, 0.12);
+  --rv-glow-a: rgba(125, 91, 255, 0.22);
+  --rv-glow-b: rgba(17, 140, 255, 0.16);
+}
+
+.rv-home {
+  min-height: 100vh;
+  background: var(--rv-hero-bg);
+  color: var(--rv-body);
+}
