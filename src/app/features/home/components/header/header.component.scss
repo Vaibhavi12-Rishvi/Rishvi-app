@@ -6,11 +6,12 @@
 }
 
 .rv-header {
-  background: var(--rv-header-bg);
-  border-bottom: 1px solid var(--rv-border);
+  // transparent over the hero grid at the top of the page, no divider line
+  background: transparent;
   transition: box-shadow 0.25s ease, background-color 0.25s ease;
 
   &--scrolled {
+    background: var(--rv-header-bg);
     box-shadow: 0 6px 24px -12px var(--rv-shadow);
   }
 
@@ -210,6 +211,174 @@
   display: none;
 }
 
+/* ---------- Color palette popover ---------- */
+.rv-pal {
+  position: relative;
+
+  // rainbow border around the palette button
+  &__btn {
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(var(--rv-surface), var(--rv-surface)) padding-box,
+      conic-gradient(from 210deg, #118cff, #7d5bff, #e42bfd, #f97316, #10b981, #118cff) border-box;
+    color: var(--rv-heading);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px -10px var(--rv-shadow);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 290px;
+    padding: 1.1rem 1.2rem 1.25rem;
+    background: var(--rv-surface);
+    border: 1px solid var(--rv-border);
+    border-radius: 14px;
+    box-shadow: 0 28px 60px -22px var(--rv-shadow-strong);
+    animation: rv-pop 0.18s ease-out;
+  }
+
+  &__title {
+    margin: 1.1rem 0 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.rv-swatches {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.6rem 0.4rem;
+  padding: 4px;
+}
+
+.rv-sw {
+  appearance: none;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  justify-self: center;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.18);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 3px;
+  }
+
+  &--surface {
+    box-shadow: inset 0 0 0 1px var(--rv-border-strong);
+  }
+
+  // mixed-colour ring: the swatch colour blended with the Rishvi brand colours
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    opacity: 0;
+    background: conic-gradient(from 200deg, var(--c), #118cff, #7d5bff, #e42bfd, var(--c));
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+    transition: opacity 0.2s ease;
+  }
+
+  &[aria-pressed='true'] {
+    transform: scale(0.9);
+
+    &::before {
+      opacity: 1;
+      animation: rv-turn 6s linear infinite;
+    }
+  }
+}
+
+.rv-seg {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--rv-hover-bg);
+  border-radius: 10px;
+
+  button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--rv-body);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &[aria-pressed='true'] {
+      background: var(--rv-surface);
+      color: var(--rv-heading);
+      box-shadow: 0 1px 3px var(--rv-shadow);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 1px;
+    }
+  }
+}
+
+@keyframes rv-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes rv-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 575px) {
+  .rv-pal__panel {
+    position: fixed;
+    top: 76px;
+    right: 16px;
+    width: min(290px, calc(100vw - 32px));
+  }
+}
+
 .rv-cta {
   display: inline-flex;
   align-items: center;
@@ -218,6 +387,7 @@
   padding: 0.7rem 1.35rem;
   border-radius: 10px;
   background: var(--rv-cta-bg);
+  background-size: 140% 100%;
   color: var(--rv-cta-fg);
   font-weight: 600;
   font-size: 0.9375rem;
@@ -228,7 +398,7 @@
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 22px -10px var(--rv-shadow);
-    background: var(--rv-primary);
+    background-position: 100% 0;
     color: #fff;
   }
 

@@ -1,6 +1,6 @@
 <header class="rv-header" [class.rv-header--scrolled]="scrolled()">
   <div class="rv-header__inner">
-    <a class="rv-header__logo" routerLink="/home" aria-label="Rishvi Hyper Commerce – home">
+    <a class="rv-header__logo" routerLink="/home" (click)="scrollTop()" aria-label="Rishvi Hyper Commerce – home">
       <img src="assest/rishvi-logo.webp" alt="Rishvi Hyper Commerce" width="150" height="47" />
     </a>
 
@@ -30,12 +30,12 @@
                 <i class="pi pi-chevron-down rv-nav__chevron" aria-hidden="true"></i>
               </button>
               <div class="rv-menu" role="menu" [id]="'menu-' + item.key" [attr.aria-label]="item.label" (keydown)="onMenuKeydown($event, li)">
-                @for (child of item.children; track child.slug) {
+                @for (child of item.children; track child.label) {
                   <a
                     role="menuitem"
                     class="rv-menu__link"
-                    routerLink="/home"
-                    [fragment]="child.slug"
+                    [routerLink]="child.route"
+                    [fragment]="child.fragment"
                     [tabindex]="openKey() === item.key ? 0 : -1"
                     (click)="select(item.key)"
                     >{{ child.label }}</a
@@ -45,7 +45,7 @@
             </li>
           } @else {
             <li class="rv-nav__item" [class.is-active]="activeKey() === item.key">
-              <a class="rv-nav__trigger" routerLink="/home" [fragment]="item.slug" (click)="select(item.key)">{{ item.label }}</a>
+              <a class="rv-nav__trigger" [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{ item.label }}</a>
             </li>
           }
         }
@@ -53,15 +53,76 @@
     </nav>
 
     <div class="rv-header__actions">
-      <button
-        type="button"
-        class="rv-icon-btn"
-        (click)="toggleTheme()"
-        [attr.aria-label]="isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
-      >
-        <i class="pi" [class.pi-moon]="!isDark()" [class.pi-sun]="isDark()" aria-hidden="true"></i>
-      </button>
-      <a class="rv-cta" routerLink="/home" fragment="support" (click)="select('support')">
+      <div class="rv-pal">
+        <button
+          type="button"
+          class="rv-pal__btn"
+          aria-label="Customize theme colors"
+          aria-haspopup="dialog"
+          aria-controls="rv-pal-panel"
+          [attr.aria-expanded]="paletteOpen()"
+          (click)="togglePalette()"
+        >
+          <i class="pi pi-palette" aria-hidden="true"></i>
+        </button>
+
+        @if (paletteOpen()) {
+          <div class="rv-pal__panel" id="rv-pal-panel" role="dialog" aria-label="Theme customizer">
+            <h2 class="rv-pal__title">Primary color</h2>
+            <div class="rv-swatches" role="group" aria-label="Primary color">
+              @for (p of primaryOptions; track p.key) {
+                <button
+                  type="button"
+                  class="rv-sw"
+                  [style.--c]="p.hex"
+                  [style.background]="p.hex"
+                  [attr.aria-label]="p.label"
+                  [attr.aria-pressed]="theme.primaryColor() === p.key"
+                  [title]="p.label"
+                  (click)="setPrimary(p.key)"
+                ></button>
+              }
+            </div>
+
+            <h2 class="rv-pal__title">Surface</h2>
+            <div class="rv-swatches" role="group" aria-label="Surface palette">
+              @for (s of surfaceOptions; track s.key) {
+                <button
+                  type="button"
+                  class="rv-sw rv-sw--surface"
+                  [style.--c]="s.hex"
+                  [style.background]="surfaceSwatch(s.scale, s.hex)"
+                  [attr.aria-label]="s.label"
+                  [attr.aria-pressed]="theme.surface() === s.key"
+                  [title]="s.label"
+                  (click)="setSurface(s.key)"
+                ></button>
+              }
+            </div>
+
+            <h2 class="rv-pal__title">Color scheme</h2>
+            <div class="rv-seg" role="group" aria-label="Color scheme">
+              <button type="button" [attr.aria-pressed]="!isDark()" (click)="setScheme(false)">
+                <i class="pi pi-sun" aria-hidden="true"></i> Light
+              </button>
+              <button type="button" [attr.aria-pressed]="isDark()" (click)="setScheme(true)">
+                <i class="pi pi-moon" aria-hidden="true"></i> Dark
+              </button>
+            </div>
+
+            <h2 class="rv-pal__title">Hero style</h2>
+            <div class="rv-seg" role="group" aria-label="Hero style">
+              <button type="button" [attr.aria-pressed]="theme.heroStyle() === 'grid'" (click)="setHeroStyle('grid')">
+                <i class="pi pi-th-large" aria-hidden="true"></i> Grid Glow
+              </button>
+              <button type="button" [attr.aria-pressed]="theme.heroStyle() === 'orbit'" (click)="setHeroStyle('orbit')">
+                <i class="pi pi-sync" aria-hidden="true"></i> Logo Orbit
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      <a class="rv-cta" routerLink="/home" fragment="contact" (click)="select('support')">
         <i class="pi pi-headphones" aria-hidden="true"></i> Support
       </a>
       <button type="button" class="rv-icon-btn rv-burger" aria-label="Open navigation menu" (click)="drawerVisible.set(true)">
@@ -93,16 +154,16 @@
         </button>
         @if (mobileOpenKey() === item.key) {
           <div class="rv-mobile__sub">
-            @for (child of item.children; track child.slug) {
-              <a routerLink="/home" [fragment]="child.slug" (click)="select(item.key)">{{ child.label }}</a>
+            @for (child of item.children; track child.label) {
+              <a [routerLink]="child.route" [fragment]="child.fragment" (click)="select(item.key)">{{ child.label }}</a>
             }
           </div>
         }
       } @else {
-        <a class="rv-mobile__row" routerLink="/home" [fragment]="item.slug" (click)="select(item.key)">{{ item.label }}</a>
+        <a class="rv-mobile__row" [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{ item.label }}</a>
       }
     }
-    <a class="rv-cta rv-cta--block" routerLink="/home" fragment="support" (click)="select('support')">
+    <a class="rv-cta rv-cta--block" routerLink="/home" fragment="contact" (click)="select('support')">
       <i class="pi pi-headphones" aria-hidden="true"></i> Support
     </a>
   </nav>

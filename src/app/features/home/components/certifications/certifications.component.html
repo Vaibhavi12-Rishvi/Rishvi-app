@@ -1,0 +1,22 @@
+<section class="rv-cert" id="certification" aria-labelledby="rv-cert-title">
+  <div class="rv-cert__inner">
+    <header class="rv-cert__head">
+      <span class="rv-cert__eyebrow">Certification</span>
+      <h2 id="rv-cert-title">Quality Standards <span class="rv-grad">&amp; Accreditations</span></h2>
+      <p>Committed to excellence through certified processes and validated performance.</p>
+    </header>
+
+    <div class="rv-cert__grid">
+      @for (c of items; track c.title) {
+        <article class="rv-card">
+          <div class="rv-card__logo"><img [src]="c.image" [alt]="c.title + ' certification'" loading="lazy" /></div>
+          <div class="rv-card__body">
+            <span class="rv-card__badge"><i class="pi pi-verified" aria-hidden="true"></i> {{ c.badge }}</span>
+            <h3>{{ c.title }}</h3>
+            <p>{{ c.text }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

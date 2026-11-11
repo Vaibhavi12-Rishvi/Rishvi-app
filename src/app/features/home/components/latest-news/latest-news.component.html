@@ -1,0 +1,25 @@
+<section class="rv-news" id="blogs" aria-labelledby="rv-news-title">
+  <div class="rv-news__inner">
+    <header class="rv-news__head">
+      <span class="rv-news__eyebrow">Our Latest Update</span>
+      <h2 id="rv-news-title">Read Our <span class="rv-grad">Latest News</span></h2>
+      <p>Stay updated with the latest news and insights from our industry and beyond.</p>
+    </header>
+
+    <div class="rv-news__grid">
+      @for (n of news; track n.title) {
+        <article class="rv-post">
+          <div class="rv-post__media">
+            <img [src]="n.image" [alt]="n.title" loading="lazy" />
+            <span class="rv-post__tag">{{ n.tag }}</span>
+          </div>
+          <div class="rv-post__body">
+            <h3>{{ n.title }}</h3>
+            <p>{{ n.excerpt }}…</p>
+            <span class="rv-post__more">Read more <i class="pi pi-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

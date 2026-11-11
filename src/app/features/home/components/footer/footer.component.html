@@ -1,0 +1,66 @@
+<div class="rv-cta-wrap">
+  <div class="rv-cta">
+    <h2>Our Experts Can Guide You On What's Best For Your Business' Growth!</h2>
+    <a class="rv-cta__btn" href="mailto:info@rishvi.co.uk">
+      Get in Touch
+      <i class="pi pi-arrow-right" aria-hidden="true"></i>
+    </a>
+  </div>
+</div>
+
+<footer class="rv-footer" id="contact">
+  <div class="rv-footer__inner">
+    <div class="rv-footer__grid">
+      <div class="rv-footer__brand">
+        <a routerLink="/home" (click)="scrollTop()" aria-label="Rishvi Hyper Commerce – home">
+          <img src="assest/Rishvi-Logo-Horizontal-White-2048x636.png" alt="Rishvi Hyper Commerce" width="170" height="53" />
+        </a>
+        <p>Thank you for visiting our website and we hope it interests you.</p>
+        <div class="rv-social">
+          @for (s of socials; track s.label) {
+            <a [href]="s.href" [attr.aria-label]="s.label"><i class="pi" [class]="s.icon" aria-hidden="true"></i></a>
+          }
+        </div>
+      </div>
+
+      @for (col of columns; track col.title) {
+        <nav [attr.aria-label]="col.title">
+          <h3>{{ col.title }}</h3>
+          <ul>
+            @for (link of col.links; track link.label) {
+              <li>
+                @if (link.href) {
+                  <a [href]="link.href">{{ link.label }}</a>
+                } @else {
+                  <a [routerLink]="link.route" [fragment]="link.fragment">{{ link.label }}</a>
+                }
+              </li>
+            }
+          </ul>
+        </nav>
+      }
+
+      <div>
+        <h3>Contact Us</h3>
+        <ul class="rv-contact">
+          @for (c of contacts; track c.label) {
+            <li>
+              <i class="pi" [class]="c.icon" aria-hidden="true"></i>
+              <a [href]="c.href">{{ c.label }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="rv-badges">
+        @for (b of badges; track b.alt) {
+          <div class="rv-badge"><img [src]="b.image" [alt]="b.alt" loading="lazy" /></div>
+        }
+      </div>
+    </div>
+
+    <div class="rv-footer__bar">
+      <span>© {{ year }} Rishvi Ltd. All rights reserved.</span>
+    </div>
+  </div>
+</footer>

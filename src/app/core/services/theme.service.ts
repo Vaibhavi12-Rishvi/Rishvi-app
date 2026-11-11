@@ -4,9 +4,20 @@ import Aura from "@primeng/themes/aura";
 import { definePreset } from "@primeng/themes";
 
 export type ThemeMode = "light" | "dark";
-export type ThemeColor = "rishvi" | "blue" | "green" | "purple" | "orange" | "cyan" | "pink";
+export type ThemeColor =
+  | "rishvi" | "blue" | "green" | "purple" | "orange" | "cyan" | "pink"
+  | "violet" | "magenta" | "emerald" | "teal" | "sky" | "indigo" | "amber" | "rose";
+export type HeroStyle = "grid" | "orbit";
+export type SurfaceName = "slate" | "gray" | "zinc" | "neutral" | "stone" | "ocean" | "plum" | "midnight";
 
-const COLOR_PRESETS: Record<ThemeColor, Record<string, string>> = {
+export interface PaletteOption<K extends string> {
+  key: K;
+  label: string;
+  /** Swatch colour. */
+  hex: string;
+}
+
+const COLOR_PRESETS: Record<string, Record<string, string>> = {
   // Rishvi brand palette (Electric Blue #118CFF at 500)
   rishvi: {
     50: "#eef7ff",
@@ -101,6 +112,88 @@ const COLOR_PRESETS: Record<ThemeColor, Record<string, string>> = {
   },
 };
 
+// ---- Palette generation helpers (extra primary colours and surface palettes) ----
+function mixHex(a: string, b: string, t: number): string {
+  const pa = [1, 3, 5].map((i) => parseInt(a.slice(i, i + 2), 16));
+  const pb = [1, 3, 5].map((i) => parseInt(b.slice(i, i + 2), 16));
+  return "#" + pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, "0")).join("");
+}
+
+function primaryScale(base: string): Record<string, string> {
+  return {
+    50: mixHex(base, "#ffffff", 0.93),
+    100: mixHex(base, "#ffffff", 0.85),
+    200: mixHex(base, "#ffffff", 0.7),
+    300: mixHex(base, "#ffffff", 0.5),
+    400: mixHex(base, "#ffffff", 0.28),
+    500: base,
+    600: mixHex(base, "#000000", 0.14),
+    700: mixHex(base, "#000000", 0.28),
+    800: mixHex(base, "#000000", 0.42),
+    900: mixHex(base, "#000000", 0.56),
+    950: mixHex(base, "#000000", 0.72),
+  };
+}
+
+function surfaceScale(base: string): Record<string, string> {
+  return {
+    0: "#ffffff",
+    50: mixHex(base, "#ffffff", 0.95),
+    100: mixHex(base, "#ffffff", 0.9),
+    200: mixHex(base, "#ffffff", 0.8),
+    300: mixHex(base, "#ffffff", 0.64),
+    400: mixHex(base, "#ffffff", 0.34),
+    500: base,
+    600: mixHex(base, "#000000", 0.22),
+    700: mixHex(base, "#000000", 0.42),
+    800: mixHex(base, "#000000", 0.62),
+    900: mixHex(base, "#000000", 0.8),
+    950: mixHex(base, "#000000", 0.9),
+  };
+}
+
+const EXTRA_PRIMARY: Record<string, string> = {
+  violet: "#7d5bff",
+  magenta: "#e42bfd",
+  emerald: "#10b981",
+  teal: "#14b8a6",
+  sky: "#0ea5e9",
+  indigo: "#6366f1",
+  amber: "#f59e0b",
+  rose: "#f43f5e",
+};
+Object.entries(EXTRA_PRIMARY).forEach(([key, hex]) => (COLOR_PRESETS[key] = primaryScale(hex)));
+
+/** Primary colour options shown in the home-page customizer. */
+export const PRIMARY_OPTIONS: PaletteOption<ThemeColor>[] = (
+  [
+    ["rishvi", "Rishvi"], ["violet", "Violet"], ["purple", "Purple"], ["magenta", "Magenta"],
+    ["emerald", "Emerald"], ["teal", "Teal"], ["cyan", "Cyan"], ["sky", "Sky"],
+    ["indigo", "Indigo"], ["orange", "Orange"], ["amber", "Amber"], ["rose", "Rose"],
+  ] as [ThemeColor, string][]
+).map(([key, label]) => ({ key, label, hex: COLOR_PRESETS[key][500] }));
+
+const SURFACE_BASES: Record<SurfaceName, string> = {
+  slate: "#64748b",
+  gray: "#6b7280",
+  zinc: "#71717a",
+  neutral: "#737373",
+  stone: "#78716c",
+  ocean: "#3b6ea5",
+  plum: "#7a5fb0",
+  midnight: "#2b3b63",
+};
+
+/** Surface options. `scale` is null for slate, which is PrimeNG Aura's own default. */
+export const SURFACE_OPTIONS: (PaletteOption<SurfaceName> & { scale: Record<string, string> | null })[] = (
+  Object.keys(SURFACE_BASES) as SurfaceName[]
+).map((key) => ({
+  key,
+  label: key.charAt(0).toUpperCase() + key.slice(1),
+  hex: SURFACE_BASES[key],
+  scale: key === "slate" ? null : surfaceScale(SURFACE_BASES[key]),
+}));
+
 @Injectable({
   providedIn: "root",
 })
@@ -110,6 +203,9 @@ export class ThemeService {
   // Signals for reactive theme state
   isDarkMode = signal<boolean>(this.getStoredTheme() === "dark");
   primaryColor = signal<ThemeColor>(this.getStoredColor());
+  surface = signal<SurfaceName>(this.getStoredSurface());
+  /** Home page hero layout. */
+  heroStyle = signal<HeroStyle>((localStorage.getItem("heroStyle") as HeroStyle) === "orbit" ? "orbit" : "grid");
   sidebarVisible = signal<boolean>(true);
 
   constructor() {
@@ -120,6 +216,7 @@ export class ThemeService {
     effect(() => {
       const _ = this.isDarkMode();
       const __ = this.primaryColor();
+      const ___ = this.surface();
       this.applyTheme();
     });
   }
@@ -127,6 +224,21 @@ export class ThemeService {
   toggleDarkMode(): void {
     this.isDarkMode.update((value) => !value);
     localStorage.setItem("theme", this.isDarkMode() ? "dark" : "light");
+  }
+
+  setDarkMode(dark: boolean): void {
+    this.isDarkMode.set(dark);
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  }
+
+  setHeroStyle(style: HeroStyle): void {
+    this.heroStyle.set(style);
+    localStorage.setItem("heroStyle", style);
+  }
+
+  changeSurface(name: SurfaceName): void {
+    this.surface.set(name);
+    localStorage.setItem("surface", name);
   }
 
   changePrimaryColor(color: ThemeColor): void {
@@ -163,9 +275,11 @@ export class ThemeService {
     root.style.setProperty("--p-primary-contrast-color", "#ffffff");
 
     // Then update PrimeNG theme configuration (for future updates)
+    const surfaceScale = SURFACE_OPTIONS.find((o) => o.key === this.surface())?.scale;
     const MyPreset = definePreset(Aura, {
       semantic: {
         primary: colorPalette,
+        ...(surfaceScale ? { colorScheme: { light: { surface: surfaceScale }, dark: { surface: surfaceScale } } } : {}),
       },
     });
 
@@ -180,6 +294,10 @@ export class ThemeService {
 
   private getStoredTheme(): string {
     return localStorage.getItem("theme") ?? "light";
+  }
+
+  private getStoredSurface(): SurfaceName {
+    return (localStorage.getItem("surface") as SurfaceName) ?? "slate";
   }
 
   private getStoredColor(): ThemeColor {

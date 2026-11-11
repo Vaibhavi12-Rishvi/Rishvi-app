@@ -1,0 +1,62 @@
+<section class="rv-work" aria-labelledby="rv-work-title">
+  <div class="rv-work__inner">
+    <header class="rv-work__head">
+      <span class="rv-work__eyebrow">Our Work</span>
+      <h2 id="rv-work-title">Explore Our Work</h2>
+    </header>
+
+    <div class="rv-work__slider">
+      @if (sliding()) {
+        <button type="button" class="rv-work__arrow rv-work__arrow--l" aria-label="Previous videos" (click)="prev()">
+          <i class="pi pi-chevron-left" aria-hidden="true"></i>
+        </button>
+      }
+
+      <div class="rv-work__track" [style.--n]="perPage()">
+        @for (v of visible(); track v.youtubeId) {
+          <button type="button" class="rv-video" [attr.aria-label]="'Play video: ' + v.title" (click)="play(v)">
+            <img [src]="v.thumbnail" [alt]="v.title" loading="lazy" />
+            <span class="rv-video__play" aria-hidden="true"><i class="pi pi-play"></i></span>
+            <span class="rv-video__title">{{ v.title }}</span>
+          </button>
+        }
+      </div>
+
+      @if (sliding()) {
+        <button type="button" class="rv-work__arrow rv-work__arrow--r" aria-label="Next videos" (click)="next()">
+          <i class="pi pi-chevron-right" aria-hidden="true"></i>
+        </button>
+      }
+    </div>
+
+    @if (sliding()) {
+      <div class="rv-work__dots">
+        @for (p of pages(); track p) {
+          <button type="button" [attr.aria-label]="'Show videos ' + (p + 1)" [attr.aria-current]="p === current()" (click)="go(p)"></button>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<p-dialog
+  [visible]="dialogOpen()"
+  (visibleChange)="$event ? null : onDialogHide()"
+  (onHide)="onDialogHide()"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [header]="active()?.title ?? 'Video'"
+  [style]="{ width: 'min(960px, 94vw)' }"
+>
+  @if (embedUrl(); as url) {
+    <div class="rv-embed">
+      <iframe
+        [src]="url"
+        [title]="active()?.title ?? 'Video'"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  }
+</p-dialog>

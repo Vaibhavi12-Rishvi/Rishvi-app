@@ -1,0 +1,200 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Service rows ---------- */
+.rv-list {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 2.5rem;
+
+  &__head {
+    max-width: 44rem;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+
+    h2 {
+      margin: 0.6rem 0 0;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--rv-heading);
+      text-wrap: balance;
+    }
+
+    p {
+      margin: 0.9rem 0 0;
+      font-size: 1.05rem;
+      color: var(--rv-body);
+    }
+  }
+
+  &__eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rv-accent-text);
+  }
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--rv-border);
+  scroll-margin-top: 90px;
+
+  &:nth-of-type(even) .rv-row__visual {
+    order: 2;
+  }
+
+  &__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--rv-border);
+    border-radius: 20px;
+    background: var(--rv-surface);
+
+    // soft grid fading out from the centre
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, var(--rv-grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--rv-grid-line) 1px, transparent 1px);
+      background-size: 40px 40px;
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 15%, transparent 70%);
+      mask-image: radial-gradient(circle at 50% 50%, #000 15%, transparent 70%);
+    }
+  }
+
+  &__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 104px;
+    height: 104px;
+    border-radius: 28px;
+    font-size: 2.6rem;
+    color: #fff;
+    background: var(--rv-gradient);
+    box-shadow: 0 30px 60px -24px var(--p-primary-500);
+
+    .pi {
+      font-size: inherit; // PrimeIcons sets its own 1rem size
+    }
+  }
+
+  &__body {
+    min-width: 0;
+
+    h3 {
+      margin: 0.5rem 0 0.8rem;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--rv-heading);
+    }
+
+    p {
+      margin: 0 0 1.2rem;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--rv-body);
+    }
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--rv-border-strong);
+      border-radius: 999px;
+      background: var(--rv-surface);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--rv-heading);
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 50px;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--rv-border-strong);
+    border-radius: 12px;
+    background: var(--rv-surface);
+    color: var(--rv-heading);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+    .pi {
+      font-size: 0.85rem;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--rv-primary);
+      color: var(--rv-primary);
+
+      .pi {
+        transform: translateX(4px);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 3px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .rv-row {
+    grid-template-columns: 1fr;
+
+    &:nth-of-type(even) .rv-row__visual {
+      order: 0;
+    }
+
+    &__visual {
+      aspect-ratio: 16 / 9;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-list {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+  .rv-row__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

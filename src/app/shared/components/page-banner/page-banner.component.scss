@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.rv-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: -76px;
+  padding: calc(4rem + 76px) 1.5rem 4.5rem;
+  text-align: center;
+  background: var(--rv-hero-bg);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(46rem 20rem at 50% 0%, color-mix(in oklab, var(--p-primary-500) 16%, transparent), transparent 70%),
+      radial-gradient(30rem 16rem at 10% 80%, color-mix(in oklab, #7d5bff 12%, transparent), transparent 70%);
+  }
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(to right, var(--rv-grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--rv-grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(ellipse 75% 85% at 50% 30%, #000 20%, transparent 80%);
+    mask-image: radial-gradient(ellipse 75% 85% at 50% 30%, #000 20%, transparent 80%);
+  }
+
+  &__eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rv-accent-text);
+  }
+
+  h1 {
+    margin: 0.6rem 0 0;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--rv-heading);
+  }
+}
+
+.rv-crumbs {
+  display: inline-flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+  color: var(--rv-muted);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--rv-primary);
+    }
+  }
+
+  [aria-current] {
+    font-weight: 600;
+    color: var(--rv-heading);
+  }
+}
+
+@media (max-width: 480px) {
+  .rv-banner {
+    margin-top: -68px;
+    padding-top: calc(3rem + 68px);
+  }
+}

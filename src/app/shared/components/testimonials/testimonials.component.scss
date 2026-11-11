@@ -1,0 +1,165 @@
+:host {
+  display: block;
+}
+
+.rv-testi {
+  background: var(--rv-surface-2);
+
+  &__inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem var(--rv-testi-pad, 9rem); // extra bottom space for the call-to-action card that overlaps the footer
+  }
+
+  &__head {
+    max-width: 44rem;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+
+    h2 {
+      margin: 0.6rem 0 0;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--rv-heading);
+      text-wrap: balance;
+    }
+
+    p {
+      margin: 0.9rem 0 0;
+      font-size: 1.05rem;
+      color: var(--rv-body);
+    }
+  }
+
+  &__eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rv-accent-text);
+  }
+
+  &__slider {
+    position: relative;
+    padding: 0 2.75rem;
+  }
+
+  &__track {
+    display: grid;
+    grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--rv-border-strong);
+    background: var(--rv-surface);
+    color: var(--rv-heading);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      border-color: var(--rv-primary);
+      color: var(--rv-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 2px;
+    }
+
+    &--l {
+      left: 0;
+    }
+    &--r {
+      right: 0;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.8rem;
+
+    button {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: var(--rv-border-strong);
+      cursor: pointer;
+      transition: width 0.25s ease, background-color 0.25s ease;
+
+      &[aria-current='true'] {
+        width: 24px;
+        border-radius: 6px;
+        background: var(--rv-primary);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--rv-primary);
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+.rv-quote {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  min-height: 16rem;
+  margin: 0;
+  padding: 1.7rem;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 16px;
+
+  &::before {
+    content: '\201C';
+    height: 1.4rem;
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 0.6;
+    background: var(--rv-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  blockquote {
+    flex: 1;
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+
+  figcaption {
+    font-weight: 700;
+    color: var(--rv-heading);
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-testi__inner {
+    padding: 3.5rem 1rem var(--rv-testi-pad, 10rem);
+  }
+  .rv-testi__slider {
+    padding: 0;
+  }
+  .rv-testi__arrow {
+    display: none;
+  }
+}

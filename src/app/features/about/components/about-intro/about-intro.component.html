@@ -1,0 +1,25 @@
+<section class="rv-intro" id="company-overview" aria-labelledby="rv-intro-title">
+  <div class="rv-intro__inner">
+    <div class="rv-intro__copy">
+      <span class="rv-intro__eyebrow">About us</span>
+      <h2 id="rv-intro-title">
+        {{ title() }}
+        @if (highlight()) {
+          <span class="rv-grad">{{ highlight() }}</span>
+        }
+      </h2>
+      @for (p of paragraphs(); track p) {
+        <p>{{ p }}</p>
+      }
+      <a class="rv-intro__btn" [routerLink]="ctaRoute()" [fragment]="ctaFragment()">
+        {{ ctaLabel() }}
+        <i class="pi pi-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    <div class="rv-intro__visual">
+      <img class="rv-intro__photo rv-intro__photo--top" src="assest/about-img-2-1.jpg" alt="Team brainstorming with sticky notes" width="780" height="574" loading="lazy" />
+      <img class="rv-intro__photo rv-intro__photo--bottom" src="assest/about-img-3-1.jpg" alt="Team meeting around a whiteboard" width="931" height="604" loading="lazy" />
+    </div>
+  </div>
+</section>

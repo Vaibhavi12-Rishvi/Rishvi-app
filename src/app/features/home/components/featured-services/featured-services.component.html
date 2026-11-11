@@ -1,0 +1,30 @@
+<section class="rv-featured" id="featured-services" aria-labelledby="rv-featured-title">
+  <div class="rv-featured__inner">
+    <header class="rv-featured__head">
+      <span class="rv-featured__eyebrow">Featured Services</span>
+      <h2 id="rv-featured-title">Build Audience and <span class="rv-grad">Grow Your Business</span></h2>
+      <p>Offering tailored solutions to meet your unique needs with our featured services.</p>
+    </header>
+
+    <div class="rv-featured__grid">
+      @for (s of services; track s.id) {
+        <a class="rv-card" routerLink="/services" [fragment]="s.id">
+          <span class="rv-card__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+          <h3>{{ s.title }}</h3>
+          <p>{{ s.summary }}</p>
+          <span class="rv-card__link">
+            {{ s.ctaLabel }}
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </span>
+        </a>
+      }
+    </div>
+
+    <div class="rv-featured__more">
+      <a class="rv-featured__btn" routerLink="/services">
+        View All Services
+        <i class="pi pi-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Services" eyebrow="What we do" />
+
+    <section class="rv-list">
+      <header class="rv-list__head">
+        <span class="rv-list__eyebrow">Featured Services</span>
+        <h2>Build Audience and <span class="rv-grad">Grow Your Business</span></h2>
+        <p>Offering tailored solutions to meet your unique needs with our featured services.</p>
+      </header>
+
+      @for (s of services; track s.id) {
+        <article class="rv-row" [id]="s.id">
+          <div class="rv-row__visual" aria-hidden="true">
+            <span class="rv-row__icon"><i class="pi" [class]="s.icon"></i></span>
+          </div>
+          <div class="rv-row__body">
+            <span class="rv-list__eyebrow">Service</span>
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.detail }}</p>
+            <ul class="rv-row__chips" [attr.aria-label]="s.title + ' highlights'">
+              @for (h of s.highlights; track h) {
+                <li>{{ h }}</li>
+              }
+            </ul>
+            <a class="rv-row__btn" href="mailto:info@rishvi.co.uk">
+              {{ s.ctaLabel }}
+              <i class="pi pi-arrow-right" aria-hidden="true"></i>
+            </a>
+          </div>
+        </article>
+      }
+    </section>
+
+    <app-testimonials />
+  </main>
+
+  <app-home-footer />
+</div>

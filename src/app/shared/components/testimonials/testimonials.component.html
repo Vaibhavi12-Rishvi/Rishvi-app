@@ -1,0 +1,34 @@
+<section class="rv-testi" aria-labelledby="rv-testi-title">
+  <div class="rv-testi__inner">
+    <header class="rv-testi__head">
+      <span class="rv-testi__eyebrow">Testimonials</span>
+      <h2 id="rv-testi-title">What Our Customers Say About Us</h2>
+      <p>Read what our clients have to say about their experience and success with us.</p>
+    </header>
+
+    <div class="rv-testi__slider">
+      <button type="button" class="rv-testi__arrow rv-testi__arrow--l" aria-label="Previous testimonials" (click)="prev()">
+        <i class="pi pi-chevron-left" aria-hidden="true"></i>
+      </button>
+
+      <div class="rv-testi__track" [style.--n]="perPage()" aria-live="polite">
+        @for (t of visible(); track t.author) {
+          <figure class="rv-quote">
+            <blockquote>{{ t.quote }}</blockquote>
+            <figcaption>{{ t.author }}</figcaption>
+          </figure>
+        }
+      </div>
+
+      <button type="button" class="rv-testi__arrow rv-testi__arrow--r" aria-label="Next testimonials" (click)="next()">
+        <i class="pi pi-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="rv-testi__dots">
+      @for (p of pages(); track p) {
+        <button type="button" [attr.aria-label]="'Show testimonials ' + (p + 1)" [attr.aria-current]="p === current()" (click)="go(p)"></button>
+      }
+    </div>
+  </div>
+</section>
