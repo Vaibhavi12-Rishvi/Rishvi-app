@@ -1,0 +1,21 @@
+<section class="rv-clients" aria-labelledby="rv-clients-title">
+  <div class="rv-clients__inner">
+    <header class="rv-clients__head">
+      <span class="rv-clients__eyebrow">We work with</span>
+      <h2 id="rv-clients-title">500+ Ecommerce Company Growing with Our <span class="rv-grad">Technical Solutions</span></h2>
+      <p>We work with businesses to streamline processes and enhance efficiency through tailored solutions.</p>
+    </header>
+
+    <div class="rv-marquee">
+      <ul class="rv-marquee__track">
+        @for (l of logos; track $index) {
+          <li><img [src]="l.image" [alt]="l.name" loading="lazy" /></li>
+        }
+        <!-- second copy makes the loop seamless; hidden from assistive technology -->
+        @for (l of logos; track $index) {
+          <li class="rv-marquee__copy" aria-hidden="true"><img [src]="l.image" alt="" loading="lazy" /></li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<section class="rv-tech" id="technologies" aria-labelledby="rv-tech-title">
+  <div class="rv-tech__inner">
+    <header class="rv-tech__head">
+      <span class="rv-tech__eyebrow">Technologies</span>
+      <h2 id="rv-tech-title">Technologies <span class="rv-grad">we use</span></h2>
+      <p>Building secure, scalable and high-performance digital solutions.</p>
+    </header>
+
+    @if (categories.length > 1) {
+      <div class="rv-tech__tabs" role="group" aria-label="Technology category">
+        @for (c of categories; track c.label; let i = $index) {
+          <button type="button" [attr.aria-pressed]="active() === i" (click)="active.set(i)">{{ c.label }}</button>
+        }
+      </div>
+    } @else {
+      <p class="rv-tech__cat"><i class="pi pi-desktop" aria-hidden="true"></i> {{ categories[0].label }}</p>
+    }
+
+    <ul class="rv-tech__grid">
+      @for (t of items(); track t.name) {
+        <li class="rv-chip">
+          <span class="rv-chip__logo"><img [src]="t.image" [alt]="t.name" loading="lazy" /></span>
+          <span class="rv-chip__name">{{ t.name }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

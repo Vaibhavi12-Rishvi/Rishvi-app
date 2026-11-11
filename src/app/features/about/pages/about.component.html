@@ -1,0 +1,119 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="About Us" eyebrow="Who we are" />
+
+    <app-about-intro ctaLabel="Learn more about Linnworks" ctaRoute="/services" ctaFragment="linnworks" />
+
+    <app-stats-band />
+
+    <!-- Founder -->
+    <section class="rv-motive" id="our-motive" aria-labelledby="rv-motive-title">
+      <div class="rv-motive__inner">
+        <figure class="rv-motive__photo">
+          <img src="assest/HIM_0453-1-1646x2048.webp" alt="Founder of Rishvi Ltd" width="1646" height="2048" loading="lazy" />
+        </figure>
+        <div class="rv-motive__copy">
+          <span class="rv-eyebrow">Our Motive</span>
+          <h2 id="rv-motive-title">You Win <span class="rv-grad">We Win</span></h2>
+          @for (p of motive; track p) {
+            <p>{{ p }}</p>
+          }
+          <a class="rv-btn" routerLink="/home" fragment="contact">
+            Contact Us
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision and mission -->
+    <section class="rv-vision" aria-labelledby="rv-vision-title">
+      <div class="rv-vision__inner">
+        <header class="rv-head">
+          <h2 id="rv-vision-title">Our Vision &amp; Mission</h2>
+          <p>Driving innovation and efficiency with tailored automation and technology solutions.</p>
+        </header>
+        <div class="rv-vision__grid">
+          @for (v of vision; track v.title) {
+            <article class="rv-vcard">
+              <span class="rv-vcard__icon"><i class="pi" [class]="v.icon" aria-hidden="true"></i></span>
+              <h3>{{ v.title }}</h3>
+              <p>{{ v.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Why us -->
+    <section class="rv-why" id="why-choose-us" aria-labelledby="rv-why-title">
+      <div class="rv-why__inner">
+        <div class="rv-why__copy">
+          <span class="rv-eyebrow">Why us</span>
+          <h2 id="rv-why-title">Linnworks Integration <span class="rv-grad">Experts</span></h2>
+          <ul class="rv-why__list">
+            @for (w of whyUs; track w.title) {
+              <li>
+                <span class="rv-point__icon"><i class="pi" [class]="w.icon" aria-hidden="true"></i></span>
+                <div>
+                  <h3>{{ w.title }}</h3>
+                  <p>{{ w.text }}</p>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+        <figure class="rv-why__photo">
+          <img src="assest/about-img-1-1.png" alt="Developer working on a laptop" width="600" height="571" loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- Partner -->
+    <section class="rv-partner" aria-labelledby="rv-partner-title">
+      <div class="rv-partner__inner">
+        <header class="rv-head">
+          <span class="rv-eyebrow">Partner</span>
+          <h2 id="rv-partner-title">Linnworks Certified Partner</h2>
+          <p>Trusted Linnworks Certified Partner delivering expert solutions for your ecommerce needs.</p>
+        </header>
+        <div class="rv-partner__grid">
+          <div class="rv-partner__panel">
+            <img src="assest/Linnworks-Certified-Partner-Certificate-340x240-1.png" alt="Linnworks Certified Partner certificate presented to Rishvi" width="340" height="240" loading="lazy" />
+          </div>
+          <div class="rv-partner__panel">
+            <span class="rv-partner__badge">
+              <img src="assest/white-certified-partner-logo-1536x1536-1.png" alt="Linnworks Certified Partner badge" width="240" height="240" loading="lazy" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <app-video-slider />
+
+    <!-- Clients -->
+    <section class="rv-clients" aria-label="How we work with clients">
+      <div class="rv-clients__inner">
+        <figure class="rv-clients__photo">
+          <img src="assest/im-employees.jpg" alt="Team joining hands" width="1440" height="960" loading="lazy" />
+        </figure>
+        <ul class="rv-clients__list">
+          @for (c of clientPoints; track c.title) {
+            <li>
+              <i class="pi" [class]="c.icon" aria-hidden="true"></i>
+              <div>
+                <h3>{{ c.title }}</h3>
+                <p>{{ c.text }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

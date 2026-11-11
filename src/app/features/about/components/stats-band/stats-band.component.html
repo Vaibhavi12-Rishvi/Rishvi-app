@@ -1,0 +1,11 @@
+<section class="rv-stats" aria-label="Rishvi in numbers">
+  <ul class="rv-stats__list">
+    @for (s of stats; track s.label) {
+      <li>
+        <i class="pi" [class]="s.icon" aria-hidden="true"></i>
+        <strong>{{ s.value }}</strong>
+        <span>{{ s.label }}</span>
+      </li>
+    }
+  </ul>
+</section>

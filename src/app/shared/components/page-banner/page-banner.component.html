@@ -1,0 +1,12 @@
+<section class="rv-banner" aria-labelledby="rv-banner-title">
+  <div class="rv-banner__grid" aria-hidden="true"></div>
+  @if (eyebrow()) {
+    <span class="rv-banner__eyebrow">{{ eyebrow() }}</span>
+  }
+  <h1 id="rv-banner-title">{{ title() }}</h1>
+  <nav class="rv-crumbs" aria-label="Breadcrumb">
+    <a routerLink="/home">Home</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ title() }}</span>
+  </nav>
+</section>

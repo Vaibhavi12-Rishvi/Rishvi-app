@@ -1,19 +1,9 @@
 import { Component, ElementRef, HostListener, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DrawerModule } from 'primeng/drawer';
-import { ThemeService } from '../../../../core/services/theme.service';
-
-export interface NavChild {
-  label: string;
-  slug: string;
-}
-
-export interface NavItem {
-  key: string;
-  label: string;
-  slug?: string;
-  children?: NavChild[];
-}
+import { HeroStyle, PRIMARY_OPTIONS, SURFACE_OPTIONS, SurfaceName, ThemeColor, ThemeService } from '../../../../core/services/theme.service';
+import { NavItem } from '../../../../models/home.model';
+import { NAV_ITEMS } from '../../data/home.data';
 
 @Component({
   selector: 'app-home-header',
@@ -23,59 +13,10 @@ export interface NavItem {
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  readonly navItems: NavItem[] = NAV_ITEMS;
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly theme = inject(ThemeService);
-
-  readonly navItems: NavItem[] = [
-    {
-      key: 'about',
-      label: 'About Us',
-      children: [
-        { label: 'Company Overview', slug: 'company-overview' },
-        { label: 'Our Team', slug: 'our-team' },
-        { label: 'Why Choose Us', slug: 'why-choose-us' },
-      ],
-    },
-    {
-      key: 'linnworks',
-      label: 'Linnworks',
-      children: [
-        { label: 'Linnworks Integration', slug: 'linnworks-integration' },
-        { label: 'Custom Development', slug: 'linnworks-custom-development' },
-        { label: 'Linnworks Support', slug: 'linnworks-support' },
-      ],
-    },
-    {
-      key: 'web',
-      label: 'Website Development',
-      children: [
-        { label: 'Angular Development', slug: 'angular-development' },
-        { label: 'React Development', slug: 'react-development' },
-        { label: 'Custom Web Applications', slug: 'custom-web-applications' },
-        { label: 'E-commerce Development', slug: 'ecommerce-development' },
-      ],
-    },
-    {
-      key: 'services',
-      label: 'Services',
-      children: [
-        { label: 'Software Development', slug: 'software-development' },
-        { label: 'API Integration', slug: 'api-integration' },
-        { label: 'ERP Solutions', slug: 'erp-solutions' },
-        { label: 'Digital Transformation', slug: 'digital-transformation' },
-      ],
-    },
-    { key: 'odoo', label: 'Odoo Partner', slug: 'odoo-partner' },
-    { key: 'contact', label: 'Contact Us', slug: 'contact' },
-    {
-      key: 'einvoicing',
-      label: 'E-Invoicing',
-      children: [
-        { label: 'UAE E-Invoicing', slug: 'uae-e-invoicing' },
-        { label: 'UK E-Invoicing', slug: 'uk-e-invoicing' },
-      ],
-    },
-  ];
+  private readonly router = inject(Router);
 
   /** Key of the desktop dropdown currently open. */
   readonly openKey = signal<string | null>(null);
@@ -86,6 +27,52 @@ export class HeaderComponent {
   readonly mobileOpenKey = signal<string | null>(null);
   readonly isDark = computed(() => this.theme.isDarkMode());
 
+  constructor() {
+    // Each page renders its own header, so the active section can be read from the current URL once.
+    if (this.router.url.startsWith('/services')) {
+      this.activeKey.set('services');
+    } else if (this.router.url.startsWith('/about-us')) {
+      this.activeKey.set('about');
+    }
+  }
+
+  /** Clicking the logo while already on the homepage scrolls back to the top. */
+  scrollTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  readonly paletteOpen = signal(false);
+  readonly primaryOptions = PRIMARY_OPTIONS;
+  readonly surfaceOptions = SURFACE_OPTIONS;
+
+  togglePalette(): void {
+    this.paletteOpen.update((v) => !v);
+    this.openKey.set(null);
+  }
+
+  setPrimary(key: ThemeColor): void {
+    this.theme.changePrimaryColor(key);
+  }
+
+  setSurface(key: SurfaceName): void {
+    this.theme.changeSurface(key);
+  }
+
+  setHeroStyle(style: HeroStyle): void {
+    this.theme.setHeroStyle(style);
+  }
+
+  setScheme(dark: boolean): void {
+    this.theme.setDarkMode(dark);
+  }
+
+  /** Light/dark halves shown on a surface swatch. */
+  surfaceSwatch(scale: Record<string, string> | null, hex: string): string {
+    const light = scale ? scale[50] : '#f8fafc';
+    const dark = scale ? scale[800] : '#1e293b';
+    return `linear-gradient(135deg, ${light} 50%, ${dark} 50%)`;
+  }
+
   @HostListener('window:scroll')
   onScroll(): void {
     this.scrolled.set(window.scrollY > 8);
@@ -95,12 +82,14 @@ export class HeaderComponent {
   onDocumentClick(event: MouseEvent): void {
     if (!this.host.nativeElement.contains(event.target as Node)) {
       this.openKey.set(null);
+      this.paletteOpen.set(false);
     }
   }
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.openKey.set(null);
+    this.paletteOpen.set(false);
   }
 
   hoverOpen(key: string, event: MouseEvent): void {
@@ -160,7 +149,4 @@ export class HeaderComponent {
     this.mobileOpenKey.update((current) => (current === key ? null : key));
   }
 
-  toggleTheme(): void {
-    this.theme.toggleDarkMode();
-  }
 }

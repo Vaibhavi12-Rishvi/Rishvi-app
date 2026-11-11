@@ -1,132 +1,134 @@
 <section class="rv-hero" aria-labelledby="rv-hero-title">
-  <div class="rv-hero__bg" aria-hidden="true"></div>
+  <div class="rv-hero__glow" aria-hidden="true"></div>
+  <div class="rv-hero__grid" #grid aria-hidden="true"></div>
 
   <div class="rv-hero__inner">
-    <!-- LEFT -->
-    <div class="rv-hero__copy">
-      <p class="rv-eyebrow"><span class="rv-eyebrow__dot"></span>Your technology partner for digital growth</p>
+    <p class="rv-eyebrow"><span class="rv-eyebrow__dot"></span>Your technology partner for digital growth</p>
 
-      <h1 id="rv-hero-title" class="rv-hero__title">
-        Transforming Business Ideas Into
-        <span class="rv-grad">Powerful Digital Solutions.</span>
-      </h1>
+    <h1 id="rv-hero-title" class="rv-hero__title">
+      Transforming Business Ideas Into
+      <span class="rv-grad">Powerful Digital Solutions.</span>
+    </h1>
 
-      <p class="rv-hero__lead">
-        From custom software development and intelligent integrations to scalable enterprise solutions, we help businesses simplify
-        operations and accelerate digital growth.
-      </p>
+    <p class="rv-hero__lead">
+      From custom software development and intelligent integrations to scalable enterprise solutions, we help businesses simplify
+      operations and accelerate digital growth.
+    </p>
 
-      <div class="rv-hero__actions">
-        <a class="rv-btn rv-btn--primary" routerLink="/home" fragment="contact">
-          Let's Discuss Your Project
-          <i class="pi pi-arrow-right" aria-hidden="true"></i>
-        </a>
-        <a class="rv-btn rv-btn--ghost" routerLink="/home" fragment="services">Explore Our Expertise</a>
-      </div>
-
-      <ul class="rv-trust" aria-label="Credentials">
-        @for (t of trustItems; track t.label) {
-          <li><i class="pi" [class]="t.icon" aria-hidden="true"></i>{{ t.label }}</li>
-        }
-      </ul>
+    <div class="rv-hero__actions">
+      <a class="rv-btn rv-btn--primary" routerLink="/home" fragment="contact">
+        Let's Discuss Your Project
+        <i class="pi pi-arrow-right" aria-hidden="true"></i>
+      </a>
+      <a class="rv-btn rv-btn--ghost" routerLink="/home" fragment="featured-services">Explore Our Expertise</a>
     </div>
 
-    <!-- RIGHT: illustrative product visual -->
-    <div class="rv-visual" aria-hidden="true">
-      <!-- Logo-inspired geometric petals -->
-      <svg class="rv-visual__petals" viewBox="0 0 400 400" fill="none">
+    <ul class="rv-trust" aria-label="Credentials">
+      @for (t of trustItems; track t) {
+        <li>{{ t }}</li>
+      }
+    </ul>
+
+    @if (theme.heroStyle() === 'grid') {
+    <!-- Grid Glow: product visual directly under the headline (illustrative data) -->
+    <div class="rv-stage" aria-hidden="true">
+      <div class="rv-win">
+        <div class="rv-win__bar">
+          <span></span><span></span><span></span>
+          <div class="rv-win__url">Integration Hub · Overview</div>
+        </div>
+        <div class="rv-win__body">
+          <div class="rv-side"><i></i><i></i><i></i><i></i></div>
+          <div class="rv-main">
+            <div class="rv-kpis">
+              <div class="rv-kpi"><small>Orders synced today</small><strong>12,480</strong><em>+18% vs last week</em></div>
+              <div class="rv-kpi"><small>API uptime</small><strong>99.98%</strong><em>Stable</em></div>
+              <div class="rv-kpi"><small>Active automations</small><strong>42</strong><em>3 added this month</em></div>
+            </div>
+            <div class="rv-two">
+              <div class="rv-panel">
+                <h3>Order volume · last 14 days</h3>
+                <svg viewBox="0 0 400 150" preserveAspectRatio="none" fill="none">
+                  <defs>
+                    <linearGradient id="rvArea" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#118CFF" stop-opacity=".3" />
+                      <stop offset="1" stop-color="#7D5BFF" stop-opacity="0" />
+                    </linearGradient>
+                    <linearGradient id="rvLine" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0" stop-color="#118CFF" />
+                      <stop offset=".6" stop-color="#7D5BFF" />
+                      <stop offset="1" stop-color="#E42BFD" />
+                    </linearGradient>
+                  </defs>
+                  <g class="rv-chart__grid"><path d="M0 30H400M0 70H400M0 110H400" /></g>
+                  <path d="M0 120 C40 110 60 118 90 96 S150 100 180 76 S240 82 270 52 S340 58 400 18 V150 H0Z" fill="url(#rvArea)" />
+                  <path
+                    class="rv-chart__line"
+                    pathLength="1"
+                    d="M0 120 C40 110 60 118 90 96 S150 100 180 76 S240 82 270 52 S340 58 400 18"
+                    stroke="url(#rvLine)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="398" cy="18" r="5" fill="#E42BFD" />
+                </svg>
+              </div>
+              <div class="rv-panel">
+                <h3>Connected systems</h3>
+                <ul class="rv-systems">
+                  @for (s of systems; track s.name) {
+                    <li>{{ s.name }} <span class="rv-pill" [class.rv-pill--busy]="s.busy">{{ s.status }}</span></li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rv-float rv-float--l"><b>Deployment successful</b><span>Production · just now</span></div>
+      <div class="rv-float rv-float--r"><b>POST /api/orders</b><em>200 OK</em> · 84 ms</div>
+    </div>
+
+    <div class="rv-logo" aria-label="Rishvi Hyper Commerce">
+      <ng-container *ngTemplateOutlet="logoTpl" />
+    </div>
+    } @else {
+    <!-- Logo Orbit: systems orbiting the animated logo -->
+    <div class="rv-orbit" aria-label="Rishvi Hyper Commerce">
+      <div class="rv-ring rv-ring--1"></div>
+      <div class="rv-ring rv-ring--2"></div>
+      <div class="rv-ring rv-ring--3"></div>
+      @for (c of chips; track c.label) {
+        <div class="rv-spin" [class.rv-spin--r]="c.reverse" [style.--d]="c.ring === 1 ? '38s' : '56s'" [style.inset]="c.ring === 1 ? '22%' : '6%'">
+          <div class="rv-chip" [style.left]="c.left" [style.top]="c.top">
+            <span [style.--c]="c.color">{{ c.label }}</span>
+          </div>
+        </div>
+      }
+      <div class="rv-core">
+        <ng-container *ngTemplateOutlet="logoTpl" />
+      </div>
+    </div>
+    }
+
+    <ng-template #logoTpl>
+      <svg class="rv-mark" viewBox="0 0 400 400" aria-hidden="true">
         <defs>
-          <linearGradient id="rvPetal" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
+          <linearGradient id="rvMark" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#118CFF" />
             <stop offset=".55" stop-color="#7D5BFF" />
             <stop offset="1" stop-color="#E42BFD" />
           </linearGradient>
         </defs>
-        <g stroke="url(#rvPetal)" stroke-width="2" opacity=".55">
-          <path d="M200 10c44 52 44 110 0 190-44-80-44-138 0-190Z" />
-          <path d="M200 390c44-52 44-110 0-190-44 80-44 138 0 190Z" />
-          <path d="M10 200c52-44 110-44 190 0-80 44-138 44-190 0Z" />
-          <path d="M390 200c-52 44-110 44-190 0 80-44 138-44 190 0Z" />
-          <rect x="70" y="70" width="260" height="260" rx="10" />
+        <g class="rv-mark__spin">
+          <path pathLength="1" d="M200 14c46 54 46 112 0 186-46-74-46-132 0-186Z" />
+          <path pathLength="1" d="M200 386c46-54 46-112 0-186-46 74-46 132 0 186Z" />
+          <path pathLength="1" d="M14 200c54-46 112-46 186 0-74 46-132 46-186 0Z" />
+          <path pathLength="1" d="M386 200c-54 46-112 46-186 0 74-46 132-46 186 0Z" />
+          <rect pathLength="1" x="74" y="74" width="252" height="252" rx="10" />
         </g>
       </svg>
-
-      <!-- Main dashboard window -->
-      <div class="rv-window">
-        <div class="rv-window__bar">
-          <span></span><span></span><span></span>
-          <b>Integration Hub</b>
-        </div>
-        <div class="rv-window__body">
-          <aside class="rv-window__side">
-            <i class="pi pi-th-large is-on"></i>
-            <i class="pi pi-share-alt"></i>
-            <i class="pi pi-database"></i>
-            <i class="pi pi-cog"></i>
-          </aside>
-
-          <div class="rv-window__main">
-            <div class="rv-kpis">
-              <div class="rv-kpi">
-                <small>Orders synced</small>
-                <strong>12,480</strong>
-                <em class="up">+18%</em>
-              </div>
-              <div class="rv-kpi">
-                <small>API uptime</small>
-                <strong>99.98%</strong>
-                <em class="up">Stable</em>
-              </div>
-              <div class="rv-kpi">
-                <small>Automations</small>
-                <strong>42</strong>
-                <em>Active</em>
-              </div>
-            </div>
-
-            <div class="rv-chart">
-              <svg viewBox="0 0 320 110" preserveAspectRatio="none" fill="none">
-                <defs>
-                  <linearGradient id="rvArea" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stop-color="#118CFF" stop-opacity=".28" />
-                    <stop offset="1" stop-color="#7D5BFF" stop-opacity="0" />
-                  </linearGradient>
-                  <linearGradient id="rvLine" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stop-color="#118CFF" />
-                    <stop offset=".6" stop-color="#7D5BFF" />
-                    <stop offset="1" stop-color="#E42BFD" />
-                  </linearGradient>
-                </defs>
-                <path d="M0 90 C30 80 45 86 70 66 S115 70 140 50 S190 58 215 34 S275 40 320 12 V110 H0Z" fill="url(#rvArea)" />
-                <path d="M0 90 C30 80 45 86 70 66 S115 70 140 50 S190 58 215 34 S275 40 320 12" stroke="url(#rvLine)" stroke-width="2.5" stroke-linecap="round" />
-              </svg>
-            </div>
-
-            <ul class="rv-systems">
-              @for (s of systems; track s.name) {
-                <li>
-                  <span class="rv-systems__name"><i class="pi pi-link"></i>{{ s.name }}</span>
-                  <span class="rv-pill" [class.rv-pill--busy]="s.tone === 'busy'">{{ s.status }}</span>
-                </li>
-              }
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Floating cards -->
-      <div class="rv-float rv-float--code">
-        <div class="rv-float__head"><i class="pi pi-code"></i> POST /api/orders</div>
-        <code><span class="k">status</span>: <span class="s">"200 OK"</span></code>
-      </div>
-
-      <div class="rv-float rv-float--deploy">
-        <span class="rv-float__icon"><i class="pi pi-check"></i></span>
-        <div>
-          <strong>Deployment successful</strong>
-          <small>Production · just now</small>
-        </div>
-      </div>
-    </div>
+      <div class="rv-word"><strong>RISHVI</strong><small>HYPER COMMERCE</small></div>
+    </ng-template>
   </div>
 </section>

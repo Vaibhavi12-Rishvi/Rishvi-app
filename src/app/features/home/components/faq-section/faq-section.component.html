@@ -1,0 +1,50 @@
+<section class="rv-faq" id="faq" aria-labelledby="rv-faq-title">
+  <div class="rv-faq__inner">
+    <!-- Arch-shaped photo with floating highlights taken from the answers -->
+    <div class="rv-faq__art">
+      <span class="rv-faq__frame" aria-hidden="true"></span>
+      <img class="rv-faq__photo" src="assest/about-img-1-1.png" alt="Developer working on a laptop" width="600" height="571" loading="lazy" />
+
+      <div class="rv-fact rv-fact--a">
+        <i class="pi pi-verified" aria-hidden="true"></i>
+        <span><strong>12+ years</strong> of Linnworks expertise</span>
+      </div>
+      <div class="rv-fact rv-fact--b">
+        <i class="pi pi-database" aria-hidden="true"></i>
+        <span><strong>850+</strong> SQL custom scripts</span>
+      </div>
+      <div class="rv-fact rv-fact--c">
+        <i class="pi pi-truck" aria-hidden="true"></i>
+        <span><strong>5+</strong> shipping integrations</span>
+      </div>
+    </div>
+
+    <div class="rv-faq__copy">
+      <span class="rv-faq__eyebrow">Help of the following FAQ’s</span>
+      <h2 id="rv-faq-title">Who Love To <span class="rv-grad">Work Together</span></h2>
+
+      <div class="rv-acc">
+        @for (f of faqs; track f.question; let i = $index) {
+          <div class="rv-acc__item" [class.is-open]="openIndex() === i">
+            <h3>
+              <button
+                type="button"
+                class="rv-acc__q"
+                [id]="'faq-q-' + i"
+                [attr.aria-expanded]="openIndex() === i"
+                [attr.aria-controls]="'faq-a-' + i"
+                (click)="toggle(i)"
+              >
+                <span>{{ f.question }}</span>
+                <i class="pi" [class.pi-minus]="openIndex() === i" [class.pi-plus]="openIndex() !== i" aria-hidden="true"></i>
+              </button>
+            </h3>
+            <div class="rv-acc__a" [id]="'faq-a-' + i" role="region" [attr.aria-labelledby]="'faq-q-' + i" [hidden]="openIndex() !== i">
+              <p>{{ f.answer }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

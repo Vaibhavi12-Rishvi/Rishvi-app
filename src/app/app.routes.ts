@@ -4,9 +4,23 @@ import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 import { noAuthGuard } from './core/guards/no-auth.guard';
 export const routes: Routes = [
+  // Public marketing homepage (no login required)
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+  },
   {
     path: 'home',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'services',
+    loadComponent: () => import('./features/services/pages/services.component').then((m) => m.ServicesComponent),
+  },
+  {
+    path: 'about-us',
+    loadComponent: () => import('./features/about/pages/about.component').then((m) => m.AboutComponent),
   },
   {
     path: 'unauthorized',
