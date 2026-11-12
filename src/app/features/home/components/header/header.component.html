@@ -17,18 +17,35 @@
               (mouseleave)="hoverClose()"
               (focusout)="onFocusOut($event, li)"
             >
-              <button
-                type="button"
-                class="rv-nav__trigger"
-                aria-haspopup="menu"
-                [attr.aria-expanded]="openKey() === item.key"
-                [attr.aria-controls]="'menu-' + item.key"
-                (click)="toggle(item.key)"
-                (keydown)="onTriggerKeydown($event, item.key, li)"
-              >
-                {{ item.label }}
-                <i class="pi pi-chevron-down rv-nav__chevron" aria-hidden="true"></i>
-              </button>
+              <!-- An item with its own page opens it on click; the dropdown still opens on hover. -->
+              @if (item.route) {
+                <a
+                  class="rv-nav__trigger"
+                  aria-haspopup="menu"
+                  [attr.aria-expanded]="openKey() === item.key"
+                  [attr.aria-controls]="'menu-' + item.key"
+                  [routerLink]="item.route"
+                  [fragment]="item.fragment"
+                  (click)="select(item.key)"
+                  (keydown)="onTriggerKeydown($event, item.key, li)"
+                >
+                  {{ item.label }}
+                  <i class="pi pi-chevron-down rv-nav__chevron" aria-hidden="true"></i>
+                </a>
+              } @else {
+                <button
+                  type="button"
+                  class="rv-nav__trigger"
+                  aria-haspopup="menu"
+                  [attr.aria-expanded]="openKey() === item.key"
+                  [attr.aria-controls]="'menu-' + item.key"
+                  (click)="toggle(item.key)"
+                  (keydown)="onTriggerKeydown($event, item.key, li)"
+                >
+                  {{ item.label }}
+                  <i class="pi pi-chevron-down rv-nav__chevron" aria-hidden="true"></i>
+                </button>
+              }
               <div class="rv-menu" role="menu" [id]="'menu-' + item.key" [attr.aria-label]="item.label" (keydown)="onMenuKeydown($event, li)">
                 @for (child of item.children; track child.label; let i = $index) {
                   <div
@@ -189,6 +206,9 @@
         </button>
         @if (mobileOpenKey() === item.key) {
           <div class="rv-mobile__sub">
+            @if (item.route) {
+              <a [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{ item.label }}</a>
+            }
             @for (child of item.children; track child.label) {
               <a [routerLink]="child.route" [fragment]="child.fragment" (click)="select(item.key)">{{ child.label }}</a>
               @for (sub of child.children ?? []; track sub.label) {

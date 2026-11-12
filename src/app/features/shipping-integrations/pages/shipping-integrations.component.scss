@@ -1,0 +1,581 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Scroll animation (see RevealDirective) ---------- */
+.rv-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Shared bits ---------- */
+.rv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-accent-text);
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+
+  // extra bottom space for the call-to-action card that overlaps the footer
+  &--last {
+    padding-bottom: 9rem;
+  }
+}
+
+.rv-head {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+
+  h2 {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    color: var(--rv-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0.9rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+.rv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 12px;
+  background: var(--rv-cta-bg);
+  background-size: 140% 100%;
+  color: var(--rv-cta-fg);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 16px 30px -18px var(--p-primary-500);
+  transition: transform 0.2s ease, background-position 0.3s ease;
+
+  .pi {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background-position: 100% 0;
+
+    .pi {
+      transform: translateX(4px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 3px;
+  }
+}
+
+
+/* ---------- Service cards ---------- */
+.rv-services {
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+// Cards turn into the brand gradient on hover.
+.rv-service {
+  position: relative;
+  overflow: hidden;
+  padding: 2.2rem 1.8rem;
+  text-align: center;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--rv-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: transparent;
+    box-shadow: 0 28px 44px -26px var(--p-primary-500);
+
+    &::before {
+      opacity: 1;
+    }
+
+    h3,
+    p {
+      color: #fff;
+    }
+
+    .rv-service__icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transform: scale(1.1) rotate(-6deg);
+    }
+  }
+
+  &__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    font-size: 1.6rem;
+    color: var(--rv-primary);
+    background: color-mix(in oklab, var(--p-primary-500) 14%, transparent);
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+
+    .pi {
+      font-size: inherit;
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+    transition: color 0.3s ease;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--rv-body);
+    transition: color 0.3s ease;
+  }
+}
+
+/* ---------- FAQ accordion ---------- */
+.rv-faq {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+}
+
+.rv-acc {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 900px;
+  margin: 0 auto;
+
+  &__item {
+    background: var(--rv-surface);
+    border: 1px solid var(--rv-border);
+    border-radius: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &.is-open {
+      border-color: var(--rv-primary);
+      box-shadow: 0 20px 40px -30px var(--rv-shadow-strong);
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  &__q {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.1rem 1.3rem;
+    border: 0;
+    border-radius: 14px;
+    background: none;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: left;
+    color: var(--rv-heading);
+    cursor: pointer;
+
+    .pi {
+      flex: none;
+      margin-left: auto;
+      font-size: 0.9rem;
+      color: var(--rv-primary);
+    }
+
+    &:hover .rv-acc__text {
+      color: var(--rv-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__text {
+    transition: color 0.2s ease;
+  }
+
+  &__no {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    color: var(--rv-primary);
+    background: color-mix(in oklab, var(--p-primary-500) 14%, transparent);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  &__item.is-open &__no {
+    background: var(--rv-gradient);
+    color: #fff;
+  }
+
+  // The answer slides open by animating its row height from 0 to its content.
+  &__a {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  &__item.is-open &__a {
+    grid-template-rows: 1fr;
+  }
+
+  &__body {
+    overflow: hidden;
+    padding: 0 1.3rem 0 calc(1.3rem + 32px + 1rem);
+
+    p {
+      margin: 0 0 1.2rem;
+      line-height: 1.7;
+      color: var(--rv-body);
+    }
+  }
+}
+
+
+/* ---------- Intro and "types" sections (text + overlapping photos) ---------- */
+.rv-split {
+  scroll-margin-top: 90px;
+
+  &--intro {
+    background: var(--rv-hero-bg);
+  }
+
+  &--types {
+    background: var(--rv-surface);
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+  }
+
+  // the photos come first on the "types" section, like the live page
+  &--types &__photos {
+    order: -1;
+  }
+
+  &__copy {
+    min-width: 0;
+
+    h2 {
+      margin: 0.6rem 0 1.2rem;
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      color: var(--rv-heading);
+    }
+
+    p {
+      margin: 0 0 1.1rem;
+      line-height: 1.75;
+      color: var(--rv-body);
+    }
+  }
+}
+
+// Two photos: the second one overlaps the first, and both lift slightly on hover.
+.rv-photos {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding-bottom: 28%;
+
+  img {
+    display: block;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -30px var(--rv-shadow-strong);
+    transition: transform 0.5s ease;
+  }
+
+  &__a {
+    width: 80%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  &__b {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 80%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border: 6px solid var(--rv-surface);
+  }
+
+  &:hover &__a {
+    transform: translate(-6px, -6px);
+  }
+
+  &:hover &__b {
+    transform: translate(6px, 6px);
+  }
+}
+
+/* ---------- Intro extras ---------- */
+// Floating counter on the photos.
+.rv-count {
+  position: absolute;
+  left: -1rem;
+  bottom: 0;
+  z-index: 2;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--rv-border);
+  border-radius: 14px;
+  background: var(--rv-surface);
+  color: var(--rv-body);
+  box-shadow: 0 20px 40px -20px var(--rv-shadow-strong);
+  animation: rv-float 5s ease-in-out infinite;
+
+  strong {
+    font-size: 1.8rem;
+    line-height: 1;
+    background: var(--rv-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@keyframes rv-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-count {
+    animation: none;
+  }
+}
+
+// Single photo on the "tailored" section.
+.rv-solo {
+  margin: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -30px var(--rv-shadow-strong);
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* ---------- Integrations ---------- */
+.rv-apps {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* ---------- Value points (stacked cards with a number and a tick) ---------- */
+.rv-points {
+  background: var(--rv-surface);
+
+  &__list {
+    display: grid;
+    gap: 1.1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+.rv-point {
+  position: relative;
+  display: flex;
+  gap: 1.2rem;
+  padding: 1.8rem 1.8rem 1.8rem 1.5rem;
+  overflow: hidden;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+  // large faded number in the corner
+  &__no {
+    position: absolute;
+    right: 1.4rem;
+    top: 0.6rem;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    color: color-mix(in oklab, var(--p-primary-500) 10%, transparent);
+    transition: color 0.3s ease, transform 0.4s ease;
+  }
+
+  &__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    color: #fff;
+    background: var(--rv-gradient);
+    transition: transform 0.4s ease;
+  }
+
+  h3 {
+    margin: 0.5rem 0 0.7rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+    max-width: 52rem;
+    line-height: 1.75;
+    color: var(--rv-body);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 26px 44px -30px var(--p-primary-500);
+
+    .rv-point__icon {
+      transform: scale(1.12) rotate(-8deg);
+    }
+
+    .rv-point__no {
+      color: color-mix(in oklab, var(--p-primary-500) 22%, transparent);
+      transform: translateY(-4px);
+    }
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+  .rv-split__inner {
+    grid-template-columns: 1fr;
+  }
+  .rv-split--types .rv-split__photos {
+    order: 0;
+  }
+  .rv-apps__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-section,
+  .rv-split__inner {
+    padding: 3.5rem 1rem;
+  }
+  .rv-section--last {
+    padding-bottom: 10rem;
+  }
+  .rv-apps__grid {
+    grid-template-columns: 1fr;
+  }
+  .rv-point {
+    flex-direction: column;
+    padding: 1.5rem 1.2rem;
+  }
+  .rv-acc__body {
+    padding-left: 1.3rem;
+  }
+  .rv-count {
+    left: 0.5rem;
+  }
+}
