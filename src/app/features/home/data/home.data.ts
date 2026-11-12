@@ -19,34 +19,52 @@ const ABOUT = '/about-us';
 const CAREER = '/career';
 
 export const NAV_ITEMS: NavItem[] = [
-
-{
-  key: 'about',
-  label: 'About Us',
-  children: [
-    {
-      label: 'Career',
-      route: CAREER,
-      children: [
-        {
-          label: 'Linnworks Developer services',
-          route: '/linnworks-developer-services'
-        },
-        {
-          label: 'Hire Developers',
-          route: '/hire-developer'
-        }
-      ]
-    },
-  ],
-},
+  {
+    key: 'about',
+    label: 'About Us',
+    route: ABOUT,
+    children: [
+      {
+        label: 'Career',
+        route: CAREER,
+        children: [
+          {
+            label: 'Linnworks Developer services',
+            route: '/linnworks-developer-services',
+          },
+          {
+            label: 'Hire Developers',
+            route: '/hire-developer',
+          },
+        ],
+      },
+    ],
+  },
   {
     key: 'linnworks',
     label: 'Linnworks',
+    route: '/linnworks',
     children: [
-      { label: 'Linnworks Integration', route: SERVICES, fragment: 'linnworks' },
-      { label: 'Custom Development', route: SERVICES, fragment: 'linnworks' },
-      { label: 'Linnworks Support', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Macros', route: '/linnworks/macros' },
+      { label: 'Custom Scripts', route: '/linnworks/custom-scripts' },
+      { label: 'Shipping Integrations', route: '/linnworks/shipping-integrations' },
+      { label: 'On Screen Automation', route: '/linnworks/on-screen-automation' },
+      { label: 'Channel Integrations', route: '/linnworks/channel-integrations' },
+      { label: 'Customization Apps', route: '/linnworks/customization-apps' },
+      { label: 'Hyperstock Inventory Management', route: '/linnworks/hyperstock-inventory-management' },
+      { label: 'Revolutionizing Inventory Management', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Hyperlook For Linnworks', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Amazon Custome Information to Notes', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Converts Channel Notes To External Notes', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Active Ants Fulfillment', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Hyper POS For Linnworks', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Linnworks Efficiency Audit', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Linnworks Optimization Services', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Linnworks Automatomation & Rules Engine', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Linnworks API Integration', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Hyperstock AI(HAI)', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Linnworks AI Agent', route: SERVICES, fragment: 'linnworks' },
+      { label: 'Linnworks MCP Server', route: SERVICES, fragment: 'linnworks' },
     ],
   },
   {
@@ -223,7 +241,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: 'Can Rishvi Ltd assist with SQL custom scripts for Linnworks?',
     answer:
-      "Rishvi Ltd: Absolutely! We’ve developed over 850 SQL custom scripts for Linnworks users to generate customized reports, analyze data, and make informed business decisions. Our scripts are tailored to your specific reporting needs and designed to provide actionable insights to drive growth and efficiency.",
+      'Rishvi Ltd: Absolutely! We’ve developed over 850 SQL custom scripts for Linnworks users to generate customized reports, analyze data, and make informed business decisions. Our scripts are tailored to your specific reporting needs and designed to provide actionable insights to drive growth and efficiency.',
   },
   {
     question: "What advantages do Rishvi Ltd's shipping integrations offer for Linnworks users?",

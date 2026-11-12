@@ -44,6 +44,43 @@ export const routes: Routes = [
     path: 'hire-developer',
     loadComponent: () => import('./features/hire-developer/pages/hire-developer.component').then((m) => m.HireDeveloperComponent),
   },
+  {
+    path: 'linnworks',
+    loadComponent: () => import('./features/linnworks/pages/linnworks.component').then((m) => m.LinnworksComponent),
+  },
+  {
+    path: 'linnworks/macros',
+    loadComponent: () => import('./features/macros/pages/macros.component').then((m) => m.MacrosComponent),
+  },
+  {
+    path: 'linnworks/custom-scripts',
+    loadComponent: () =>
+      import('./features/custom-scripts/pages/custom-scripts.component').then((m) => m.CustomScriptsComponent),
+  },
+  {
+    path: 'linnworks/shipping-integrations',
+    loadComponent: () =>
+      import('./features/shipping-integrations/pages/shipping-integrations.component').then((m) => m.ShippingIntegrationsComponent),
+  },
+  {
+    path: 'linnworks/on-screen-automation',
+    loadComponent: () =>
+      import('./features/on-screen-automation/pages/on-screen-automation.component').then((m) => m.OnScreenAutomationComponent),
+  },
+  {
+    path: 'linnworks/channel-integrations',
+    loadComponent: () =>
+      import('./features/channel-integrations/pages/channel-integrations.component').then((m) => m.ChannelIntegrationsComponent),
+  },
+  {
+    path: 'linnworks/customization-apps',
+    loadComponent: () =>
+      import('./features/customization-apps/pages/customization-apps.component').then((m) => m.CustomizationAppsComponent),
+  },
+  {
+    path: 'linnworks/hyperstock-inventory-management',
+    loadComponent: () => import('./features/hyperstock/pages/hyperstock.component').then((m) => m.HyperstockComponent),
+  },
   ...articleRoutes,
   {
     path: 'unauthorized',

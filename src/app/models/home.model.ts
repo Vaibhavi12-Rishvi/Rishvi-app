@@ -99,6 +99,8 @@ export interface AboutPoint {
   text: string;
   /** PrimeIcons class, for example `pi-check-circle`. */
   icon: string;
+  /** Optional page this card opens when clicked. */
+  route?: string;
 }
 
 export interface VisionCard {
@@ -213,4 +215,21 @@ export interface HireFaq {
   answer: string;
   /** Optional bullet list shown under the answer. */
   points?: string[];
+}
+
+/** A custom SQL script shown on the Custom Scripts page. */
+export interface ScriptItem {
+  title: string;
+  text: string;
+  /** PrimeIcons class, for example `pi-print`. */
+  icon: string;
+  /** Key of the filter chip this script belongs to. */
+  category: string;
+}
+
+/** A filter chip on the Custom Scripts page. */
+export interface ScriptCategory {
+  key: string;
+  label: string;
+  icon: string;
 }

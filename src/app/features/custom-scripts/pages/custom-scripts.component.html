@@ -1,0 +1,132 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Custom Scripts" eyebrow="Linnworks" />
+
+    <!-- Intro -->
+    <section class="rv-split rv-split--intro" id="custom-scripts" aria-labelledby="rv-intro-title">
+      <div class="rv-split__inner">
+        <div class="rv-split__copy" appReveal>
+          <span class="rv-eyebrow">Custom Scripts</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p>{{ p }}</p>
+          }
+        </div>
+
+        <div class="rv-photos rv-split__photos" appReveal style="--d: 150ms">
+          <img class="rv-photos__a" src="assest/Custom-scripting-stock-2.jpeg" alt="Developer working on code across two screens" width="768" height="384" />
+          <img class="rv-photos__b" src="assest/6531a9a7ef5d428876d5f31d_scripting-2048x1536.jpeg" alt="Lines of script code on a blue screen" width="2048" height="1536" />
+          <span class="rv-count">
+            <strong>850+</strong>
+            <span>custom scripts delivered</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scripts showcase with filter -->
+    <section class="rv-scripts" id="our-scripts" aria-labelledby="rv-scripts-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Our App</span>
+          <h2 id="rv-scripts-title">Build Audience and <span class="rv-grad">Grow Your Business</span></h2>
+          <p>Offering tailored solutions to meet your unique needs with our Custom Scripts.</p>
+        </header>
+
+        <div class="rv-chips" role="group" aria-label="Filter scripts" appReveal>
+          @for (c of categories; track c.key) {
+            <button type="button" class="rv-chip" [class.is-active]="activeCategory() === c.key" [attr.aria-pressed]="activeCategory() === c.key" (click)="select(c.key)">
+              <i class="pi" [class]="c.icon" aria-hidden="true"></i>
+              {{ c.label }}
+              <span class="rv-chip__n">{{ count(c.key) }}</span>
+            </button>
+          }
+        </div>
+
+        <!-- track by title so cards that stay visible are not rebuilt; new ones animate in -->
+        <div class="rv-scripts__grid" aria-live="polite">
+          @for (s of visibleScripts(); track s.title; let i = $index) {
+            <article class="rv-script" [style.--i]="i">
+              <span class="rv-script__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+              <div>
+                <h3>{{ s.title }}</h3>
+                <p>{{ s.text }}</p>
+              </div>
+            </article>
+          }
+        </div>
+        <p class="rv-scripts__note">Showing {{ visibleScripts().length }} of {{ total }} scripts</p>
+      </div>
+    </section>
+
+    <!-- Tailored automation -->
+    <section class="rv-split rv-split--types" id="tailored-automation" aria-labelledby="rv-tailored-title">
+      <div class="rv-split__inner">
+        <figure class="rv-split__photos rv-solo" appReveal>
+          <img src="assest/893b9ecfa3d78a17b19e56166509194fa723c232.webp" alt="Laptop screen showing code" width="300" height="203" loading="lazy" />
+        </figure>
+
+        <div class="rv-split__copy" appReveal style="--d: 150ms">
+          <span class="rv-eyebrow">Custom Scripts</span>
+          <h2 id="rv-tailored-title">{{ tailored.title }}</h2>
+          <p>{{ tailored.text }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="rv-faq" id="faq" aria-labelledby="rv-faq-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">FAQ's</span>
+          <h2 id="rv-faq-title">Frequently Asked <span class="rv-grad">Questions</span></h2>
+        </header>
+
+        <div class="rv-acc" appReveal>
+          @for (f of faqs; track f.question; let i = $index) {
+            <div class="rv-acc__item" [class.is-open]="openIndex() === i">
+              <h3>
+                <button
+                  type="button"
+                  class="rv-acc__q"
+                  [id]="'faq-q-' + i"
+                  [attr.aria-expanded]="openIndex() === i"
+                  [attr.aria-controls]="'faq-a-' + i"
+                  (click)="toggle(i)"
+                >
+                  <span class="rv-acc__no">{{ i + 1 }}</span>
+                  <span class="rv-acc__text">{{ f.question }}</span>
+                  <i class="pi" [class.pi-minus]="openIndex() === i" [class.pi-plus]="openIndex() !== i" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="rv-acc__a" [id]="'faq-a-' + i" role="region" [attr.aria-labelledby]="'faq-q-' + i">
+                <div class="rv-acc__body">
+                  <p>{{ f.answer }}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="rv-benefits" id="benefits" aria-label="Why choose our custom scripts">
+      <div class="rv-section rv-section--last">
+        <div class="rv-benefits__grid">
+          @for (b of benefits; track b.title; let i = $index) {
+            <article class="rv-service" appReveal [style.--d]="i * 90 + 'ms'">
+              <span class="rv-service__icon"><i class="pi" [class]="b.icon" aria-hidden="true"></i></span>
+              <h3>{{ b.title }}</h3>
+              <p>{{ b.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
