@@ -27,6 +27,8 @@ export class HeaderComponent {
   readonly mobileOpenKey = signal<string | null>(null);
   readonly isDark = computed(() => this.theme.isDarkMode());
 
+  openSubKey = signal<string | null>(null);
+
   constructor() {
     // Each page renders its own header, so the active section can be read from the current URL once.
     if (this.router.url.startsWith('/services')) {
@@ -48,6 +50,11 @@ export class HeaderComponent {
   togglePalette(): void {
     this.paletteOpen.update((v) => !v);
     this.openKey.set(null);
+  }
+
+  toggleSubmenu(id: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.openSubKey.update((current) => (current === id ? null : id));
   }
 
   setPrimary(key: ThemeColor): void {
@@ -82,6 +89,7 @@ export class HeaderComponent {
   onDocumentClick(event: MouseEvent): void {
     if (!this.host.nativeElement.contains(event.target as Node)) {
       this.openKey.set(null);
+      this.openSubKey.set(null);
       this.paletteOpen.set(false);
     }
   }
@@ -89,6 +97,7 @@ export class HeaderComponent {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.openKey.set(null);
+    this.openSubKey.set(null);
     this.paletteOpen.set(false);
   }
 
@@ -102,9 +111,11 @@ export class HeaderComponent {
 
   hoverClose(): void {
     this.openKey.set(null);
+    this.openSubKey.set(null);
   }
 
   toggle(key: string): void {
+    this.openSubKey.set(null);
     this.openKey.update((current) => (current === key ? null : key));
   }
 
@@ -142,6 +153,7 @@ export class HeaderComponent {
   select(key: string): void {
     this.activeKey.set(key);
     this.openKey.set(null);
+    this.openSubKey.set(null);
     this.drawerVisible.set(false);
   }
 

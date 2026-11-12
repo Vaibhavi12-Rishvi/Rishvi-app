@@ -1,0 +1,537 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Scroll animation (see RevealDirective) ---------- */
+.rv-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Shared bits ---------- */
+.rv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-accent-text);
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+
+  // extra bottom space for the call-to-action card that overlaps the footer
+  &--last {
+    padding-bottom: 9rem;
+  }
+}
+
+.rv-head {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+
+  h2 {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    color: var(--rv-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0.9rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+.rv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 12px;
+  background: var(--rv-cta-bg);
+  background-size: 140% 100%;
+  color: var(--rv-cta-fg);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 16px 30px -18px var(--p-primary-500);
+  transition: transform 0.2s ease, background-position 0.3s ease;
+
+  .pi {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background-position: 100% 0;
+
+    .pi {
+      transform: translateX(4px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- Intro ---------- */
+.rv-intro {
+  scroll-margin-top: 90px;
+  background: var(--rv-hero-bg);
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+  }
+
+  &__copy {
+    min-width: 0;
+
+    h2 {
+      margin: 0.6rem 0 1.2rem;
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--rv-heading);
+    }
+
+    p {
+      margin: 0 0 1rem;
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: var(--rv-body);
+    }
+
+    .rv-btn {
+      margin-top: 0.5rem;
+    }
+  }
+
+  &__visual {
+    min-width: 0;
+  }
+}
+
+.rv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 1.4rem 0 1.6rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--rv-border);
+    border-radius: 999px;
+    background: var(--rv-surface);
+    font-size: 0.9rem;
+    color: var(--rv-body);
+  }
+
+  .pi {
+    color: var(--rv-primary);
+  }
+
+  strong {
+    color: var(--rv-heading);
+  }
+}
+
+// The collage image floats gently.
+.rv-photo {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: 0 auto;
+  animation: rv-float 6s ease-in-out infinite;
+}
+
+@keyframes rv-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-photo {
+    animation: none;
+  }
+}
+
+/* ---------- Cards (why choose us) ---------- */
+.rv-why {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.rv-card {
+  padding: 2rem;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 24px 40px -28px var(--rv-shadow-strong);
+
+    .rv-card__icon {
+      transform: rotate(-8deg) scale(1.08);
+    }
+  }
+
+  &__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    font-size: 1.3rem;
+    color: #fff;
+    background: var(--rv-gradient);
+    transition: transform 0.25s ease;
+
+    .pi {
+      font-size: inherit;
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+/* ---------- How we work (steps) ---------- */
+.rv-work {
+  scroll-margin-top: 90px;
+  background: var(--rv-hero-bg);
+}
+
+.rv-steps {
+  max-width: 900px;
+  margin: 0 auto;
+
+  &__track {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 2rem;
+    padding: 0;
+    list-style: none;
+
+    // the line running behind the numbers
+    &::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: var(--rv-border-strong);
+    }
+
+    li {
+      position: relative;
+      flex: 1;
+    }
+  }
+
+  &__panel {
+    min-height: 150px;
+    padding: 2rem;
+    text-align: center;
+    background: var(--rv-surface);
+    border: 1px solid var(--rv-border);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -40px var(--rv-shadow-strong);
+  }
+
+  &__content {
+    animation: rv-fade 0.35s ease;
+
+    h3 {
+      margin: 0 0 0.7rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--rv-heading);
+    }
+
+    p {
+      max-width: 36rem;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--rv-body);
+    }
+  }
+}
+
+@keyframes rv-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rv-step {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+
+  &__num {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--rv-border-strong);
+    border-radius: 50%;
+    background: var(--rv-surface);
+    font-weight: 800;
+    color: var(--rv-muted);
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+
+  &__label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--rv-body);
+  }
+
+  &:hover .rv-step__num {
+    border-color: var(--rv-primary);
+    color: var(--rv-primary);
+  }
+
+  &.is-done .rv-step__num {
+    border-color: var(--rv-primary);
+    color: var(--rv-primary);
+  }
+
+  &.is-active .rv-step__num {
+    transform: scale(1.15);
+    border-color: transparent;
+    background: var(--rv-gradient);
+    color: #fff;
+  }
+
+  &.is-active .rv-step__label {
+    color: var(--rv-heading);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+}
+
+/* ---------- Services ---------- */
+.rv-services {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.rv-service {
+  position: relative;
+  overflow: hidden;
+  padding: 2.2rem 2rem 2rem;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+  // gradient bar that grows on hover
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--rv-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 24px 40px -28px var(--rv-shadow-strong);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &__num {
+    position: absolute;
+    top: 1rem;
+    right: 1.4rem;
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--rv-border-strong);
+    opacity: 0.6;
+  }
+
+  &__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    color: var(--rv-primary);
+    background: color-mix(in oklab, var(--p-primary-500) 14%, transparent);
+
+    .pi {
+      font-size: inherit;
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+  .rv-intro__inner {
+    grid-template-columns: 1fr;
+  }
+  .rv-why__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .rv-why__grid,
+  .rv-services__grid {
+    grid-template-columns: 1fr;
+  }
+
+  // steps become a vertical list on phones
+  .rv-steps__track {
+    flex-direction: column;
+    gap: 0.6rem;
+
+    &::before {
+      display: none;
+    }
+  }
+  .rv-step {
+    grid-auto-flow: column;
+    justify-content: start;
+    justify-items: start;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-section,
+  .rv-intro__inner {
+    padding: 3.5rem 1rem;
+  }
+  .rv-section--last {
+    padding-bottom: 10rem;
+  }
+  .rv-intro__copy .rv-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

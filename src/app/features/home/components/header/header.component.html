@@ -30,16 +30,51 @@
                 <i class="pi pi-chevron-down rv-nav__chevron" aria-hidden="true"></i>
               </button>
               <div class="rv-menu" role="menu" [id]="'menu-' + item.key" [attr.aria-label]="item.label" (keydown)="onMenuKeydown($event, li)">
-                @for (child of item.children; track child.label) {
-                  <a
-                    role="menuitem"
-                    class="rv-menu__link"
-                    [routerLink]="child.route"
-                    [fragment]="child.fragment"
-                    [tabindex]="openKey() === item.key ? 0 : -1"
-                    (click)="select(item.key)"
-                    >{{ child.label }}</a
+                @for (child of item.children; track child.label; let i = $index) {
+                  <div
+                    class="rv-menu__item"
+                    [class.has-submenu]="child.children?.length"
+                    [class.is-open]="openSubKey() === item.key + '-' + i"
                   >
+                    @if (child.children?.length) {
+                      <!-- The row itself opens the page; the flyout opens on hover or keyboard focus. -->
+                      <a
+                        role="menuitem"
+                        class="rv-menu__link rv-menu__submenu-trigger"
+                        aria-haspopup="menu"
+                        [routerLink]="child.route"
+                        [fragment]="child.fragment"
+                        [tabindex]="openKey() === item.key ? 0 : -1"
+                        (click)="select(item.key)"
+                      >
+                        <span>{{ child.label }}</span>
+                        <i class="pi pi-chevron-right rv-menu__chev" aria-hidden="true"></i>
+                      </a>
+                      <div class="rv-submenu" role="menu" [id]="'submenu-' + item.key + '-' + i" [attr.aria-label]="child.label">
+                        @for (subChild of child.children; track subChild.label) {
+                          <a
+                            role="menuitem"
+                            class="rv-menu__link"
+                            [routerLink]="subChild.route"
+                            [fragment]="subChild.fragment"
+                            [tabindex]="openKey() === item.key ? 0 : -1"
+                            (click)="select(item.key)"
+                            >{{ subChild.label }}</a
+                          >
+                        }
+                      </div>
+                    } @else {
+                      <a
+                        role="menuitem"
+                        class="rv-menu__link"
+                        [routerLink]="child.route"
+                        [fragment]="child.fragment"
+                        [tabindex]="openKey() === item.key ? 0 : -1"
+                        (click)="select(item.key)"
+                        >{{ child.label }}</a
+                      >
+                    }
+                  </div>
                 }
               </div>
             </li>
@@ -156,6 +191,9 @@
           <div class="rv-mobile__sub">
             @for (child of item.children; track child.label) {
               <a [routerLink]="child.route" [fragment]="child.fragment" (click)="select(item.key)">{{ child.label }}</a>
+              @for (sub of child.children ?? []; track sub.label) {
+                <a class="rv-mobile__sub-nested" [routerLink]="sub.route" [fragment]="sub.fragment" (click)="select(item.key)">{{ sub.label }}</a>
+              }
             }
           </div>
         }
