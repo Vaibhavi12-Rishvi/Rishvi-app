@@ -16,17 +16,30 @@ import { ARTICLES, articlePath } from '../../news/data/articles.data';
 const HOME = '/home';
 const SERVICES = '/services';
 const ABOUT = '/about-us';
+const CAREER = '/career';
 
 export const NAV_ITEMS: NavItem[] = [
-  {
-    key: 'about',
-    label: 'About Us',
-    children: [
-      { label: 'Company Overview', route: ABOUT, fragment: 'company-overview' },
-      { label: 'Our Team', route: ABOUT, fragment: 'our-motive' },
-      { label: 'Why Choose Us', route: ABOUT, fragment: 'why-choose-us' },
-    ],
-  },
+
+{
+  key: 'about',
+  label: 'About Us',
+  children: [
+    {
+      label: 'Career',
+      route: CAREER,
+      children: [
+        {
+          label: 'Linnworks Developer services',
+          route: '/linnworks-developer-services'
+        },
+        {
+          label: 'Hire Developers',
+          route: '/hire-developer'
+        }
+      ]
+    },
+  ],
+},
   {
     key: 'linnworks',
     label: 'Linnworks',

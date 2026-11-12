@@ -31,6 +31,19 @@ export const routes: Routes = [
     path: 'about-us',
     loadComponent: () => import('./features/about/pages/about.component').then((m) => m.AboutComponent),
   },
+  {
+    path: 'career',
+    loadComponent: () => import('./features/career/pages/career.component').then((m) => m.CareerComponent),
+  },
+  {
+    path: 'linnworks-developer-services',
+    loadComponent: () =>
+      import('./features/linnworks-developer/pages/linnworks-developer.component').then((m) => m.LinnworksDeveloperComponent),
+  },
+  {
+    path: 'hire-developer',
+    loadComponent: () => import('./features/hire-developer/pages/hire-developer.component').then((m) => m.HireDeveloperComponent),
+  },
   ...articleRoutes,
   {
     path: 'unauthorized',

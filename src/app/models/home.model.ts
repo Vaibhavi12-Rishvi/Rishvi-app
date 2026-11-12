@@ -9,6 +9,7 @@ export interface AppLink {
 // ---- Header navigation ----
 export interface NavChild extends AppLink {
   label: string;
+  children?: NavChild[];
 }
 
 export interface NavItem {
@@ -186,4 +187,30 @@ export interface ContactForm {
   phone: string;
   company: string;
   message: string;
+}
+
+// ---- Career ----
+export interface JobOpening {
+  title: string;
+  responsibilities: string[];
+}
+
+export interface CareerForm {
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  message: string;
+}
+
+export interface ProcessStep {
+  title: string;
+  text: string;
+}
+
+export interface HireFaq {
+  question: string;
+  answer: string;
+  /** Optional bullet list shown under the answer. */
+  points?: string[];
 }

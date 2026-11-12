@@ -1,0 +1,125 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Career"  />
+
+    <!-- Job openings -->
+    <section class="rv-jobs" id="career" aria-labelledby="rv-jobs-title">
+      <div class="rv-jobs__inner">
+        <header class="rv-head">
+          <span class="rv-eyebrow">Join Our Team</span>
+          <h2 id="rv-jobs-title">Latest <span class="rv-grad">Job Openings</span></h2>
+          <p>Start your journey toward a rewarding and successful career today!</p>
+        </header>
+
+        <div class="rv-jobs__layout">
+          <ul class="rv-jobs__tabs" aria-label="Open positions">
+            @for (job of jobs; track job.title) {
+              <li>
+                <button type="button" class="rv-tab" [class.is-active]="selected() === job" [attr.aria-pressed]="selected() === job" (click)="selected.set(job)">
+                  {{ job.title }}
+                  <i class="pi pi-chevron-right" aria-hidden="true"></i>
+                </button>
+              </li>
+            }
+          </ul>
+
+          <article class="rv-job" aria-live="polite">
+            <h3>{{ selected().title }}</h3>
+            <h4>Responsibilities</h4>
+            <ul class="rv-job__list">
+              @for (item of selected().responsibilities; track item) {
+                <li>
+                  <i class="pi pi-check-circle" aria-hidden="true"></i>
+                  <span>{{ item }}</span>
+                </li>
+              }
+            </ul>
+            <button type="button" class="rv-btn" (click)="apply(selected())">
+              Apply for this role
+              <i class="pi pi-arrow-right" aria-hidden="true"></i>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why join -->
+    <section class="rv-why" id="why-join" aria-labelledby="rv-why-title">
+      <div class="rv-why__inner">
+        <header class="rv-head">
+          <span class="rv-eyebrow">Why Us</span>
+          <h2 id="rv-why-title">Why Join <span class="rv-grad">Rishvi?</span></h2>
+        </header>
+        <div class="rv-why__grid">
+          @for (p of whyJoin; track p.title) {
+            <article class="rv-card">
+              <span class="rv-card__icon"><i class="pi" [class]="p.icon" aria-hidden="true"></i></span>
+              <h3>{{ p.title }}</h3>
+              <p>{{ p.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Application form -->
+    <section class="rv-apply" id="apply" aria-labelledby="rv-apply-title">
+      <div class="rv-apply__inner">
+        <header class="rv-head">
+          <span class="rv-eyebrow">Apply Now</span>
+          <h2 id="rv-apply-title">Explore Career <span class="rv-grad">Opportunities</span> with Us</h2>
+          <p>
+            We currently have the above job openings available. Please fill out the form below, and we will get back to you soon. If there are no open
+            positions that match your profile at the moment, feel free to submit the form, and we'll reach out to you for future opportunities.
+          </p>
+        </header>
+
+        <form class="rv-form" (ngSubmit)="submit()" #f="ngForm">
+          <div class="rv-form__row">
+            <div>
+              <label for="ap-name">Name *</label>
+              <input id="ap-name" name="name" type="text" autocomplete="name" required [(ngModel)]="form.name" />
+            </div>
+            <div>
+              <label for="ap-email">Email *</label>
+              <input id="ap-email" name="email" type="email" autocomplete="email" required [(ngModel)]="form.email" />
+            </div>
+          </div>
+          <div class="rv-form__row">
+            <div>
+              <label for="ap-phone">Phone Number *</label>
+              <input id="ap-phone" name="phone" type="tel" autocomplete="tel" required [(ngModel)]="form.phone" />
+            </div>
+            <div>
+              <label for="ap-position">Position</label>
+              <select id="ap-position" name="position" [(ngModel)]="form.position">
+                <option value="">Any / future opportunities</option>
+                @for (job of jobs; track job.title) {
+                  <option [value]="job.title">{{ job.title }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <label for="ap-message">Message</label>
+          <textarea id="ap-message" name="message" rows="5" [(ngModel)]="form.message"></textarea>
+
+          <label for="ap-cv">Attach CV</label>
+          <input id="ap-cv" name="cv" type="file" accept=".pdf,.doc,.docx" (change)="onFileChange($event)" />
+          <p class="rv-form__note">Accepted formats: PDF, DOC, DOCX</p>
+          <p class="rv-form__note" *ngIf="fileName">Selected file: {{ fileName }}</p>
+
+
+          <button type="submit" class="rv-btn" [disabled]="f.invalid">
+            Send Message
+            <i class="pi pi-send" aria-hidden="true"></i>
+          </button>
+          <p class="rv-form__note">This opens your email app with your message ready to send. Please attach your CV there.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

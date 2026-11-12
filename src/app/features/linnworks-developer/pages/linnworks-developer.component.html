@@ -1,0 +1,121 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Linnworks Developer Services" eyebrow="Linnworks Certified Partner" />
+
+    <!-- Intro -->
+    <section class="rv-intro" id="linnworks-developer" aria-labelledby="rv-intro-title">
+      <div class="rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">Linnworks Developer Services</span>
+          <h2 id="rv-intro-title">Linnworks Developer Services <span class="rv-grad">By Rishvi Ltd</span></h2>
+          @for (p of intro; track p) {
+            <p>{{ p }}</p>
+          }
+
+          <ul class="rv-chips">
+            @for (h of highlights; track h.text) {
+              <li>
+                <i class="pi" [class]="h.icon" aria-hidden="true"></i>
+                <span><strong>{{ h.title }}</strong> {{ h.text }}</span>
+              </li>
+            }
+          </ul>
+
+          <a class="rv-btn" routerLink="/home" fragment="contact">
+            Hire Developers
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div class="rv-intro__visual" appReveal style="--d: 150ms">
+          <img class="rv-photo" src="assest/linnworks-developer-services.png" alt="Rishvi developers writing code" width="572" height="522" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Why choose us -->
+    <section class="rv-why" id="why-choose-us" aria-labelledby="rv-why-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Why Us</span>
+          <h2 id="rv-why-title">Why Choose Rishvi Ltd for <span class="rv-grad">Linnworks Development?</span></h2>
+        </header>
+        <div class="rv-why__grid">
+          @for (p of whyChoose; track p.title; let i = $index) {
+            <article class="rv-card" appReveal [style.--d]="i * 80 + 'ms'">
+              <span class="rv-card__icon"><i class="pi" [class]="p.icon" aria-hidden="true"></i></span>
+              <h3>{{ p.title }}</h3>
+              <p>{{ p.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- How we work -->
+    <section class="rv-work" id="how-we-work" aria-labelledby="rv-work-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">FAQ</span>
+          <h2 id="rv-work-title">How We <span class="rv-grad">Work</span></h2>
+          <p>Offering tailored solutions to meet your unique needs with our featured services.</p>
+        </header>
+
+        <div class="rv-steps" appReveal>
+          <ol class="rv-steps__track">
+            @for (s of steps; track s.title; let i = $index) {
+              <li>
+                <button
+                  type="button"
+                  class="rv-step"
+                  [class.is-active]="activeStep() === i"
+                  [class.is-done]="i < activeStep()"
+                  [attr.aria-pressed]="activeStep() === i"
+                  (click)="activeStep.set(i)"
+                >
+                  <span class="rv-step__num">{{ i + 1 }}</span>
+                  <span class="rv-step__label">{{ s.title }}</span>
+                </button>
+              </li>
+            }
+          </ol>
+
+          <div class="rv-steps__panel" aria-live="polite">
+            @for (s of steps; track s.title; let i = $index) {
+              @if (activeStep() === i) {
+                <div class="rv-steps__content">
+                  <h3>{{ i + 1 }}. {{ s.title }}</h3>
+                  <p>{{ s.text }}</p>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="rv-services" id="our-services" aria-labelledby="rv-services-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Services</span>
+          <h2 id="rv-services-title">Our Linnworks <span class="rv-grad">Development Services</span></h2>
+        </header>
+        <div class="rv-services__grid">
+          @for (s of services; track s.title; let i = $index) {
+            <article class="rv-service" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-service__num" aria-hidden="true">0{{ i + 1 }}</span>
+              <span class="rv-service__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

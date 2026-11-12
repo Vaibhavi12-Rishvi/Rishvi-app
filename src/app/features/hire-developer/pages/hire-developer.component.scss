@@ -1,0 +1,507 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Scroll animation (see RevealDirective) ---------- */
+.rv-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Shared bits ---------- */
+.rv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-accent-text);
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+
+  // extra bottom space for the call-to-action card that overlaps the footer
+  &--last {
+    padding-bottom: 9rem;
+  }
+}
+
+.rv-head {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+
+  h2 {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    color: var(--rv-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0.9rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+.rv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 12px;
+  background: var(--rv-cta-bg);
+  background-size: 140% 100%;
+  color: var(--rv-cta-fg);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 16px 30px -18px var(--p-primary-500);
+  transition: transform 0.2s ease, background-position 0.3s ease;
+
+  .pi {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background-position: 100% 0;
+
+    .pi {
+      transform: translateX(4px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- Intro ---------- */
+.rv-intro {
+  scroll-margin-top: 90px;
+  background: var(--rv-hero-bg);
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+  }
+
+  &__copy {
+    min-width: 0;
+
+    h2 {
+      margin: 0.6rem 0 1.2rem;
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--rv-heading);
+    }
+
+    p {
+      margin: 0 0 1rem;
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: var(--rv-body);
+    }
+  }
+
+  &__visual {
+    min-width: 0;
+  }
+}
+
+.rv-models {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.4rem 0 1.8rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--rv-border);
+    border-radius: 12px;
+    background: var(--rv-surface);
+    color: var(--rv-body);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateX(6px);
+      border-color: var(--rv-primary);
+    }
+  }
+
+  .pi {
+    flex: none;
+    font-size: 1.1rem;
+    color: var(--rv-primary);
+  }
+
+  strong {
+    margin-right: 0.3rem;
+    color: var(--rv-heading);
+  }
+}
+
+// The collage image floats gently.
+.rv-photo {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  margin: 0 auto;
+  animation: rv-float 6s ease-in-out infinite;
+}
+
+@keyframes rv-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-photo {
+    animation: none;
+  }
+}
+
+/* ---------- Developer types ---------- */
+.rv-types {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.rv-card {
+  padding: 2rem 1.6rem;
+  text-align: center;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 24px 40px -28px var(--rv-shadow-strong);
+
+    .rv-card__icon {
+      transform: rotate(-8deg) scale(1.08);
+    }
+  }
+
+  &__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1rem;
+    border-radius: 16px;
+    font-size: 1.4rem;
+    color: #fff;
+    background: var(--rv-gradient);
+    transition: transform 0.25s ease;
+
+    .pi {
+      font-size: inherit;
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--rv-body);
+  }
+}
+
+/* ---------- How it works ---------- */
+.rv-how {
+  scroll-margin-top: 90px;
+  background: var(--rv-hero-bg);
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.rv-step {
+  position: relative;
+  padding: 2.6rem 1.6rem 1.8rem;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.25s ease, border-color 0.25s ease;
+
+  // arrow between the cards
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -0.8rem;
+    z-index: 1;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-top: 3px solid var(--rv-primary);
+    border-right: 3px solid var(--rv-primary);
+    transform: translateY(-50%) rotate(45deg);
+    opacity: 0.5;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--rv-primary);
+  }
+
+  &__num {
+    position: absolute;
+    top: -1.2rem;
+    left: 1.6rem;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--rv-gradient);
+    font-weight: 800;
+    color: #fff;
+    box-shadow: 0 10px 20px -10px var(--p-primary-500);
+  }
+
+  h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+/* ---------- FAQ accordion ---------- */
+.rv-faq {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+}
+
+.rv-acc {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 900px;
+  margin: 0 auto;
+
+  &__item {
+    background: var(--rv-surface);
+    border: 1px solid var(--rv-border);
+    border-radius: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &.is-open {
+      border-color: var(--rv-primary);
+      box-shadow: 0 20px 40px -30px var(--rv-shadow-strong);
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  &__q {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.1rem 1.3rem;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: left;
+    color: var(--rv-heading);
+    cursor: pointer;
+    border-radius: 14px;
+
+    .pi {
+      margin-left: auto;
+      font-size: 0.9rem;
+      color: var(--rv-primary);
+    }
+
+    &:hover .rv-acc__text {
+      color: var(--rv-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__text {
+    transition: color 0.2s ease;
+  }
+
+  &__no {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    color: var(--rv-primary);
+    background: color-mix(in oklab, var(--p-primary-500) 14%, transparent);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  &__item.is-open &__no {
+    background: var(--rv-gradient);
+    color: #fff;
+  }
+
+  // The answer slides open by animating its row height from 0 to its content.
+  &__a {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  &__item.is-open &__a {
+    grid-template-rows: 1fr;
+  }
+
+  &__body {
+    overflow: hidden;
+    padding: 0 1.3rem 0 calc(1.3rem + 32px + 1rem);
+
+    p {
+      margin: 0 0 0.6rem;
+      line-height: 1.7;
+      color: var(--rv-body);
+    }
+
+    ul {
+      margin: 0 0 1.2rem;
+      padding-left: 1.2rem;
+      color: var(--rv-body);
+
+      li {
+        margin-bottom: 0.35rem;
+        line-height: 1.6;
+      }
+
+      li::marker {
+        color: var(--rv-primary);
+      }
+    }
+
+    // keeps the bottom space when the answer is a single paragraph
+    > :last-child {
+      margin-bottom: 1.2rem;
+    }
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+  .rv-intro__inner {
+    grid-template-columns: 1fr;
+  }
+  .rv-types__grid,
+  .rv-how__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rv-step:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-section,
+  .rv-intro__inner {
+    padding: 3.5rem 1rem;
+  }
+  .rv-section--last {
+    padding-bottom: 10rem;
+  }
+  .rv-types__grid,
+  .rv-how__list {
+    grid-template-columns: 1fr;
+  }
+  .rv-how__list {
+    gap: 2rem;
+  }
+  .rv-acc__body {
+    padding-left: 1.3rem;
+  }
+  .rv-intro__copy .rv-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

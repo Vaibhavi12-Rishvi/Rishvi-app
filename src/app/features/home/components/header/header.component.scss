@@ -178,6 +178,77 @@
   }
 }
 
+/* ---------- Nested submenu (flyout) ---------- */
+.rv-menu__item {
+  position: relative;
+}
+
+.rv-menu__submenu-trigger {
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rv-menu__chev {
+  font-size: 0.65rem;
+  transition: transform 0.2s ease;
+}
+
+.rv-submenu {
+  position: absolute;
+  top: -0.5rem;
+  left: 100%;
+  min-width: 15rem;
+  margin-left: 0.25rem;
+  padding: 0.5rem;
+  background: var(--rv-surface);
+  border: 1px solid var(--rv-border);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px -16px var(--rv-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+
+  // bridge the gap so the pointer can move from the trigger into the flyout
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.5rem;
+    width: 0.5rem;
+  }
+}
+
+.rv-menu__item.has-submenu:hover > .rv-submenu,
+.rv-menu__item.has-submenu:focus-within > .rv-submenu,
+.rv-menu__item.has-submenu.is-open > .rv-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+
+.rv-menu__item.has-submenu:hover > .rv-menu__submenu-trigger,
+.rv-menu__item.has-submenu.is-open > .rv-menu__submenu-trigger {
+  background: var(--rv-hover-bg);
+  color: var(--rv-primary);
+
+  .rv-menu__chev {
+    transform: translateX(2px);
+  }
+}
+
+.rv-mobile__sub-nested {
+  padding-left: 1.5rem !important;
+  font-size: 0.9em;
+  opacity: 0.85;
+}
+
 .rv-nav__item.is-open .rv-menu {
   opacity: 1;
   visibility: visible;
