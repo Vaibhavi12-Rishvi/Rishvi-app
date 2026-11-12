@@ -11,6 +11,7 @@ import {
   TechCategory,
   Testimonial,
 } from '../../../models/home.model';
+import { ARTICLES, articlePath } from '../../news/data/articles.data';
 
 const HOME = '/home';
 const SERVICES = '/services';
@@ -253,27 +254,14 @@ export const TECH_CATEGORIES: TechCategory[] = [
   },
 ];
 
-// ---- Latest news ----
-export const NEWS_ITEMS: NewsItem[] = [
-  {
-    tag: 'Linnworks',
-    title: '10 Linnworks Processes Worth Reviewing for Automation',
-    excerpt: "Most Linnworks teams don't have an automation problem. They have",
-    image: 'assest/10-Linnworks-Processes-Worth-Reviewing-for-Automation-02.webp',
-  },
-  {
-    tag: 'E-Invoicing',
-    title: 'UAE E-Invoicing for Retail & E-Commerce Businesses: What You Need to Know in 2026',
-    excerpt: "The UAE's transition to mandatory E-Invoicing is well underway, and",
-    image: 'assest/UAE-E-Invoicing-for-Retail-E-Commerce-Businesses-What-You-Need-to-Know-in-2026.webp',
-  },
-  {
-    tag: 'E-Invoicing',
-    title: 'How to Prepare Your Business for UK E-Invoicing: Complete Readiness Checklist',
-    excerpt: 'With mandatory e-invoicing set to take effect from 1 April',
-    image: 'assest/How-to-Prepare-Your-Business-for-UK-E-Invoicing-Complete-Readiness-Checklist.webp',
-  },
-];
+// ---- Latest news (built from the article pages) ----
+export const NEWS_ITEMS: NewsItem[] = ARTICLES.map((a) => ({
+  route: articlePath(a),
+  tag: a.tag,
+  title: a.title,
+  excerpt: a.excerpt,
+  image: a.image,
+}));
 
 // ---- Certifications ----
 export const CERTIFICATIONS: CertificationItem[] = [

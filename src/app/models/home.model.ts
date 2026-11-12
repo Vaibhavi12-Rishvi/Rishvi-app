@@ -137,6 +137,8 @@ export interface TechCategory {
 }
 
 export interface NewsItem {
+  /** Full path of the article page, for example `/linnworks/some-article`. */
+  route: string;
   title: string;
   excerpt: string;
   image: string;
@@ -148,4 +150,40 @@ export interface CertificationItem {
   text: string;
   image: string;
   badge: string;
+}
+
+// ---- News articles ----
+export type ArticleBlock =
+  | { type: 'h2'; text: string }
+  | { type: 'h3'; text: string }
+  | { type: 'p'; text: string }
+  | { type: 'ul'; items: string[] }
+  | { type: 'ol'; items: string[] }
+  | { type: 'callout'; label: string; text: string };
+
+export interface Article {
+  /** First URL segment, for example `linnworks`. */
+  category: string;
+  /** Second URL segment. */
+  slug: string;
+  tag: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  blocks: ArticleBlock[];
+}
+
+export interface TocEntry {
+  id: string;
+  text: string;
+  /** 2 for main headings, 3 for sub-headings. */
+  level: 2 | 3;
+}
+
+export interface ContactForm {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  message: string;
 }

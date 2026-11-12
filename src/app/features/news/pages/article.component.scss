@@ -1,0 +1,205 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+.rv-art {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  gap: 2rem;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 9rem; // extra bottom space for the call-to-action card that overlaps the footer
+
+  &__main {
+    min-width: 0;
+    padding: 1.4rem;
+    border: 1px solid var(--rv-border);
+    border-radius: 22px;
+    background: var(--rv-surface);
+    box-shadow: 0 30px 60px -44px var(--rv-shadow-strong);
+  }
+
+  &__side {
+    position: sticky;
+    top: 96px;
+  }
+
+  &__hero {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+  }
+
+  &__body {
+    max-width: 46rem;
+    padding: 2rem 0.6rem 0.5rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--rv-body);
+
+    h2,
+    h3 {
+      scroll-margin-top: 96px;
+      letter-spacing: -0.02em;
+      color: var(--rv-heading);
+    }
+
+    h2 {
+      margin: 2.4rem 0 0.9rem;
+      font-size: 1.65rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    h3 {
+      margin: 1.8rem 0 0.6rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 0 1.1rem;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 1.3rem;
+      padding-left: 1.4rem;
+    }
+
+    li {
+      margin-bottom: 0.45rem;
+      padding-left: 0.2rem;
+
+      &::marker {
+        color: var(--rv-primary);
+      }
+    }
+  }
+
+  &__more {
+    margin-top: 2.5rem;
+    padding: 2rem 0.6rem 0.6rem;
+    border-top: 1px solid var(--rv-border);
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 1.3rem;
+      color: var(--rv-heading);
+    }
+  }
+
+  &__more-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+    a {
+      display: grid;
+      gap: 0.5rem;
+      padding: 1.1rem;
+      border: 1px solid var(--rv-border);
+      border-radius: 14px;
+      background: var(--rv-surface-2);
+      color: var(--rv-heading);
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        border-color: var(--rv-primary);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--rv-primary);
+        outline-offset: 3px;
+      }
+    }
+
+    strong {
+      line-height: 1.35;
+    }
+  }
+
+  &__tag {
+    justify-self: start;
+    padding: 0.15rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--rv-primary);
+    background: color-mix(in oklab, var(--p-primary-500) 12%, transparent);
+  }
+
+  &__go {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--rv-primary);
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-weight: 700;
+    color: var(--rv-primary);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.rv-callout {
+  margin: 1.8rem 0;
+  padding: 1.2rem 1.4rem;
+  border-left: 4px solid var(--rv-primary);
+  border-radius: 0 14px 14px 0;
+  background: color-mix(in oklab, var(--p-primary-500) 8%, var(--rv-surface));
+
+  strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 1.05rem;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .rv-art {
+    grid-template-columns: 1fr;
+
+    &__side {
+      position: static;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-art {
+    padding: 2rem 1rem 10rem;
+
+    &__main {
+      padding: 0.8rem;
+    }
+    &__body {
+      padding-inline: 0.2rem;
+      font-size: 1rem;
+    }
+    &__more-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

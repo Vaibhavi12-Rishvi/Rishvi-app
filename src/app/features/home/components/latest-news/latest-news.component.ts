@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { NewsItem } from '../../../../models/home.model';
 import { NEWS_ITEMS } from '../../data/home.data';
 
@@ -6,6 +7,7 @@ import { NEWS_ITEMS } from '../../data/home.data';
 @Component({
   selector: 'app-latest-news',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './latest-news.component.html',
   styleUrl: './latest-news.component.scss',
 })
