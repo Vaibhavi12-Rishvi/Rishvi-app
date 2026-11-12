@@ -1,0 +1,36 @@
+<aside class="rv-side" aria-label="Article tools">
+  <nav class="rv-card rv-toc" aria-label="Table of contents">
+    <button type="button" class="rv-toc__head" [attr.aria-expanded]="tocOpen()" (click)="tocOpen.set(!tocOpen())">
+      Table of Contents
+      <i class="pi" [class.pi-chevron-up]="tocOpen()" [class.pi-chevron-down]="!tocOpen()" aria-hidden="true"></i>
+    </button>
+    @if (tocOpen()) {
+      <ul>
+        @for (t of toc(); track t.id) {
+          <li [class.is-sub]="t.level === 3">
+            <a [routerLink]="[]" [fragment]="t.id">{{ t.text }}</a>
+          </li>
+        }
+      </ul>
+    }
+  </nav>
+
+  <form class="rv-card rv-form" (ngSubmit)="submit()" #f="ngForm">
+    <h2>Get Started With Us</h2>
+    <label for="cf-name">Name</label>
+    <input id="cf-name" name="name" type="text" autocomplete="name" required [(ngModel)]="form.name" />
+    <label for="cf-email">Email</label>
+    <input id="cf-email" name="email" type="email" autocomplete="email" required [(ngModel)]="form.email" />
+    <label for="cf-phone">Phone Number</label>
+    <input id="cf-phone" name="phone" type="tel" autocomplete="tel" [(ngModel)]="form.phone" />
+    <label for="cf-company">Company Name</label>
+    <input id="cf-company" name="company" type="text" autocomplete="organization" [(ngModel)]="form.company" />
+    <label for="cf-message">Message</label>
+    <textarea id="cf-message" name="message" rows="4" [(ngModel)]="form.message"></textarea>
+    <button type="submit" [disabled]="f.invalid">
+      Send Message
+      <i class="pi pi-send" aria-hidden="true"></i>
+    </button>
+    <p class="rv-form__note">This opens your email app with your message ready to send to info&#64;rishvi.co.uk.</p>
+  </form>
+</aside>

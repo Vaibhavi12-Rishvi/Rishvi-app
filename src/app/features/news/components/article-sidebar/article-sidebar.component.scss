@@ -1,0 +1,159 @@
+:host {
+  display: block;
+}
+
+.rv-side {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.rv-card {
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  background: var(--rv-surface);
+  box-shadow: 0 24px 50px -36px var(--rv-shadow-strong);
+}
+
+/* ---------- Table of contents ---------- */
+.rv-toc {
+  padding: 0.4rem 1.4rem 1.2rem;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--rv-border);
+    background: transparent;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  ul {
+    display: grid;
+    gap: 0.15rem;
+    max-height: 22rem;
+    margin: 0.6rem 0 0;
+    padding: 0 0.3rem 0 0;
+    overflow-y: auto;
+    list-style: none;
+  }
+
+  li.is-sub {
+    padding-left: 1rem;
+  }
+
+  a {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: var(--rv-body);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: var(--rv-hover-bg);
+      color: var(--rv-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: -2px;
+    }
+  }
+}
+
+/* ---------- Form ---------- */
+.rv-form {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.4rem;
+
+  h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-align: center;
+    color: var(--rv-primary);
+  }
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--rv-heading);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--rv-border-strong);
+    border-radius: 10px;
+    background: var(--rv-surface);
+    font: inherit;
+    color: var(--rv-heading);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--rv-primary);
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--p-primary-500) 20%, transparent);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 50px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--rv-cta-bg);
+    background-size: 140% 100%;
+    font: inherit;
+    font-weight: 700;
+    color: var(--rv-cta-fg);
+    cursor: pointer;
+    transition: background-position 0.3s ease, opacity 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-position: 100% 0;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rv-primary);
+      outline-offset: 3px;
+    }
+  }
+
+  &__note {
+    margin: 0.3rem 0 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--rv-muted);
+  }
+}

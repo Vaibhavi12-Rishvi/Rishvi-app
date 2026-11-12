@@ -1,0 +1,67 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner [title]="article.title" eyebrow="Latest news" />
+
+    <div class="rv-art">
+      <article class="rv-art__main">
+        <img class="rv-art__hero" [src]="article.image" [alt]="article.title" width="760" height="430" />
+
+        <div class="rv-art__body">
+          @for (b of article.blocks; track $index) {
+            @switch (b.type) {
+              @case ('h2') {
+                <h2 [id]="id(b.text)">{{ b.text }}</h2>
+              }
+              @case ('h3') {
+                <h3 [id]="id(b.text)">{{ b.text }}</h3>
+              }
+              @case ('p') {
+                <p>{{ b.text }}</p>
+              }
+              @case ('ul') {
+                <ul>
+                  @for (item of b.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              }
+              @case ('ol') {
+                <ol>
+                  @for (item of b.items; track item) {
+                    <li>{{ item }}</li>
+                  }
+                </ol>
+              }
+              @case ('callout') {
+                <aside class="rv-callout">
+                  <strong>{{ b.label }}</strong>
+                  <p>{{ b.text }}</p>
+                </aside>
+              }
+            }
+          }
+        </div>
+
+        <footer class="rv-art__more">
+          <h2>Keep reading</h2>
+          <div class="rv-art__more-grid">
+            @for (m of more; track m.slug) {
+              <a [routerLink]="path(m)">
+                <span class="rv-art__tag">{{ m.tag }}</span>
+                <strong>{{ m.title }}</strong>
+                <span class="rv-art__go">Read more <i class="pi pi-arrow-right" aria-hidden="true"></i></span>
+              </a>
+            }
+          </div>
+          <a class="rv-art__back" routerLink="/home" fragment="blogs"><i class="pi pi-arrow-left" aria-hidden="true"></i> Back to all news</a>
+        </footer>
+      </article>
+
+      <app-article-sidebar class="rv-art__side" [toc]="toc" [articleTitle]="article.title" />
+    </div>
+  </main>
+
+  <app-home-footer />
+</div>

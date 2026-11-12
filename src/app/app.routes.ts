@@ -3,6 +3,15 @@ import { LayoutComponent } from './layout/layout.component';
 import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 import { noAuthGuard } from './core/guards/no-auth.guard';
+import { ARTICLES } from './features/news/data/articles.data';
+
+// One public page per news article, at /<category>/<slug>.
+const articleRoutes: Routes = ARTICLES.map((a) => ({
+  path: `${a.category}/${a.slug}`,
+  data: { slug: a.slug },
+  loadComponent: () => import('./features/news/pages/article.component').then((m) => m.ArticleComponent),
+}));
+
 export const routes: Routes = [
   // Public marketing homepage (no login required)
   {
@@ -22,6 +31,7 @@ export const routes: Routes = [
     path: 'about-us',
     loadComponent: () => import('./features/about/pages/about.component').then((m) => m.AboutComponent),
   },
+  ...articleRoutes,
   {
     path: 'unauthorized',
     loadComponent: () => import('./features/auth/pages/unauthorized.component').then((m) => m.UnauthorizedComponent),
