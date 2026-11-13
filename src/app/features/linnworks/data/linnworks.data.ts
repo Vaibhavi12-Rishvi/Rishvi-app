@@ -19,9 +19,10 @@ export const LINNWORKS_SERVICES: AboutPoint[] = [
   {
     icon: 'pi-chart-line',
     title: 'Revolutionizing Inventory Management',
+    route: '/linnworks/revolutionizing-inventory-management',
     text: 'Transform your inventory control with revolutionary solutions for efficiency and accuracy.',
   },
-  { icon: 'pi-eye', title: 'HyperLook For Linnworks', text: 'Gain deep insights and optimize performance with HyperLook for Linnworks.' },
+  { icon: 'pi-eye', title: 'HyperLook For Linnworks', text: 'Gain deep insights and optimize performance with HyperLook for Linnworks.', route: '/linnworks/hyperlook-for-linnworks' },
   {
     icon: 'pi-send',
     title: 'DHL DE Integration',
@@ -31,6 +32,7 @@ export const LINNWORKS_SERVICES: AboutPoint[] = [
   {
     icon: 'pi-arrow-right-arrow-left',
     title: 'Convert Channel Notes to External Notes',
+    route: '/linnworks/convert-channel-notes-to-external-notes',
     text: 'Effortlessly convert channel notes to external notes for consistent communication.',
   },
 ];

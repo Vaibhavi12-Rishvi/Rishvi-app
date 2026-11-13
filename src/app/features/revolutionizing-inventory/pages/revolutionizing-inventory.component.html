@@ -1,0 +1,151 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Revolutionizing Inventory Management" eyebrow="Linnworks" />
+
+    <!-- Intro: text + a small "single dashboard" picture built with CSS -->
+    <section class="rv-intro" id="hyperstock" aria-labelledby="rv-intro-title">
+      <div class="rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">Hyperstock</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p>{{ p }}</p>
+          }
+        </div>
+
+        <div class="rv-dash" appReveal style="--d: 150ms" role="img" aria-label="Sales channels feeding one inventory dashboard">
+          <ul class="rv-dash__channels">
+            @for (c of channels; track c; let i = $index) {
+              <li [style.--i]="i">{{ c }}</li>
+            }
+          </ul>
+          <span class="rv-dash__flow" aria-hidden="true"></span>
+          <div class="rv-dash__board">
+            <header>
+              <i class="pi pi-box" aria-hidden="true"></i>
+              Single dashboard
+              <span class="rv-dash__live">Live</span>
+            </header>
+            <div class="rv-dash__bars" aria-hidden="true">
+              @for (h of [45, 70, 55, 85, 60, 95, 75]; track $index) {
+                <span [style.--h]="h + '%'" [style.--i]="$index"></span>
+              }
+            </div>
+            <footer>
+              <span><b>1,788</b> SKUs</span>
+              <span><b>Real time</b> stock</span>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Efficient inventory management: pick a topic, read the detail -->
+    <section class="rv-eff" id="efficient" aria-labelledby="rv-eff-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Our App</span>
+          <h2 id="rv-eff-title">{{ efficient.title }}</h2>
+          <p>{{ efficient.text }}</p>
+        </header>
+
+        <div class="rv-eff__layout" appReveal>
+          <div class="rv-eff__list" role="tablist" aria-label="Inventory management benefits" aria-orientation="vertical">
+            @for (p of points; track p.title; let i = $index) {
+              <button type="button" role="tab" class="rv-eff__tab" [class.is-active]="active() === i" [attr.aria-selected]="active() === i" (click)="select(i)">
+                <span class="rv-eff__icon"><i class="pi" [class]="p.icon" aria-hidden="true"></i></span>
+                {{ p.title }}
+                <i class="pi pi-angle-right rv-eff__arrow" aria-hidden="true"></i>
+              </button>
+            }
+          </div>
+
+          <!-- the key restarts the fade animation each time the topic changes -->
+          @for (p of [point()]; track p.title) {
+            <article class="rv-eff__panel" role="tabpanel" aria-live="polite">
+              <span class="rv-eff__big" aria-hidden="true">0{{ active() + 1 }}</span>
+              <span class="rv-eff__icon rv-eff__icon--lg"><i class="pi" [class]="p.icon" aria-hidden="true"></i></span>
+              <h3>{{ p.title }}</h3>
+              <p>{{ p.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits of a single dashboard -->
+    <section class="rv-ben" id="benefits" aria-labelledby="rv-ben-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Benefits</span>
+          <h2 id="rv-ben-title">Benefits of a <span class="rv-grad">single dashboard</span></h2>
+        </header>
+
+        <div class="rv-ben__grid">
+          @for (b of benefits.items; track b.title; let i = $index) {
+            <article class="rv-tile" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-tile__no" aria-hidden="true">0{{ i + 1 }}</span>
+              <span class="rv-tile__icon"><i class="pi" [class]="b.icon" aria-hidden="true"></i></span>
+              <h3>{{ b.title }}</h3>
+              <p>{{ b.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 day SLA -->
+    <section class="rv-sla" id="sla" aria-labelledby="rv-sla-title">
+      <div class="rv-sla__inner">
+        <div class="rv-sla__badge" appReveal aria-hidden="true">
+          <strong>1</strong>
+          <span>day SLA</span>
+        </div>
+        <div class="rv-sla__copy" appReveal style="--d: 150ms">
+          <span class="rv-eyebrow">{{ sla.eyebrow }}</span>
+          <h2 id="rv-sla-title">{{ sla.title }}</h2>
+          <p>{{ sla.text }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promises -->
+    <section class="rv-promise" id="promises" aria-label="Why professionals choose us">
+      <div class="rv-section">
+        <ol class="rv-promise__list">
+          @for (p of promises; track $index; let i = $index) {
+            <li appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-promise__no">{{ i + 1 }}</span>
+              <p>{{ p }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- Why choose us -->
+    <section class="rv-why" id="why-us" aria-labelledby="rv-why-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head rv-head--wide" appReveal>
+          <span class="rv-eyebrow">Why Us</span>
+          <h2 id="rv-why-title">{{ why.title }}</h2>
+          <p>{{ why.text }}</p>
+        </header>
+
+        <ul class="rv-why__stats">
+          @for (s of stats; track s.label; let i = $index) {
+            <li appReveal [style.--d]="i * 100 + 'ms'">
+              <i class="pi" [class]="s.icon" aria-hidden="true"></i>
+              <strong>{{ s.value }}</strong>
+              <span>{{ s.label }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
