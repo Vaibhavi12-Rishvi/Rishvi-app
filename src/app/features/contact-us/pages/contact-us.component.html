@@ -1,0 +1,129 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Contact Us" eyebrow="Get in touch" />
+
+    <section class="rv-ways" aria-label="Ways to contact us">
+      <div class="rv-section">
+        <div class="rv-ways__grid">
+          @for (w of ways; track w.title; let i = $index) {
+            <article class="rv-way" appReveal [style.--d]="i * 90 + 'ms'">
+              <span class="rv-way__icon"><i class="pi" [class]="w.icon" aria-hidden="true"></i></span>
+              <h3>{{ w.title }}</h3>
+              <p>{{ w.text }}</p>
+              <a [href]="w.href">{{ w.label }} <i class="pi pi-arrow-circle-right" aria-hidden="true"></i></a>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-msg" id="message" aria-labelledby="rv-msg-title">
+      <div class="rv-section rv-msg__inner">
+        <div appReveal>
+          <span class="rv-eyebrow">Contact Us</span>
+          <h2 id="rv-msg-title" class="rv-title">Send Us Message</h2>
+          <form class="rv-form" (ngSubmit)="submit()" #f="ngForm">
+            <div>
+              <label for="ct-name">Name</label>
+              <input id="ct-name" name="name" type="text" autocomplete="name" [(ngModel)]="form.name" />
+            </div>
+            <div class="rv-form__row">
+              <div>
+                <label for="ct-email">Email *</label>
+                <input id="ct-email" name="email" type="email" autocomplete="email" required [(ngModel)]="form.email" />
+              </div>
+              <div>
+                <label for="ct-phone">Phone Number *</label>
+                <input id="ct-phone" name="phone" type="tel" autocomplete="tel" required [(ngModel)]="form.phone" />
+              </div>
+            </div>
+            <div>
+              <label for="ct-service">Choose Services *</label>
+              <select id="ct-service" name="service" required [(ngModel)]="form.service">
+                <option value="" disabled>Select a service</option>
+                @for (s of services; track s) {
+                  <option [value]="s">{{ s }}</option>
+                }
+              </select>
+            </div>
+            <div>
+              <label for="ct-message">Message</label>
+              <textarea id="ct-message" name="message" rows="4" [(ngModel)]="form.message"></textarea>
+            </div>
+            <button type="submit" class="rv-btn rv-btn--block" [disabled]="f.invalid">Send Message <i class="pi pi-send" aria-hidden="true"></i></button>
+            <p class="rv-form__note">This opens your email app with your message ready to send.</p>
+          </form>
+        </div>
+
+        <figure class="rv-team" appReveal style="--d: 150ms">
+          <img [src]="image" alt="Team members stacking their hands together" width="600" height="600" loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="rv-support" id="support" aria-labelledby="rv-support-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ support.eyebrow }}</span>
+          <h2 id="rv-support-title">{{ support.title }}</h2>
+        </header>
+
+        <div class="rv-support__hours" appReveal>
+          @for (p of support.intro; track $index) {
+            <p>{{ p }}</p>
+          }
+          <p class="rv-support__ticket">
+            <i class="pi pi-ticket" aria-hidden="true"></i>
+            <span><strong>Raise a ticket:</strong> email <a [href]="'mailto:' + supportEmail">{{ supportEmail }}</a> {{ support.ticket }}</span>
+          </p>
+        </div>
+
+        <div class="rv-prio" appReveal>
+          <div class="rv-prio__head" aria-hidden="true">
+            @for (h of support.head; track h) {
+              <span>{{ h }}</span>
+            }
+          </div>
+          @for (r of support.rows; track r.p; let i = $index) {
+            <div class="rv-prio__row" [style.--i]="i">
+              <strong class="rv-prio__tag rv-prio__tag--{{ r.tone }}">{{ r.p }}</strong>
+              <p><span class="rv-prio__label">What it means: </span>{{ r.means }}</p>
+              <p><span class="rv-prio__label">Example: </span>{{ r.example }}</p>
+              <p class="rv-prio__time"><i class="pi pi-clock" aria-hidden="true"></i>{{ r.time }}</p>
+            </div>
+          }
+        </div>
+
+        <div class="rv-notes" appReveal>
+          @for (n of support.notes; track $index) {
+            <p>{{ n }}</p>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-loc" id="locations" aria-labelledby="rv-loc-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Visit Us</span>
+          <h2 id="rv-loc-title">Our Locations</h2>
+        </header>
+        <div class="rv-loc__grid">
+          @for (l of locations; track l.city; let i = $index) {
+            <article class="rv-office" appReveal [style.--d]="i * 120 + 'ms'">
+              <span class="rv-office__pin"><i class="pi pi-map-marker" aria-hidden="true"></i></span>
+              <span class="rv-eyebrow">{{ l.region }}</span>
+              <h3>{{ l.city }}</h3>
+              <p>{{ l.address }}</p>
+              <a class="rv-btn" [href]="directions(l.address)" target="_blank" rel="noopener">Get Directions <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

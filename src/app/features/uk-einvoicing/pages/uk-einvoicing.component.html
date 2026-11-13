@@ -1,0 +1,339 @@
+<div class="uk-page rv-home">
+  <header class="uk-header" [class.is-scrolled]="scrolled()">
+    <div class="uk-wrap uk-header__inner">
+      <a class="uk-header__logo" href="#home" (click)="go($event, '#home')" aria-label="Rishvi – UK e-Invoicing home">
+        <img src="assest/rishvi-logo.webp" alt="Rishvi" width="150" height="47" />
+      </a>
+      <nav class="uk-nav" [class.is-open]="menuOpen()" aria-label="Primary">
+        @for (n of nav; track n.label) {
+          <a [href]="n.href" (click)="go($event, n.href)">{{ n.label }}</a>
+        }
+        <a class="uk-btn uk-nav__cta" [href]="link" (click)="menuOpen.set(false)">Book Now!</a>
+      </nav>
+      <button type="button" class="uk-burger" [attr.aria-expanded]="menuOpen()" aria-label="Toggle menu" (click)="menuOpen.set(!menuOpen())">
+        <i class="pi" [class.pi-bars]="!menuOpen()" [class.pi-times]="menuOpen()" aria-hidden="true"></i>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="uk-hero" id="home" aria-labelledby="uk-hero-title">
+      <div class="uk-hero__bg" aria-hidden="true">
+        <span class="uk-node uk-node--a"><i class="pi pi-lock"></i></span>
+        <span class="uk-node uk-node--b"><i class="pi pi-shield"></i></span>
+        <span class="uk-node uk-node--c"><i class="pi pi-check"></i></span>
+        <span class="uk-node uk-node--d"><i class="pi pi-file"></i></span>
+        <span class="uk-node uk-node--e"><i class="pi pi-verified"></i></span>
+        <span class="uk-node uk-node--f"><i class="pi pi-sync"></i></span>
+      </div>
+      <div class="uk-wrap uk-hero__copy" appReveal>
+        <span class="uk-badge"><i class="pi pi-clock" aria-hidden="true"></i>{{ hero.badge }}</span>
+        <h1 id="uk-hero-title">{{ hero.title }} <span>{{ hero.accent }}</span></h1>
+        <p>{{ hero.text }}</p>
+        <div class="uk-actions">
+          <a class="uk-btn" [href]="link">{{ hero.primary }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+          <a class="uk-btn uk-btn--ghost" href="#how-it-works" (click)="go($event, '#how-it-works')">{{ hero.secondary }}</a>
+        </div>
+      </div>
+
+      <!-- Live half-circle: two orbits that sway, with the real partner logos riding on them -->
+      <div class="uk-orbit" role="img" aria-label="QuickBooks, Xero, Sage, Odoo, Tally and Shopify connected to the Rishvi platform">
+        @for (ring of orbit.rings; track ring.id) {
+          <div class="uk-ring" [class.uk-ring--outer]="ring.id === 'outer'" [class.uk-ring--inner]="ring.id === 'inner'">
+            <span class="uk-ring__line"></span>
+            <span class="uk-ring__packet"></span>
+            <div class="uk-ring__sway">
+              @for (it of ring.items; track it.name) {
+                <div class="uk-slot" [style.--a.deg]="it.angle">
+                  <div class="uk-slot__keep">
+                    <div class="uk-slot__level">
+                      <span class="uk-chip" [style.--w.px]="it.w"><img [src]="it.src" [alt]="it.name" /></span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+        <div class="uk-core">
+          <span class="uk-core__pulse"></span>
+          <span class="uk-core__pulse uk-core__pulse--b"></span>
+          <img [src]="orbit.symbol" alt="Rishvi" />
+        </div>
+      </div>
+
+      <div class="uk-wrap">
+        <ul class="uk-stats" appReveal>
+          @for (s of hero.stats; track s.label) {
+            <li><b>{{ s.value }}</b><span>{{ s.label }}</span></li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Capabilities (bento) -->
+    <section class="uk-sec" id="capabilities" aria-labelledby="uk-caps-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ caps.eyebrow }}</span>
+          <h2 id="uk-caps-title">{{ caps.title }}</h2>
+          <p>{{ caps.text }}</p>
+        </header>
+        <div class="uk-bento">
+          @for (c of caps.items; track c.title; let i = $index) {
+            <article class="uk-tile" [class.uk-tile--wide]="i === 0 || i === 5" appReveal [style.--d]="(i % 3) * 80 + 'ms'">
+              <span class="uk-tile__no">0{{ i + 1 }}</span>
+              <span class="uk-tile__icon"><i class="pi" [class]="c.icon" aria-hidden="true"></i></span>
+              <h3>{{ c.title }}</h3>
+              <p>{{ c.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Supporting businesses -->
+    <section class="uk-sec uk-sec--tint" id="integrations" aria-labelledby="uk-support-title">
+      <div class="uk-wrap uk-split">
+        <figure class="uk-globe" appReveal>
+          <img [src]="images.globe" alt="Globe with connected network lines representing digital invoice exchange" loading="lazy" />
+          <span class="uk-globe__tag uk-globe__tag--a">VAT Validation</span>
+          <span class="uk-globe__tag uk-globe__tag--b">Invoice Processing</span>
+          <span class="uk-globe__tag uk-globe__tag--c">Document Archiving</span>
+          <span class="uk-globe__tag uk-globe__tag--d">Data Synchronization</span>
+        </figure>
+        <div appReveal style="--d: 120ms">
+          <span class="uk-eyebrow">{{ support.eyebrow }}</span>
+          <h2 id="uk-support-title" class="uk-title">{{ support.title }}</h2>
+          @for (p of support.paragraphs; track $index) {
+            <p class="uk-text">{{ p }}</p>
+          }
+          <ul class="uk-chips">
+            @for (c of support.chips; track c) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ c }}</li>
+            }
+          </ul>
+          <a class="uk-btn" routerLink="/contact-us">{{ support.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why move: comparison -->
+    <section class="uk-sec" id="why-e-invoicing" aria-labelledby="uk-move-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ whyMove.eyebrow }}</span>
+          <h2 id="uk-move-title">{{ whyMove.title }}</h2>
+          <p>{{ whyMove.text }}</p>
+        </header>
+
+        <div class="uk-compare" appReveal>
+          <div class="uk-switch" role="tablist" aria-label="Invoice type">
+            <button type="button" role="tab" [class.is-on]="mode() === 'traditional'" [attr.aria-selected]="mode() === 'traditional'" (click)="mode.set('traditional')">Traditional Invoices</button>
+            <button type="button" role="tab" [class.is-on]="mode() === 'electronic'" [attr.aria-selected]="mode() === 'electronic'" (click)="mode.set('electronic')">Electronic Invoices</button>
+          </div>
+          <ul class="uk-bars">
+            @for (m of whyMove.metrics; track m.label) {
+              <li>
+                <div class="uk-bars__label">
+                  <span>{{ m.label }}</span>
+                  <b>{{ mode() === 'traditional' ? m.traditional : m.electronic }}<small>/10</small></b>
+                </div>
+                <div class="uk-bars__track" role="img" [attr.aria-label]="m.label + ': traditional ' + m.traditional + ' of 10, electronic ' + m.electronic + ' of 10'">
+                  <i class="uk-bars__ghost" [style.width.%]="(mode() === 'traditional' ? m.electronic : m.traditional) * 10"></i>
+                  <i class="uk-bars__fill" [class.is-good]="mode() === 'electronic'" [style.width.%]="(mode() === 'traditional' ? m.traditional : m.electronic) * 10"></i>
+                </div>
+              </li>
+            }
+          </ul>
+          <p class="uk-note">Relative score out of 10. {{ mode() === 'electronic' ? 'Lower is better for time, errors and cost; higher is better for speed and readiness.' : 'Faded bar shows the electronic score for comparison.' }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="uk-time" id="timeline" aria-labelledby="uk-time-title">
+      <div class="uk-wrap">
+        <header class="uk-head uk-head--light" appReveal>
+          <span class="uk-eyebrow">{{ timeline.eyebrow }}</span>
+          <h2 id="uk-time-title">{{ timeline.title }}</h2>
+          <p>{{ timeline.text }}</p>
+        </header>
+
+        <div class="uk-tl" appReveal>
+          <div class="uk-tl__nav" role="tablist" aria-label="Implementation phases">
+            @for (t of timeline.phases; track t.title; let i = $index) {
+              <button type="button" role="tab" [class.is-active]="phase() === i" [attr.aria-selected]="phase() === i" (click)="phase.set(i)" (mouseenter)="phase.set(i)" (focus)="phase.set(i)">
+                <span class="uk-tl__icon"><i class="pi" [class]="t.icon" aria-hidden="true"></i></span>
+                <span class="uk-tl__when">{{ t.when }}</span>
+              </button>
+            }
+          </div>
+          @for (t of [timeline.phases[phase()]]; track t.title) {
+            <article class="uk-tl__card" role="tabpanel" aria-live="polite">
+              <span class="uk-tl__step">Phase {{ phase() + 1 }} of {{ timeline.phases.length }}</span>
+              <h3>{{ t.title }}</h3>
+              <p>{{ t.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Rishvi -->
+    <section class="uk-sec" id="why-rishvi" aria-labelledby="uk-why-title">
+      <div class="uk-wrap uk-split">
+        <div appReveal>
+          <span class="uk-eyebrow">{{ why.eyebrow }}</span>
+          <h2 id="uk-why-title" class="uk-title">{{ why.title }}</h2>
+          <p class="uk-text">{{ why.text }}</p>
+          <ul class="uk-list">
+            @for (p of why.points; track p) {
+              <li><i class="pi pi-check-circle" aria-hidden="true"></i>{{ p }}</li>
+            }
+          </ul>
+          <p class="uk-text">{{ why.outro }}</p>
+          <a class="uk-btn" routerLink="/about-us">{{ why.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <figure class="uk-hub" appReveal style="--d: 150ms">
+          <img [src]="images.hub" alt="Accounting, invoicing, ERP, payments and integration icons connected around a central hub" loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="uk-sec uk-sec--tint" id="services" aria-labelledby="uk-svc-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ services.eyebrow }}</span>
+          <h2 id="uk-svc-title">{{ services.title }}</h2>
+          <p>{{ services.text }}</p>
+        </header>
+        <div class="uk-svc">
+          @for (s of services.items; track s.title; let i = $index) {
+            <article class="uk-row" appReveal [style.--d]="(i % 2) * 90 + 'ms'">
+              <span class="uk-row__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+              <div>
+                <h3>{{ s.title }}</h3>
+                <p>{{ s.text }}</p>
+              </div>
+              <i class="pi pi-arrow-up-right uk-row__go" aria-hidden="true"></i>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="uk-sec" id="how-it-works" aria-labelledby="uk-flow-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ flow.eyebrow }}</span>
+          <h2 id="uk-flow-title">{{ flow.title }}</h2>
+          <p>{{ flow.text }}</p>
+        </header>
+        <div class="uk-flow">
+          <figure class="uk-flow__img" appReveal>
+            <img [src]="images.corners" alt="Five-corner e-invoicing model: seller, seller access point, buyer access point, buyer and HMRC reporting" loading="lazy" />
+          </figure>
+          <div class="uk-flow__panel" appReveal style="--d: 120ms">
+            <div class="uk-corners" role="tablist" aria-label="Corners of the model">
+              @for (c of flow.corners; track c.no; let i = $index) {
+                <button type="button" role="tab" [class.is-active]="corner() === i" [attr.aria-selected]="corner() === i" (click)="corner.set(i)">Corner {{ c.no }}</button>
+              }
+            </div>
+            @for (c of [flow.corners[corner()]]; track c.no) {
+              <article class="uk-corner" role="tabpanel" aria-live="polite">
+                <h3><b>{{ c.no }}</b>{{ c.name }}</h3>
+                <p>{{ c.text }}</p>
+                <ul>
+                  @for (l of c.lines; track l) {
+                    <li><i class="pi pi-check" aria-hidden="true"></i>{{ l }}</li>
+                  }
+                </ul>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="uk-sec uk-sec--tint" id="certification" aria-labelledby="uk-cert-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ certs.eyebrow }}</span>
+          <h2 id="uk-cert-title">{{ certs.title }}</h2>
+          <p>{{ certs.text }}</p>
+        </header>
+        <div class="uk-cert">
+          <article appReveal>
+            <img [src]="images.iso" alt="ISO 27001:2022" loading="lazy" />
+            <p>{{ certs.iso }}</p>
+          </article>
+          <article appReveal style="--d: 120ms">
+            <img [src]="images.cmmi" alt="CMMI Level 3" loading="lazy" />
+            <p>{{ certs.cmmi }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="uk-sec" id="faq" aria-labelledby="uk-faq-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ faqHead.eyebrow }}</span>
+          <h2 id="uk-faq-title">{{ faqHead.title }}</h2>
+          <p>{{ faqHead.text }}</p>
+        </header>
+        <div class="uk-acc" appReveal>
+          @for (f of faqs; track f.question; let i = $index) {
+            <div class="uk-acc__item" [class.is-open]="openFaq() === i">
+              <h3>
+                <button type="button" class="uk-acc__q" [id]="'uk-q-' + i" [attr.aria-expanded]="openFaq() === i" [attr.aria-controls]="'uk-a-' + i" (click)="toggleFaq(i)">
+                  <span class="uk-acc__no">{{ i + 1 }}</span>
+                  <span>{{ f.question }}</span>
+                  <i class="pi" [class.pi-minus]="openFaq() === i" [class.pi-plus]="openFaq() !== i" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="uk-acc__a" [id]="'uk-a-' + i" role="region" [attr.aria-labelledby]="'uk-q-' + i">
+                <div><p>{{ f.answer }}</p></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section class="uk-sec uk-sec--tint uk-sec--last" id="news" aria-labelledby="uk-news-title">
+      <div class="uk-wrap">
+        <header class="uk-head" appReveal>
+          <span class="uk-eyebrow">{{ news.eyebrow }}</span>
+          <h2 id="uk-news-title">{{ news.title }}</h2>
+          <p>{{ news.text }}</p>
+        </header>
+        <div class="uk-news">
+          @for (n of news.items; track n.title; let i = $index) {
+            <article class="uk-post" appReveal [style.--d]="(i % 4) * 70 + 'ms'">
+              <div class="uk-post__img"><img [src]="newsImage(i)" [alt]="n.title" loading="lazy" /></div>
+              <div class="uk-post__body">
+                <h3>{{ n.title }}</h3>
+                <p>{{ n.text }}</p>
+                @if (n.link) {
+                  <a class="uk-post__more" [routerLink]="n.link">Read more <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+                } @else {
+                  <span class="uk-post__soon">Coming soon</span>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

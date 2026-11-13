@@ -9,6 +9,8 @@ export interface AppLink {
 // ---- Header navigation ----
 export interface NavChild extends AppLink {
   label: string;
+  /** External website: when set, the link opens this URL in a new tab instead of the in-app route. */
+  href?: string;
   children?: NavChild[];
 }
 

@@ -4,37 +4,70 @@
   <main id="main">
     <app-page-banner title="Services" eyebrow="What we do" />
 
-    <section class="rv-list">
-      <header class="rv-list__head">
-        <span class="rv-list__eyebrow">Featured Services</span>
-        <h2>Build Audience and <span class="rv-grad">Grow Your Business</span></h2>
-        <p>Offering tailored solutions to meet your unique needs with our featured services.</p>
-      </header>
+    <!-- Featured services -->
+    <section class="rv-feat" aria-labelledby="rv-feat-title">
+      @for (a of anchors; track a) {
+        <span class="rv-anchor" [id]="a"></span>
+      }
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ head.eyebrow }}</span>
+          <h2 id="rv-feat-title">{{ head.title }}</h2>
+          <p>{{ head.text }}</p>
+        </header>
 
-      @for (s of services; track s.id) {
-        <article class="rv-row" [id]="s.id">
-          <div class="rv-row__visual" aria-hidden="true">
-            <span class="rv-row__icon"><i class="pi" [class]="s.icon"></i></span>
-          </div>
-          <div class="rv-row__body">
-            <span class="rv-list__eyebrow">Service</span>
-            <h3>{{ s.title }}</h3>
-            <p>{{ s.detail }}</p>
-            <ul class="rv-row__chips" [attr.aria-label]="s.title + ' highlights'">
-              @for (h of s.highlights; track h) {
-                <li>{{ h }}</li>
+        <div class="rv-bento">
+          <!-- big card with the "Included with..." checklist -->
+          <article class="rv-big" appReveal>
+            <span class="rv-big__icon"><i class="pi" [class]="main.icon" aria-hidden="true"></i></span>
+            <h3>{{ main.title }}</h3>
+            @for (p of main.paragraphs; track $index) {
+              <p>{{ p }}</p>
+            }
+            <h4>{{ main.includedTitle }}</h4>
+            <ul class="rv-big__list">
+              @for (i of main.included; track i; let n = $index) {
+                <li [style.--n]="n"><i class="pi pi-check-circle" aria-hidden="true"></i>{{ i }}</li>
               }
             </ul>
-            <a class="rv-row__btn" href="mailto:info@rishvi.co.uk">
-              {{ s.ctaLabel }}
-              <i class="pi pi-arrow-right" aria-hidden="true"></i>
-            </a>
+          </article>
+
+          <div class="rv-cards">
+            @for (c of cards; track c.title; let i = $index) {
+              <article class="rv-card" appReveal [style.--d]="i * 90 + 'ms'">
+                <span class="rv-card__icon"><i class="pi" [class]="c.icon" aria-hidden="true"></i></span>
+                <h3>{{ c.title }}</h3>
+                <p>{{ c.text }}</p>
+              </article>
+            }
           </div>
-        </article>
-      }
+        </div>
+      </div>
     </section>
 
-    <app-testimonials />
+    <!-- Free trial band -->
+    <section class="rv-trial" aria-labelledby="rv-trial-title">
+      <div class="rv-section rv-trial__inner" appReveal>
+        <span class="rv-trial__eyebrow">{{ trial.eyebrow }}</span>
+        <h2 id="rv-trial-title">{{ trial.title }}</h2>
+        <p>{{ trial.text }}</p>
+        <ul class="rv-trial__points">
+          @for (p of trial.points; track p) {
+            <li><i class="pi pi-check-circle" aria-hidden="true"></i>{{ p }}</li>
+          }
+        </ul>
+        <a class="rv-btn" [href]="trialLink">{{ trial.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="rv-testi" aria-labelledby="rv-testi-title">
+      <div class="rv-section rv-section--last">
+        <div appReveal>
+          <app-testimonials style="--rv-testi-pad: 0" />
+        </div>
+      </div>
+    </section>
   </main>
 
   <app-home-footer />

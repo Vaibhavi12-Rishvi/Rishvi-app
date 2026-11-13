@@ -1,0 +1,211 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="UAE E-Invoicing" eyebrow="E-Invoicing" />
+
+    <section class="rv-intro" id="uae-e-invoicing" aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title" class="rv-title">{{ intro.title }}</h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p class="rv-text">{{ p }}</p>
+          }
+          <ul class="rv-chips">
+            @for (c of intro.chips; track c) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ c }}</li>
+            }
+          </ul>
+          <a class="rv-btn" [href]="link">{{ intro.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <figure class="rv-hero" appReveal style="--d: 150ms">
+          <img [src]="images.hero" alt="Rishvi connecting ERP and accounting systems to VAT validation, invoice processing, document archiving and data synchronization" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- Timeline: click a milestone -->
+    <section class="rv-time" id="timeline" aria-labelledby="rv-time-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ timeline.eyebrow }}</span>
+          <h2 id="rv-time-title">{{ timeline.title }}</h2>
+          <p>{{ timeline.text }}</p>
+        </header>
+
+        <div class="rv-track" role="tablist" aria-label="Rollout phases" appReveal [style.--p]="phase() / (timeline.phases.length - 1)">
+          @for (t of timeline.phases; track t.title; let i = $index) {
+            <button type="button" role="tab" class="rv-track__stop" [class.is-active]="phase() === i" [class.is-done]="i < phase()" [attr.aria-selected]="phase() === i" (click)="phase.set(i)" (mouseenter)="phase.set(i)" (focus)="phase.set(i)">
+              <span class="rv-track__dot">{{ i + 1 }}</span>
+              <span class="rv-track__when">{{ t.when }}</span>
+            </button>
+          }
+        </div>
+
+        @for (t of [timeline.phases[phase()]]; track t.title) {
+          <article class="rv-phase" role="tabpanel" aria-live="polite">
+            <h3>{{ t.title }}</h3>
+            <ul>
+              @for (l of t.lines; track l) {
+                <li><i class="pi pi-calendar" aria-hidden="true"></i>{{ l }}</li>
+              }
+            </ul>
+          </article>
+        }
+
+        <p class="rv-quote" appReveal>{{ timeline.quote }}</p>
+        <div class="rv-center" appReveal>
+          <a class="rv-btn" [href]="link">{{ timeline.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-risk" id="preparation" aria-labelledby="rv-risk-title">
+      <div class="rv-section rv-risk__inner">
+        <div appReveal>
+          <span class="rv-eyebrow">{{ risk.eyebrow }}</span>
+          <h2 id="rv-risk-title" class="rv-title">{{ risk.title }}</h2>
+          <p class="rv-text">{{ risk.intro }}</p>
+          <p class="rv-text"><strong>{{ risk.label }}</strong></p>
+          <p class="rv-text">{{ risk.outro }}</p>
+          <a class="rv-btn" routerLink="/contact-us">{{ risk.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <ul class="rv-risks">
+          @for (r of risk.risks; track r.text; let i = $index) {
+            <li appReveal [style.--d]="i * 90 + 'ms'"><span><i class="pi" [class]="r.icon" aria-hidden="true"></i></span>{{ r.text }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="rv-svc" id="services" aria-labelledby="rv-svc-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ services.eyebrow }}</span>
+          <h2 id="rv-svc-title">{{ services.title }}</h2>
+        </header>
+        <div class="rv-grid">
+          @for (s of services.items; track s.title; let i = $index) {
+            <article class="rv-card" appReveal [style.--d]="(i % 3) * 90 + 'ms'">
+              <span class="rv-card__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-flow" id="workflow" aria-labelledby="rv-flow-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ flow.eyebrow }}</span>
+          <h2 id="rv-flow-title">{{ flow.title }}</h2>
+          <p>{{ flow.text }}</p>
+        </header>
+        <div class="rv-flow__layout">
+          <figure class="rv-flow__img" appReveal>
+            <img [src]="images.workflow" alt="Peppol 5-corner model: seller, ASP, MOF and FTA, buyer ASP and buyer exchanging an invoice" loading="lazy" />
+          </figure>
+          <ol class="rv-steps">
+            @for (s of flow.steps; track s; let i = $index) {
+              <li appReveal [style.--d]="i * 80 + 'ms'"><b>{{ i + 1 }}</b>{{ s }}</li>
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-why" id="why-rishvi" aria-labelledby="rv-why-title">
+      <div class="rv-section rv-why__inner">
+        <div appReveal>
+          <span class="rv-eyebrow">{{ why.eyebrow }}</span>
+          <h2 id="rv-why-title" class="rv-title">{{ why.title }}</h2>
+          <p class="rv-text">{{ why.text }}</p>
+          <ul class="rv-list">
+            @for (p of why.points; track p) {
+              <li><i class="pi pi-check-circle" aria-hidden="true"></i>{{ p }}</li>
+            }
+          </ul>
+          <p class="rv-text">{{ why.outro }}</p>
+          <a class="rv-btn" routerLink="/about-us">{{ why.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <figure class="rv-why__img" appReveal style="--d: 150ms">
+          <img [src]="images.why" alt="ERP, invoicing, payments and integration icons connected around a central hub" loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="rv-cert" id="certification" aria-labelledby="rv-cert-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ certs.eyebrow }}</span>
+          <h2 id="rv-cert-title">{{ certs.title }}</h2>
+          <p>{{ certs.text }}</p>
+        </header>
+        <div class="rv-cert__grid">
+          <article class="rv-cert__card" appReveal>
+            <img [src]="images.iso" alt="ISO 27001:2022" loading="lazy" />
+            <p>{{ certs.iso }}</p>
+          </article>
+          <article class="rv-cert__card" appReveal style="--d: 120ms">
+            <img [src]="images.cmmi" alt="CMMI Level 3" loading="lazy" />
+            <p>{{ certs.cmmi }}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-faq" id="faq" aria-labelledby="rv-faq-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ faqHead.eyebrow }}</span>
+          <h2 id="rv-faq-title">{{ faqHead.title }}</h2>
+        </header>
+        <div class="rv-acc" appReveal>
+          @for (f of faqs; track f.question; let i = $index) {
+            <div class="rv-acc__item" [class.is-open]="openFaq() === i">
+              <h3>
+                <button type="button" class="rv-acc__q" [id]="'uae-q-' + i" [attr.aria-expanded]="openFaq() === i" [attr.aria-controls]="'uae-a-' + i" (click)="toggleFaq(i)">
+                  <span class="rv-acc__no">{{ i + 1 }}</span>
+                  <span class="rv-acc__text">{{ f.question }}</span>
+                  <i class="pi" [class.pi-minus]="openFaq() === i" [class.pi-plus]="openFaq() !== i" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="rv-acc__a" [id]="'uae-a-' + i" role="region" [attr.aria-labelledby]="'uae-q-' + i">
+                <div class="rv-acc__body"><p>{{ f.answer }}</p></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-news" id="news" aria-labelledby="rv-news-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ news.eyebrow }}</span>
+          <h2 id="rv-news-title">{{ news.title }}</h2>
+          <p>{{ news.text }}</p>
+        </header>
+        <div class="rv-news__grid">
+          @for (n of news.items; track n.title; let i = $index) {
+            <article class="rv-post" appReveal [style.--d]="i * 90 + 'ms'">
+              <div class="rv-post__img"><img [src]="images.news[i]" [alt]="n.title" loading="lazy" /></div>
+              <div class="rv-post__body">
+                <h3>{{ n.title }}</h3>
+                <p>{{ n.text }}</p>
+                <!-- article pages are not built yet, so this does nothing for now -->
+                <a class="rv-post__more" href="#" (click)="$event.preventDefault()">READ MORE »</a>
+              </div>
+              <time class="rv-post__date"><i class="pi pi-calendar" aria-hidden="true"></i> {{ n.date }}</time>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
