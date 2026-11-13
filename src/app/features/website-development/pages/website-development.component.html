@@ -1,0 +1,91 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Website Development" eyebrow="Services" />
+
+    <!-- Intro: copy + image with a floating browser mock -->
+    <section class="rv-intro" id="content" aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+          <ul class="rv-chips" aria-label="Highlights">
+            @for (c of intro.chips; track c) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ c }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="rv-shot" appReveal style="--d: 150ms">
+          <img [src]="image" alt="Business person holding a tablet with web development icons floating above it" />
+          <span class="rv-shot__tag rv-shot__tag--a"><i class="pi pi-mobile" aria-hidden="true"></i> Works on every device</span>
+          <span class="rv-shot__tag rv-shot__tag--b"><i class="pi pi-search" aria-hidden="true"></i> SEO-ready</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services showcase -->
+    <section class="rv-services" id="services" aria-labelledby="rv-services-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ servicesHead.eyebrow }}</span>
+          <h2 id="rv-services-title">{{ servicesHead.title }}</h2>
+        </header>
+
+        <div class="rv-fx" appReveal>
+          <div class="rv-fx__list" role="tablist" aria-label="Website development services" aria-orientation="vertical">
+            @for (s of services; track s.title; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="rv-fx__tab"
+                [class.is-active]="active() === i"
+                [attr.aria-selected]="active() === i"
+                (click)="select(i)"
+                (mouseenter)="select(i)"
+                (focus)="select(i)"
+              >
+                <span class="rv-fx__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+                <span class="rv-fx__name">{{ s.title }}</span>
+                <i class="pi pi-arrow-right rv-fx__go" aria-hidden="true"></i>
+              </button>
+            }
+          </div>
+
+          <!-- the key restarts the animation each time the service changes -->
+          @for (s of [services[active()]]; track s.title) {
+            <article class="rv-fx__panel" role="tabpanel" aria-live="polite">
+              <span class="rv-fx__bigicon" aria-hidden="true"><i class="pi" [class]="s.icon"></i></span>
+              <!-- tiny browser window that "builds" itself -->
+              <div class="rv-browser" aria-hidden="true">
+                <div class="rv-browser__bar"><i></i><i></i><i></i><b></b></div>
+                <div class="rv-browser__body">
+                  <span class="rv-browser__hero"></span>
+                  <span class="rv-browser__row"><i></i><i></i><i></i></span>
+                  <span class="rv-browser__line"></span>
+                  <span class="rv-browser__line rv-browser__line--short"></span>
+                </div>
+              </div>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+              <a class="rv-fx__link" [href]="enquiry(s.title)">Read More <i class="pi pi-arrow-circle-right" aria-hidden="true"></i></a>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="rv-testi" id="testimonials" aria-labelledby="rv-testi-title">
+      <div class="rv-section rv-section--last">
+        <div appReveal>
+          <app-testimonials style="--rv-testi-pad: 0" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

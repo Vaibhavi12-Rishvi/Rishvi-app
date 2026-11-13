@@ -95,6 +95,27 @@ export const routes: Routes = [
     loadComponent: () => import('./features/active-ants/pages/active-ants.component').then((m) => m.ActiveAntsComponent),
   },
   {
+    path: 'odoo-partner',
+    loadComponent: () => import('./features/odoo-partner/pages/odoo-partner.component').then((m) => m.OdooPartnerComponent),
+  },
+  {
+    path: 'uae-e-invoicing',
+    loadComponent: () => import('./features/uae-einvoicing/pages/uae-einvoicing.component').then((m) => m.UaeEinvoicingComponent),
+  },
+  {
+    path: 'uk-e-invoicing',
+    loadComponent: () => import('./features/uk-einvoicing/pages/uk-einvoicing.component').then((m) => m.UkEinvoicingComponent),
+  },
+  {
+    path: 'contact-us',
+    loadComponent: () => import('./features/contact-us/pages/contact-us.component').then((m) => m.ContactUsComponent),
+  },
+  {
+    path: 'website-development',
+    loadComponent: () =>
+      import('./features/website-development/pages/website-development.component').then((m) => m.WebsiteDevelopmentComponent),
+  },
+  {
     path: 'linnworks/linnworks-mcp-server',
     loadComponent: () => import('./features/linnworks-mcp/pages/linnworks-mcp.component').then((m) => m.LinnworksMcpComponent),
   },

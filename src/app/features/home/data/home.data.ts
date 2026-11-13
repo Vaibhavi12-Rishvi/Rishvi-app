@@ -70,6 +70,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: 'web',
     label: 'Website Development',
+    route: '/website-development',
     children: [
       { label: 'Angular Development', route: SERVICES, fragment: 'website-development' },
       { label: 'React Development', route: SERVICES, fragment: 'website-development' },
@@ -80,6 +81,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: 'services',
     label: 'Services',
+    route: SERVICES,
     children: [
       { label: 'Software Development', route: SERVICES, fragment: 'software-development' },
       { label: 'API Integration', route: SERVICES, fragment: 'software-development' },
@@ -87,14 +89,14 @@ export const NAV_ITEMS: NavItem[] = [
       { label: 'Digital Transformation', route: SERVICES, fragment: 'software-development' },
     ],
   },
-  { key: 'odoo', label: 'Odoo Partner', route: SERVICES, fragment: 'odoo-erp' },
-  { key: 'contact', label: 'Contact Us', route: HOME, fragment: 'contact' },
+  { key: 'odoo', label: 'Odoo Partner', route: '/odoo-partner' },
+  { key: 'contact', label: 'Contact Us', route: '/contact-us' },
   {
     key: 'einvoicing',
     label: 'E-Invoicing',
     children: [
-      { label: 'UAE E-Invoicing', route: HOME, fragment: 'uae-e-invoicing' },
-      { label: 'UK E-Invoicing', route: HOME, fragment: 'uk-e-invoicing' },
+      { label: 'UAE E-Invoicing', route: '/uae-e-invoicing' },
+      { label: 'UK E-Invoicing', route: '/uk-e-invoicing' },
     ],
   },
 ];

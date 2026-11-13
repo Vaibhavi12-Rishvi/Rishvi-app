@@ -80,6 +80,17 @@
                           >
                         }
                       </div>
+                    } @else if (child.href) {
+                      <a
+                        role="menuitem"
+                        class="rv-menu__link"
+                        [href]="child.href"
+                        target="_blank"
+                        rel="noopener"
+                        [tabindex]="openKey() === item.key ? 0 : -1"
+                        (click)="select(item.key)"
+                        >{{ child.label }}</a
+                      >
                     } @else {
                       <a
                         role="menuitem"
@@ -210,7 +221,11 @@
               <a [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{ item.label }}</a>
             }
             @for (child of item.children; track child.label) {
-              <a [routerLink]="child.route" [fragment]="child.fragment" (click)="select(item.key)">{{ child.label }}</a>
+              @if (child.href) {
+                <a [href]="child.href" target="_blank" rel="noopener" (click)="select(item.key)">{{ child.label }}</a>
+              } @else {
+                <a [routerLink]="child.route" [fragment]="child.fragment" (click)="select(item.key)">{{ child.label }}</a>
+              }
               @for (sub of child.children ?? []; track sub.label) {
                 <a class="rv-mobile__sub-nested" [routerLink]="sub.route" [fragment]="sub.fragment" (click)="select(item.key)">{{ sub.label }}</a>
               }
