@@ -1,0 +1,191 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Linnworks Automation & Rules Engine" eyebrow="Linnworks" />
+
+    <!-- Intro -->
+    <section class="rv-intro" id="automation" aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p>{{ p }}</p>
+          }
+          <a class="rv-btn" href="#request">
+            {{ intro.cta }}
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div class="rv-shot" appReveal style="--d: 150ms">
+          <img src="assest/automation-screen-robot-2 (1).jpeg" alt="Robot hand touching a screen of gears labelled automation, process and technology" />
+          <span class="rv-shot__tag rv-shot__tag--a"><i class="pi pi-cog" aria-hidden="true"></i> Rules that run cleanly</span>
+          <span class="rv-shot__tag rv-shot__tag--b"><i class="pi pi-bolt" aria-hidden="true"></i> No daily manual work</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Engagement: four steps joined by a line that draws itself -->
+    <section class="rv-engage" id="engagement" aria-labelledby="rv-engage-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <h2 id="rv-engage-title">{{ engagement.title }}</h2>
+        </header>
+
+        <ol class="rv-flow" appReveal>
+          @for (s of engagement.steps; track s.title; let i = $index) {
+            <li class="rv-flow__step" [style.--i]="i">
+              <span class="rv-flow__node">
+                <i class="pi" [class]="s.icon" aria-hidden="true"></i>
+                <b aria-hidden="true">{{ i + 1 }}</b>
+              </span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- Practical examples -->
+    <section class="rv-examples" id="examples" aria-labelledby="rv-examples-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <h2 id="rv-examples-title">{{ examples.title }}</h2>
+          <p>{{ examples.text }}</p>
+        </header>
+
+        <div class="rv-grid rv-grid--3">
+          @for (e of examples.items; track e.title; let i = $index) {
+            <article class="rv-ex" appReveal [style.--d]="(i % 3) * 90 + 'ms'">
+              <span class="rv-ex__tick" aria-hidden="true"><i class="pi pi-check"></i></span>
+              <h3>{{ e.title }}</h3>
+              <p>{{ e.text }}</p>
+            </article>
+          }
+        </div>
+
+        <div class="rv-cta" appReveal>
+          <a class="rv-btn" href="#request">
+            {{ examples.cta }}
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats band -->
+    <section class="rv-stats" aria-label="Rishvi in numbers">
+      <ul class="rv-stats__inner">
+        @for (s of stats; track s.label) {
+          <li>
+            <i class="pi" [class]="s.icon" aria-hidden="true"></i>
+            <strong [appCountUp]="s.value" [countSuffix]="s.suffix">{{ s.value }}{{ s.suffix }}</strong>
+            <span>{{ s.label }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- Typical outcomes -->
+    <section class="rv-outcomes" id="outcomes" aria-labelledby="rv-outcomes-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ outcomes.eyebrow }}</span>
+          <h2 id="rv-outcomes-title">{{ outcomes.title }}</h2>
+          <p>{{ outcomes.text }}</p>
+        </header>
+
+        <div class="rv-out">
+          @for (o of outcomes.items; track o.title; let i = $index) {
+            <article class="rv-service" appReveal [style.--d]="(i % 3) * 90 + 'ms'">
+              <span class="rv-service__icon"><i class="pi" [class]="o.icon" aria-hidden="true"></i></span>
+              <h3>{{ o.title }}</h3>
+              <p>{{ o.text }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to action with overlapping photos -->
+    <section class="rv-why" id="why-us" aria-labelledby="rv-why-title">
+      <div class="rv-section rv-why__inner">
+        <div class="rv-photos" appReveal>
+          <img class="rv-photos__a" src="assest/emersons-flexible-control-May2024 (2).jpeg" alt="Business person selecting connected process icons" width="1000" height="667" loading="lazy" />
+        </div>
+
+        <div appReveal style="--d: 150ms">
+          <span class="rv-eyebrow">{{ cta.eyebrow }}</span>
+          <h2 id="rv-why-title" class="rv-why__title">{{ cta.title }}</h2>
+          <p class="rv-why__text">{{ cta.text }}</p>
+          <a class="rv-btn" href="#request">
+            {{ cta.button }}
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Request form -->
+    <section class="rv-request" id="request" aria-labelledby="rv-request-title">
+      <div class="rv-section rv-section--last rv-request__inner">
+        <div appReveal>
+          <span class="rv-eyebrow">Contact Us</span>
+          <h2 id="rv-request-title" class="rv-request__title">Request Your Free Linnworks Efficiency Audit</h2>
+
+          <form class="rv-form" (ngSubmit)="submit()" #f="ngForm">
+            <div>
+              <label for="op-name">Name</label>
+              <input id="op-name" name="name" type="text" autocomplete="name" [(ngModel)]="form.name" />
+            </div>
+            <div class="rv-form__row">
+              <div>
+                <label for="op-email">Email *</label>
+                <input id="op-email" name="email" type="email" autocomplete="email" required [(ngModel)]="form.email" />
+              </div>
+              <div>
+                <label for="op-phone">Phone Number *</label>
+                <input id="op-phone" name="phone" type="tel" autocomplete="tel" required [(ngModel)]="form.phone" />
+              </div>
+            </div>
+            <div>
+              <label for="op-company">Company</label>
+              <input id="op-company" name="company" type="text" autocomplete="organization" [(ngModel)]="form.company" />
+            </div>
+            <div>
+              <label for="op-help">What Do You Need Help With? *</label>
+              <select id="op-help" name="help" required [(ngModel)]="form.help">
+                <option value="" disabled>Select an option</option>
+                @for (o of helpOptions; track o) {
+                  <option [value]="o">{{ o }}</option>
+                }
+              </select>
+            </div>
+            <div>
+              <label for="op-message">Message</label>
+              <textarea id="op-message" name="message" rows="4" [(ngModel)]="form.message"></textarea>
+            </div>
+            <button type="submit" class="rv-btn rv-btn--block" [disabled]="f.invalid">
+              Request My Free Audit
+              <i class="pi pi-send" aria-hidden="true"></i>
+            </button>
+            <p class="rv-form__note">This opens your email app with your message ready to send.</p>
+          </form>
+        </div>
+
+        <figure class="rv-team" appReveal style="--d: 150ms">
+          <img src="assest/background-5.png" alt="Team members stacking their hands together" width="600" height="600" loading="lazy" />
+          <figcaption>
+            <a [href]="'tel:' + phone.replace(' ', '')"><i class="pi pi-phone" aria-hidden="true"></i> {{ phone }}</a>
+            <a [href]="'mailto:' + email"><i class="pi pi-envelope" aria-hidden="true"></i> {{ email }}</a>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
