@@ -107,6 +107,19 @@ export const routes: Routes = [
     loadComponent: () => import('./features/uk-einvoicing/pages/uk-einvoicing.component').then((m) => m.UkEinvoicingComponent),
   },
   {
+    path: 'multichannel-solutions',
+    loadComponent: () =>
+      import('./features/multichannel-solutions/pages/multichannel-solutions.component').then((m) => m.MultichannelSolutionsComponent),
+  },
+  {
+    path: 'virtual-services',
+    loadComponent: () => import('./features/virtual-services/pages/virtual-services.component').then((m) => m.VirtualServicesComponent),
+  },
+  {
+    path: 'digital-marketing',
+    loadComponent: () => import('./features/digital-marketing/pages/digital-marketing.component').then((m) => m.DigitalMarketingComponent),
+  },
+  {
     path: 'contact-us',
     loadComponent: () => import('./features/contact-us/pages/contact-us.component').then((m) => m.ContactUsComponent),
   },

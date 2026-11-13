@@ -1,0 +1,137 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Virtual Services" eyebrow="Services" />
+
+    <!-- Intro -->
+    <section class="vs-sec" aria-labelledby="vs-intro-title">
+      <div class="vs-wrap vs-split">
+        <div appReveal>
+          <span class="vs-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="vs-intro-title" class="vs-title">{{ intro.title }}</h2>
+          <p class="vs-lead">{{ intro.lead }}</p>
+          @for (p of intro.paragraphs; track $index) {
+            <p class="vs-text">{{ p }}</p>
+          }
+          <ul class="vs-chips">
+            @for (c of intro.chips; track c) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ c }}</li>
+            }
+          </ul>
+        </div>
+        <figure class="vs-photo" appReveal style="--d: 150ms">
+          <img [src]="images.desk" alt="Virtual assistant wearing headphones working at a desk with a monitor and laptop" />
+          <figcaption class="vs-photo__badge">
+            <b>{{ intro.badge.value }}</b>
+            <span>{{ intro.badge.label }}</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Everyday tasks -->
+    <section class="vs-sec vs-sec--tint" aria-label="Everyday e-commerce tasks">
+      <div class="vs-wrap vs-split vs-split--flip">
+        <figure class="vs-photo vs-photo--alt" appReveal>
+          <img [src]="images.agent" alt="Smiling customer support agent wearing a headset at a computer" loading="lazy" />
+        </figure>
+        <div appReveal style="--d: 120ms">
+          @for (p of tasks.paragraphs; track $index) {
+            <p class="vs-text">{{ p }}</p>
+          }
+          <blockquote class="vs-quote">{{ tasks.quote }}</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- How we can help (bento) -->
+    <section class="vs-sec" id="how-we-can-help" aria-labelledby="vs-help-title">
+      <div class="vs-wrap">
+        <header class="vs-head" appReveal>
+          <span class="vs-eyebrow">{{ help.eyebrow }}</span>
+          <h2 id="vs-help-title">{{ help.title }}</h2>
+          <p>{{ help.text }}</p>
+        </header>
+        <div class="vs-bento">
+          @for (s of help.items; track s.title; let i = $index) {
+            <article class="vs-tile" [class.vs-tile--wide]="i === 0 || i === 9" appReveal [style.--d]="(i % 3) * 80 + 'ms'">
+              <span class="vs-tile__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+              <div>
+                <h3>{{ s.title }}</h3>
+                <p>{{ s.text }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- What we offer (tab explorer) -->
+    <section class="vs-sec vs-sec--tint" id="what-we-offer" aria-labelledby="vs-offer-title">
+      <div class="vs-wrap">
+        <header class="vs-head" appReveal>
+          <span class="vs-eyebrow">{{ offer.eyebrow }}</span>
+          <h2 id="vs-offer-title">{{ offer.title }}</h2>
+          <p>{{ offer.text }}</p>
+          <p class="vs-head__label">{{ offer.label }}</p>
+        </header>
+
+        <div class="vs-offer" appReveal>
+          <div class="vs-offer__tabs" role="tablist" aria-orientation="vertical" aria-label="Offerings" (keydown)="onTabKey($event)">
+            @for (o of offer.items; track o.title; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="vs-offer__tab"
+                [id]="'vs-tab-' + i"
+                [class.is-active]="active() === i"
+                [attr.aria-selected]="active() === i"
+                [attr.aria-controls]="'vs-panel'"
+                [attr.tabindex]="active() === i ? 0 : -1"
+                (click)="active.set(i)"
+              >
+                <span class="vs-offer__ico"><i class="pi" [class]="o.icon" aria-hidden="true"></i></span>
+                <span>{{ o.title }}</span>
+                <i class="pi pi-angle-right vs-offer__go" aria-hidden="true"></i>
+              </button>
+            }
+          </div>
+
+          @for (o of [offer.items[active()]]; track o.title) {
+            <article class="vs-offer__panel" id="vs-panel" role="tabpanel" [attr.aria-labelledby]="'vs-tab-' + active()">
+              <span class="vs-offer__step">0{{ active() + 1 }} / 0{{ offer.items.length }}</span>
+              <span class="vs-offer__big"><i class="pi" [class]="o.icon" aria-hidden="true"></i></span>
+              <h3>{{ o.title }}</h3>
+              <p>{{ o.text }}</p>
+              <a class="vs-btn" [href]="link(o.title)">Ask about {{ o.title }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- How the assistant runs the business -->
+    <section class="vs-sec vs-sec--last" aria-labelledby="vs-run-title">
+      <div class="vs-wrap">
+        <header class="vs-head" appReveal>
+          <span class="vs-eyebrow">{{ run.eyebrow }}</span>
+          <h2 id="vs-run-title">{{ run.title }}</h2>
+        </header>
+        <div class="vs-split vs-split--top">
+          <div appReveal>
+            @for (p of run.paragraphs; track $index) {
+              <p class="vs-text">{{ p }}</p>
+            }
+            <a class="vs-btn" [href]="link('Virtual Services')">{{ run.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+          </div>
+          <figure class="vs-photo vs-photo--call" appReveal style="--d: 150ms">
+            <img [src]="images.call" alt="Online store owner on a video call with the team while reviewing sales charts" loading="lazy" />
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

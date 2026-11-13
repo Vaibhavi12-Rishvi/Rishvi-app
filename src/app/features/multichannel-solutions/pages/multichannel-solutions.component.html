@@ -1,0 +1,31 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Multichannel Solutions" eyebrow="Services" />
+
+    <section class="mc" aria-labelledby="mc-title">
+      <div class="mc__wrap">
+        <header class="mc__head" appReveal>
+          <span class="mc__eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="mc-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+        </header>
+
+        <div class="mc__grid">
+          @for (s of services; track s.title; let i = $index) {
+            <article class="mc__card" appReveal [style.--d]="(i % 3) * 90 + 'ms'">
+              <span class="mc__no">0{{ i + 1 }}</span>
+              <span class="mc__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+              <a class="mc__more" [href]="link(s.title)">Discuss this service <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
