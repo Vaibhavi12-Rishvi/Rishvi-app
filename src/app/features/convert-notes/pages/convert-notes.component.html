@@ -1,0 +1,109 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Convert Channel Notes to External Notes" eyebrow="Linnworks" />
+
+    <!-- Intro -->
+    <section class="rv-split rv-split--intro" id="convert-notes" aria-labelledby="rv-intro-title">
+      <div class="rv-split__inner">
+        <div class="rv-split__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+          <p>{{ intro.lead }}</p>
+
+          <ol class="rv-setup" id="setup">
+            @for (s of setup; track $index; let i = $index) {
+              <li [style.--i]="i">
+                <span class="rv-setup__no" aria-hidden="true">{{ i + 1 }}</span>
+                <span>{{ s }}</span>
+              </li>
+            }
+          </ol>
+        </div>
+
+        <figure class="rv-hero-img" appReveal style="--d: 150ms">
+          <img src="assest/Features-multi-channel—listings-hero-e1695854493242.webp" alt="Multichannel dashboard with Top Performing Channels and marketplace logos" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- Functionality -->
+    <section class="rv-apps" id="functionality" aria-labelledby="rv-fn-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ functionsIntro.eyebrow }}</span>
+          <h2 id="rv-fn-title">{{ functionsIntro.title }}</h2>
+          <p>{{ functionsIntro.text }}</p>
+        </header>
+
+        <div class="rv-apps__grid">
+          @for (f of functions; track f.title; let i = $index) {
+            <article class="rv-service" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-service__icon"><i class="pi" [class]="f.icon" aria-hidden="true"></i></span>
+              <h3>{{ f.title }}</h3>
+              @for (line of f.lines; track line) {
+                <p>{{ line }}</p>
+              }
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Configure the macro -->
+    <section class="rv-config" id="configure" aria-labelledby="rv-config-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ configIntro.eyebrow }}</span>
+          <h2 id="rv-config-title">{{ configIntro.title }}</h2>
+          <p>{{ configIntro.text }}</p>
+        </header>
+
+        <div class="rv-cfg" appReveal>
+          <!-- Step buttons; arrow keys move between them -->
+          <div
+            class="rv-cfg__tabs"
+            role="tablist"
+            aria-label="Configuration steps"
+            (keydown.arrowright)="selectStep(activeStep() + 1)"
+            (keydown.arrowleft)="selectStep(activeStep() - 1)"
+          >
+            @for (s of steps; track s.title; let i = $index) {
+              <button type="button" role="tab" class="rv-cfg__tab" [class.is-active]="activeStep() === i" [attr.aria-selected]="activeStep() === i" (click)="selectStep(i)">
+                Step {{ i + 1 }}
+              </button>
+            }
+          </div>
+
+          <!-- the key restarts the fade animation each time the step changes -->
+          @for (s of [step()]; track s.title) {
+            <figure class="rv-cfg__window" role="tabpanel" aria-live="polite">
+              <figcaption>
+                <span class="rv-cfg__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                {{ s.title }}
+              </figcaption>
+              <img [src]="s.image" [alt]="s.alt" loading="lazy" />
+            </figure>
+          }
+
+          <div class="rv-cfg__nav">
+            <button type="button" class="rv-cfg__btn" [disabled]="activeStep() === 0" (click)="selectStep(activeStep() - 1)">
+              <i class="pi pi-arrow-left" aria-hidden="true"></i> Previous
+            </button>
+            <a class="rv-btn" href="#setup">
+              Install Now
+              <i class="pi pi-arrow-up" aria-hidden="true"></i>
+            </a>
+            <button type="button" class="rv-cfg__btn" [disabled]="activeStep() === steps.length - 1" (click)="selectStep(activeStep() + 1)">
+              Next <i class="pi pi-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

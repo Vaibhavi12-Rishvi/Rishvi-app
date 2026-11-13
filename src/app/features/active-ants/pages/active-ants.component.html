@@ -1,0 +1,87 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Active Ants Fulfilment" eyebrow="Linnworks" />
+
+    <!-- Intro -->
+    <section class="rv-split rv-split--intro" id="active-ants" aria-labelledby="rv-intro-title">
+      <div class="rv-split__inner">
+        <div class="rv-split__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+        </div>
+
+        <div class="rv-photos" appReveal style="--d: 150ms">
+          <img class="rv-photos__a" src="assest/Active-Ants-Fulfilment-2048x1366.webp" alt="Blue robots moving across a grid floor in front of high warehouse racking" width="2048" height="1366" />
+          <img class="rv-photos__b" src="assest/Active-Ants-Fulfilment1.webp" alt="Automated Active Ants warehouse seen from above" width="1200" height="900" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Key functionalities -->
+    <section class="rv-feat" id="functionalities" aria-labelledby="rv-feat-title">
+      <div class="rv-section">
+        <header class="rv-head rv-head--wide" appReveal>
+          <span class="rv-eyebrow">{{ featuresIntro.eyebrow }}</span>
+          <h2 id="rv-feat-title">{{ featuresIntro.title }}</h2>
+        </header>
+
+        <div class="rv-feat__grid">
+          <!-- Order syncing: the main feature, with the filters shown as chips -->
+          <article class="rv-feat__main" appReveal>
+            <h3><i class="pi pi-check-circle" aria-hidden="true"></i> {{ orderSync.title }}</h3>
+            @for (line of orderSync.lines; track line) {
+              <p>{{ line }}</p>
+            }
+            <ul class="rv-chips">
+              @for (f of orderSync.filters; track f; let i = $index) {
+                <li [style.--i]="i">{{ f }}</li>
+              }
+            </ul>
+          </article>
+
+          @for (f of features; track f.title; let i = $index) {
+            <article class="rv-feat__card" appReveal [style.--d]="i * 100 + 'ms'">
+              <h3><i class="pi pi-check-circle" aria-hidden="true"></i> {{ f.title }}</h3>
+              @for (line of f.lines; track line) {
+                <p>{{ line }}</p>
+              }
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="rv-ben" id="benefits" aria-labelledby="rv-ben-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head rv-head--wide" appReveal>
+          <span class="rv-eyebrow">{{ benefitsIntro.eyebrow }}</span>
+          <h2 id="rv-ben-title">{{ benefitsIntro.title }}</h2>
+        </header>
+
+        <div class="rv-ben__layout">
+          <figure class="rv-ben__img" appReveal>
+            <img src="assest/Benefits-of-the-Integration.webp" alt="A hand touching an integration icon surrounded by cloud, security and location symbols" width="1000" height="700" loading="lazy" />
+          </figure>
+
+          <ul class="rv-ben__list">
+            @for (b of benefits; track b.title; let i = $index) {
+              <li appReveal [style.--d]="i * 100 + 'ms'">
+                <span class="rv-ben__icon"><i class="pi" [class]="b.icon" aria-hidden="true"></i></span>
+                <div>
+                  <h3>{{ b.title }}</h3>
+                  <p>{{ b.text }}</p>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

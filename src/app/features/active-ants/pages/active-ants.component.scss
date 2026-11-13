@@ -1,0 +1,481 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Scroll animation (see RevealDirective) ---------- */
+.rv-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Shared bits ---------- */
+.rv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-accent-text);
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+
+  // extra bottom space for the call-to-action card that overlaps the footer
+  &--last {
+    padding-bottom: 9rem;
+  }
+}
+
+.rv-head {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+
+  h2 {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    color: var(--rv-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0.9rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+.rv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 12px;
+  background: var(--rv-cta-bg);
+  background-size: 140% 100%;
+  color: var(--rv-cta-fg);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 16px 30px -18px var(--p-primary-500);
+  transition: transform 0.2s ease, background-position 0.3s ease;
+
+  .pi {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background-position: 100% 0;
+
+    .pi {
+      transform: translateX(4px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 3px;
+  }
+}
+
+
+/* ---------- Intro and "types" sections (text + overlapping photos) ---------- */
+.rv-split {
+  scroll-margin-top: 90px;
+
+  &--intro {
+    background: var(--rv-hero-bg);
+  }
+
+  &--types {
+    background: var(--rv-surface);
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+  }
+
+  // the photos come first on the "types" section, like the live page
+  &--types &__photos {
+    order: -1;
+  }
+
+  &__copy {
+    min-width: 0;
+
+    h2 {
+      margin: 0.6rem 0 1.2rem;
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      color: var(--rv-heading);
+    }
+
+    p {
+      margin: 0 0 1.1rem;
+      line-height: 1.75;
+      color: var(--rv-body);
+    }
+  }
+}
+
+// Two photos: the second one overlaps the first, and both lift slightly on hover.
+.rv-photos {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding-bottom: 28%;
+
+  img {
+    display: block;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -30px var(--rv-shadow-strong);
+    transition: transform 0.5s ease;
+  }
+
+  &__a {
+    width: 80%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  &__b {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 80%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border: 6px solid var(--rv-surface);
+  }
+
+  &:hover &__a {
+    transform: translate(-6px, -6px);
+  }
+
+  &:hover &__b {
+    transform: translate(6px, 6px);
+  }
+}
+
+
+.rv-head--wide {
+  max-width: 54rem;
+}
+
+/* ---------- Key functionalities ---------- */
+.rv-feat {
+  scroll-margin-top: 90px;
+  background: var(--rv-surface-2);
+
+  &__grid {
+    display: grid;
+    // three cards of the same size in one row; they wrap on smaller screens
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  &__main,
+  &__card {
+    position: relative;
+    overflow: hidden;
+    padding: 1.8rem 1.7rem;
+    border-radius: 18px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0 0 1rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 0 0.6rem;
+      line-height: 1.7;
+    }
+  }
+
+  // the first card uses the gradient; its colours drift slowly, and a light sweeps across it on hover
+  &__main {
+    color: #fff;
+    background: var(--rv-gradient);
+    background-size: 160% 160%;
+    animation: rv-drift 8s ease-in-out infinite alternate;
+    box-shadow: 0 30px 50px -34px var(--p-primary-500);
+
+    h3,
+    p {
+      color: #fff;
+    }
+
+    p {
+      opacity: 0.92;
+    }
+  }
+
+  &__main::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.28) 50%, transparent 65%);
+    transform: translateX(-120%);
+    pointer-events: none;
+  }
+
+  &__main:hover::after {
+    transform: translateX(120%);
+    transition: transform 0.9s ease;
+  }
+
+  // the tick pops in when the card scrolls into view
+  &__main.is-visible h3 .pi,
+  &__card.is-visible h3 .pi {
+    animation: rv-pop 0.6s 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  &__card {
+    border: 1px solid var(--rv-border);
+    background: var(--rv-surface);
+
+    h3 {
+      color: var(--rv-heading);
+
+      .pi {
+        color: var(--rv-primary);
+      }
+    }
+
+    p {
+      color: var(--rv-body);
+    }
+
+    &:hover {
+      box-shadow: 0 24px 40px -26px var(--rv-shadow-strong);
+    }
+  }
+}
+
+.rv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    opacity: 0;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.16);
+    transition: background 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+// chips appear one after another once the card is visible
+.rv-feat__main.is-visible .rv-chips li {
+  animation: rv-chip-in 0.5s calc(0.4s + var(--i, 0) * 0.12s) ease both;
+}
+
+@keyframes rv-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes rv-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-30deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rv-chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-feat__main {
+    animation: none;
+  }
+  .rv-chips li {
+    opacity: 1;
+    animation: none !important;
+  }
+  .rv-feat__main .pi,
+  .rv-feat__card .pi {
+    animation: none !important;
+  }
+}
+
+/* ---------- Benefits ---------- */
+.rv-ben {
+  scroll-margin-top: 90px;
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  &__img {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 22px;
+    box-shadow: 0 30px 60px -30px var(--rv-shadow-strong);
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.8s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1.1rem 1.3rem;
+      border: 1px solid var(--rv-border);
+      border-radius: 16px;
+      background: var(--rv-surface);
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+
+      &:hover {
+        transform: translateX(6px);
+        border-color: var(--rv-primary);
+        box-shadow: 0 18px 34px -22px var(--rv-shadow-strong);
+      }
+    }
+
+    h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--rv-accent-text);
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+      color: var(--rv-body);
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--rv-gradient);
+    transition: transform 0.35s ease;
+  }
+
+  &__list li:hover &__icon {
+    transform: rotate(-10deg) scale(1.1);
+  }
+}
+
+@media (max-width: 991px) {
+  .rv-split__inner,
+  .rv-ben__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-section,
+  .rv-split__inner {
+    padding: 3.5rem 1rem;
+  }
+  .rv-section--last {
+    padding-bottom: 10rem;
+  }
+  .rv-feat__main,
+  .rv-feat__card {
+    padding: 1.4rem 1.2rem;
+  }
+}

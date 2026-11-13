@@ -1,0 +1,192 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="HyperLook For Linnworks" eyebrow="Linnworks" />
+
+    <!-- Intro: text + app image -->
+    <section class="rv-split rv-split--intro" id="hyperlook" aria-labelledby="rv-intro-title">
+      <div class="rv-split__inner">
+        <div class="rv-split__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+        </div>
+
+        <figure class="rv-hero-img" appReveal style="--d: 150ms">
+          <img src="assest/dribbble_hyperlook.png" alt="HyperLook app screens: login, verification, dashboard and orders" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- How to install (stepper) -->
+    <section class="rv-install" id="how-to-install" aria-labelledby="rv-install-title">
+      <div class="rv-section">
+        <header class="rv-head rv-head--wide" appReveal>
+          <span class="rv-eyebrow">Our App</span>
+          <h2 id="rv-install-title">How to install <span class="rv-grad">Hyperlook</span></h2>
+          <p>{{ installIntro }}</p>
+        </header>
+
+        <div class="rv-flow" appReveal>
+          <!-- Stepper: numbered dots joined by a line that fills as you move on. Arrow keys work too. -->
+          <ol
+            class="rv-flow__track"
+            role="tablist"
+            aria-label="Install steps"
+            [style.--n]="steps.length"
+            [style.--p]="progress()"
+            (keydown.arrowright)="selectStep(activeStep() + 1)"
+            (keydown.arrowleft)="selectStep(activeStep() - 1)"
+          >
+            @for (s of steps; track s.title; let i = $index) {
+              <li>
+                <button
+                  type="button"
+                  role="tab"
+                  class="rv-flow__dot"
+                  [class.is-active]="activeStep() === i"
+                  [class.is-done]="i < activeStep()"
+                  [attr.aria-selected]="activeStep() === i"
+                  [attr.aria-label]="'Step ' + (i + 1) + ': ' + s.label"
+                  (click)="selectStep(i)"
+                >
+                  <span class="rv-flow__num">
+                    @if (i < activeStep()) {
+                      <i class="pi pi-check" aria-hidden="true"></i>
+                    } @else {
+                      {{ i + 1 }}
+                    }
+                  </span>
+                  <span class="rv-flow__label">{{ s.label }}</span>
+                </button>
+              </li>
+            }
+          </ol>
+
+          <!-- the key restarts the slide animation each time the step changes -->
+          @for (s of [step()]; track s.title) {
+            <div class="rv-flow__panel" role="tabpanel" [class.is-back]="direction() < 0" aria-live="polite">
+              <div class="rv-flow__copy">
+                <div class="rv-flow__now" [style.--deg]="((activeStep() + 1) / steps.length) * 360 + 'deg'">
+                  <span class="rv-flow__ring" aria-hidden="true"><b>{{ activeStep() + 1 }}</b></span>
+                  <span class="rv-flow__now-text">
+                    <small>Step {{ activeStep() + 1 }} of {{ steps.length }}</small>
+                    <strong>{{ s.label }}</strong>
+                  </span>
+                </div>
+                <h3>{{ s.title }}</h3>
+                @if (s.text) {
+                  <p>{{ s.text }}</p>
+                }
+
+                <div class="rv-flow__nav">
+                  <button type="button" class="rv-flow__btn" [disabled]="activeStep() === 0" (click)="selectStep(activeStep() - 1)">
+                    <i class="pi pi-arrow-left" aria-hidden="true"></i> Previous
+                  </button>
+                  <button type="button" class="rv-flow__btn rv-flow__btn--main" [disabled]="activeStep() === steps.length - 1" (click)="selectStep(activeStep() + 1)">
+                    Next step <i class="pi pi-arrow-right" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="rv-flow__shots">
+                @for (img of s.images; track img.src) {
+                  <img [src]="img.src" [alt]="img.alt" width="375" height="812" loading="lazy" />
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Why choose us -->
+    <section class="rv-why" id="why-us" aria-labelledby="rv-why-title">
+      <div class="rv-section">
+        <header class="rv-head rv-head--wide" appReveal>
+          <span class="rv-eyebrow">Why Us</span>
+          <h2 id="rv-why-title">{{ why.title }}</h2>
+          <p>{{ why.text }}</p>
+        </header>
+
+        <ul class="rv-why__cards">
+          @for (c of why.cards; track c.title; let i = $index) {
+            <li appReveal [style.--d]="i * 100 + 'ms'">
+              <span class="rv-why__icon"><i class="pi" [class]="c.icon" aria-hidden="true"></i></span>
+              <strong>{{ c.title }}</strong>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Features: pick a screen and see it on the phone -->
+    <section class="rv-show" id="features" aria-labelledby="rv-show-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ featuresIntro.eyebrow }}</span>
+          <h2 id="rv-show-title">{{ featuresIntro.title }}</h2>
+        </header>
+
+        <div class="rv-show__layout" appReveal>
+          <div class="rv-show__list" role="tablist" aria-label="HyperLook screens" aria-orientation="vertical">
+            @for (f of features; track f.title; let i = $index) {
+              <button type="button" role="tab" class="rv-show__tab" [class.is-active]="activeFeature() === i" [attr.aria-selected]="activeFeature() === i" (click)="selectFeature(i)">
+                <span class="rv-show__icon"><i class="pi" [class]="f.icon" aria-hidden="true"></i></span>
+                {{ f.title }}
+              </button>
+            }
+          </div>
+
+          <!-- the key restarts the fade animation each time the screen changes -->
+          @for (f of [feature()]; track f.title) {
+            <div class="rv-show__stage" role="tabpanel" aria-live="polite">
+              <div class="rv-show__text">
+                <span class="rv-show__big" aria-hidden="true">0{{ activeFeature() + 1 }}</span>
+                <h3>{{ f.title }}</h3>
+                <p>{{ f.text }}</p>
+              </div>
+              <img [src]="f.image" [alt]="f.title + ' screen of the HyperLook app'" width="1240" height="2000" />
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="rv-contact" id="contact" aria-labelledby="rv-contact-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Contact Us</span>
+          <h2 id="rv-contact-title">We Are Here <span class="rv-grad">For You</span></h2>
+          <p>{{ contactIntro }}</p>
+        </header>
+
+        <div class="rv-contact__grid">
+          <article class="rv-service" appReveal>
+            <span class="rv-service__icon"><i class="pi pi-envelope" aria-hidden="true"></i></span>
+            <h3>Email Us</h3>
+            <p>Simple drop us an email at info&#64;rishvi.co.uk and you'll receive a reply within 24 hours</p>
+            <a class="rv-service__more" href="mailto:info@rishvi.co.uk">
+              Email Us
+              <i class="pi pi-arrow-circle-right" aria-hidden="true"></i>
+            </a>
+          </article>
+
+          <article class="rv-service" appReveal style="--d: 100ms">
+            <span class="rv-service__icon"><i class="pi pi-phone" aria-hidden="true"></i></span>
+            <h3>Give us a call</h3>
+            <p>Our Experts are standing by Monday to Friday from 9am to 5pm EST.</p>
+            <a class="rv-service__more" href="tel:07536677692">
+              07536677692
+              <i class="pi pi-arrow-circle-right" aria-hidden="true"></i>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

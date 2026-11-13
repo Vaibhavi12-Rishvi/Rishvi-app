@@ -81,6 +81,30 @@ export const routes: Routes = [
     path: 'linnworks/hyperstock-inventory-management',
     loadComponent: () => import('./features/hyperstock/pages/hyperstock.component').then((m) => m.HyperstockComponent),
   },
+  {
+    path: 'linnworks/amazon-custom-information-to-notes',
+    loadComponent: () =>
+      import('./features/amazon-custom-info/pages/amazon-custom-info.component').then((m) => m.AmazonCustomInfoComponent),
+  },
+  {
+    path: 'linnworks/convert-channel-notes-to-external-notes',
+    loadComponent: () => import('./features/convert-notes/pages/convert-notes.component').then((m) => m.ConvertNotesComponent),
+  },
+  {
+    path: 'linnworks/active-ants-fulfilment',
+    loadComponent: () => import('./features/active-ants/pages/active-ants.component').then((m) => m.ActiveAntsComponent),
+  },
+  {
+    path: 'linnworks/hyperlook-for-linnworks',
+    loadComponent: () => import('./features/hyperlook/pages/hyperlook.component').then((m) => m.HyperlookComponent),
+  },
+  {
+    path: 'linnworks/revolutionizing-inventory-management',
+    loadComponent: () =>
+      import('./features/revolutionizing-inventory/pages/revolutionizing-inventory.component').then(
+        (m) => m.RevolutionizingInventoryComponent,
+      ),
+  },
   ...articleRoutes,
   {
     path: 'unauthorized',

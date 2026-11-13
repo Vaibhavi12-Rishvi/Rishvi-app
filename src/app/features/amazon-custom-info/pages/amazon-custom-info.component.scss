@@ -1,0 +1,271 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Scroll animation (see RevealDirective) ---------- */
+.rv-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Shared bits ---------- */
+.rv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-accent-text);
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+
+  // extra bottom space for the call-to-action card that overlaps the footer
+  &--last {
+    padding-bottom: 9rem;
+  }
+}
+
+.rv-head {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+
+  h2 {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    color: var(--rv-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0.9rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+.rv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 50px;
+  padding: 0.85rem 1.6rem;
+  border-radius: 12px;
+  background: var(--rv-cta-bg);
+  background-size: 140% 100%;
+  color: var(--rv-cta-fg);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 16px 30px -18px var(--p-primary-500);
+  transition: transform 0.2s ease, background-position 0.3s ease;
+
+  .pi {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background-position: 100% 0;
+
+    .pi {
+      transform: translateX(4px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-primary);
+    outline-offset: 3px;
+  }
+}
+
+
+
+/* ---------- Steps timeline + photos ---------- */
+.rv-flow {
+  scroll-margin-top: 90px;
+  background: var(--rv-hero-bg);
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: start;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+}
+
+.rv-steps {
+  position: relative;
+  display: grid;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // the line that joins the numbers
+  &::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    bottom: 22px;
+    left: 21px;
+    width: 2px;
+    background: linear-gradient(var(--rv-primary), var(--rv-border));
+  }
+}
+
+.rv-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 1.1rem;
+  align-items: start;
+
+  &__no {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-weight: 800;
+    color: #fff;
+    background: var(--rv-gradient);
+    box-shadow: 0 0 0 6px var(--rv-hero-bg);
+    transition: transform 0.35s ease;
+  }
+
+  &__card {
+    padding: 1.1rem 1.3rem;
+    border: 1px solid var(--rv-border);
+    border-radius: 16px;
+    background: var(--rv-surface);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+
+    h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--rv-heading);
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.65;
+      color: var(--rv-body);
+    }
+  }
+
+  &:hover &__card {
+    transform: translateX(6px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 18px 34px -22px var(--rv-shadow-strong);
+  }
+
+  &:hover &__no {
+    transform: scale(1.12);
+  }
+}
+
+// Two photos: the second overlaps the first. The block stays in view while the steps scroll.
+.rv-photos {
+  position: sticky;
+  top: 110px;
+  min-width: 0;
+  padding-bottom: 30%;
+
+  img {
+    display: block;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -30px var(--rv-shadow-strong);
+    transition: transform 0.5s ease;
+  }
+
+  &__a {
+    width: 82%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  &__b {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 82%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    border: 6px solid var(--rv-surface);
+  }
+
+  &:hover &__a {
+    transform: translate(-6px, -6px);
+  }
+
+  &:hover &__b {
+    transform: translate(6px, 6px);
+  }
+}
+
+@media (max-width: 991px) {
+  .rv-flow__layout {
+    grid-template-columns: 1fr;
+  }
+  .rv-photos {
+    position: relative;
+    top: 0;
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-section {
+    padding: 3.5rem 1rem;
+  }
+  .rv-section--last {
+    padding-bottom: 10rem;
+  }
+  .rv-step {
+    grid-template-columns: 36px 1fr;
+    gap: 0.8rem;
+
+    &__no {
+      width: 36px;
+      height: 36px;
+      font-size: 0.9rem;
+    }
+  }
+  .rv-steps::before {
+    left: 17px;
+  }
+}

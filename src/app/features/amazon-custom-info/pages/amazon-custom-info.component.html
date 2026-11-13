@@ -1,0 +1,39 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Amazon Custom Information to Notes" eyebrow="Linnworks" />
+
+    <section class="rv-flow" id="description" aria-labelledby="rv-flow-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-flow-title">{{ intro.title }}</h2>
+        </header>
+
+        <div class="rv-flow__layout">
+          <!-- The eight steps as a timeline: a line runs down the numbers and each step slides in as you scroll. -->
+          <ol class="rv-steps">
+            @for (s of steps; track s.title; let i = $index) {
+              <li class="rv-step" appReveal>
+                <span class="rv-step__no" aria-hidden="true">{{ i + 1 }}</span>
+                <div class="rv-step__card">
+                  <h3>{{ s.title }}</h3>
+                  <p>{{ s.text }}</p>
+                </div>
+              </li>
+            }
+          </ol>
+
+          <!-- Two warehouse photos that stay in view while you read the steps -->
+          <div class="rv-photos" appReveal style="--d: 150ms">
+            <img class="rv-photos__a" src="assest/shipping-to-an-amazon-fba-warehouse-1024x576-1.webp" alt="Parcels moving along conveyor belts in a warehouse" width="1024" height="576" />
+            <img class="rv-photos__b" src="assest/Why-Selling-Books-on-Amazon-with-FBA-Justifies-Higher-Price-Points-2.jpg" alt="Amazon parcels on a conveyor in a warehouse aisle" width="1240" height="822" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
