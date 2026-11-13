@@ -1,0 +1,112 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Hyper POS for Linnworks" eyebrow="Linnworks" />
+
+    <!-- Intro: copy + floating photo collage -->
+    <section class="rv-intro" id="hyper-pos" aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          @for (p of intro.paragraphs; track p) {
+            <p>{{ p }}</p>
+          }
+          <ul class="rv-chips" aria-label="Highlights">
+            @for (c of intro.chips; track c) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ c }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="rv-collage" appReveal style="--d: 150ms">
+          <img class="rv-collage__a" src="assest/Hyper-POS-for-Linnworks.webp" alt="Customer paying by card and phone at a shop counter" width="2048" height="1365" />
+          <img class="rv-collage__b" src="assest/Hyper-POS-for-Linnworks-2.webp" alt="Retail checkout with a touchscreen POS terminal" width="1280" height="720" />
+          <span class="rv-collage__badge" aria-hidden="true"><i class="pi pi-sync"></i> Synced every 15 min</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key functionalities: pick one on the left, read it on the right -->
+    <section class="rv-features" id="key-functionalities" aria-labelledby="rv-features-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ featuresHead.eyebrow }}</span>
+          <h2 id="rv-features-title">{{ featuresHead.title }}</h2>
+        </header>
+
+        <div class="rv-fx" appReveal>
+          <div class="rv-fx__list" role="tablist" aria-label="Key functionalities" aria-orientation="vertical">
+            @for (f of features; track f.title; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="rv-fx__tab"
+                [class.is-active]="active() === i"
+                [attr.aria-selected]="active() === i"
+                (click)="select(i)"
+                (mouseenter)="select(i)"
+                (focus)="select(i)"
+              >
+                <span class="rv-fx__icon"><i class="pi" [class]="f.icon" aria-hidden="true"></i></span>
+                <span class="rv-fx__name">{{ f.title }}</span>
+                <i class="pi pi-arrow-right rv-fx__go" aria-hidden="true"></i>
+              </button>
+            }
+          </div>
+
+          <!-- the key restarts the animation each time the feature changes -->
+          @for (f of [features[active()]]; track f.title) {
+            <article class="rv-fx__panel" role="tabpanel" aria-live="polite">
+              <span class="rv-fx__bigicon" aria-hidden="true"><i class="pi" [class]="f.icon"></i></span>
+              <span class="rv-fx__tag">{{ f.tag }}</span>
+              <h3>{{ f.title }}</h3>
+              <p>{{ f.text }}</p>
+              <div class="rv-fx__flow" aria-hidden="true">
+                <span>POS</span>
+                <span class="rv-fx__line"></span>
+                <span>Linnworks</span>
+              </div>
+              <div class="rv-fx__dots" aria-hidden="true">
+                @for (d of features; track d.title; let j = $index) {
+                  <i [class.on]="j === active()"></i>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="rv-benefits" id="benefits" aria-labelledby="rv-benefits-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ benefitsHead.eyebrow }}</span>
+          <h2 id="rv-benefits-title">{{ benefitsHead.title }}</h2>
+        </header>
+
+        <div class="rv-benefits__layout">
+          <figure class="rv-benefits__img" appReveal>
+            <img src="assest/Hyper-POS-for-Linnworks-1.jpg" alt="Hand paying with a card at a payment terminal while a colleague holds a tablet" width="1024" height="550" loading="lazy" />
+          </figure>
+
+          <ul class="rv-bl">
+            @for (b of benefits; track b.title; let i = $index) {
+              <li class="rv-bl__item" appReveal [style.--d]="i * 90 + 'ms'">
+                <span class="rv-bl__tick" aria-hidden="true"><i class="pi pi-check"></i></span>
+                <div>
+                  <h3>{{ b.title }}</h3>
+                  <p>{{ b.text }}</p>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

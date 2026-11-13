@@ -95,6 +95,40 @@ export const routes: Routes = [
     loadComponent: () => import('./features/active-ants/pages/active-ants.component').then((m) => m.ActiveAntsComponent),
   },
   {
+    path: 'linnworks/linnworks-mcp-server',
+    loadComponent: () => import('./features/linnworks-mcp/pages/linnworks-mcp.component').then((m) => m.LinnworksMcpComponent),
+  },
+  {
+    path: 'linnworks/linnworks-ai-agent',
+    loadComponent: () =>
+      import('./features/linnworks-ai-agent/pages/linnworks-ai-agent.component').then((m) => m.LinnworksAiAgentComponent),
+  },
+  {
+    path: 'linnworks/hyperstock-ai-hai',
+    loadComponent: () => import('./features/hyperstock-ai/pages/hyperstock-ai.component').then((m) => m.HyperstockAiComponent),
+  },
+  {
+    path: 'linnworks-api-integration',
+    loadComponent: () => import('./features/api-integration/pages/api-integration.component').then((m) => m.ApiIntegrationComponent),
+  },
+  {
+    path: 'linnworks-automation-rules-engine',
+    loadComponent: () => import('./features/automation-rules/pages/automation-rules.component').then((m) => m.AutomationRulesComponent),
+  },
+  {
+    path: 'linnworks-optimisation-services',
+    loadComponent: () =>
+      import('./features/optimisation-services/pages/optimisation-services.component').then((m) => m.OptimisationServicesComponent),
+  },
+  {
+    path: 'linnworks-efficiency-audit',
+    loadComponent: () => import('./features/efficiency-audit/pages/efficiency-audit.component').then((m) => m.EfficiencyAuditComponent),
+  },
+  {
+    path: 'linnworks/hyper-pos-for-linnworks',
+    loadComponent: () => import('./features/hyper-pos/pages/hyper-pos.component').then((m) => m.HyperPosComponent),
+  },
+  {
     path: 'linnworks/hyperlook-for-linnworks',
     loadComponent: () => import('./features/hyperlook/pages/hyperlook.component').then((m) => m.HyperlookComponent),
   },

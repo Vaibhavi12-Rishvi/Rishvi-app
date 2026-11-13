@@ -1,0 +1,218 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Hyperstock AI for Linnworks" eyebrow="Linnworks" />
+
+    <!-- Intro -->
+    <section class="rv-intro" id="hyperstock-ai" aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+          <ul class="rv-chips" aria-label="Highlights">
+            @for (c of intro.chips; track c) {
+              <li><i class="pi pi-check" aria-hidden="true"></i>{{ c }}</li>
+            }
+          </ul>
+          <a class="rv-btn" [href]="demoLink">
+            {{ intro.cta }}
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div class="rv-shot" appReveal style="--d: 150ms">
+          <img [src]="images.hero" alt="Person using a laptop with AI and connected-data icons around it" />
+          <span class="rv-shot__tag rv-shot__tag--a"><i class="pi pi-comments" aria-hidden="true"></i> Just ask</span>
+          <span class="rv-shot__tag rv-shot__tag--b"><i class="pi pi-sparkles" aria-hidden="true"></i> AI-powered answers</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem and solution, with a clickable chat preview -->
+    <section class="rv-problem" id="problem" aria-labelledby="rv-problem-title">
+      <div class="rv-section rv-problem__inner">
+        <div class="rv-photos" appReveal>
+          <img class="rv-photos__a" [src]="images.teamA" alt="Colleagues talking around a table" loading="lazy" />
+          <img class="rv-photos__b" [src]="images.teamB" alt="Team members smiling and working together" loading="lazy" />
+        </div>
+
+        <div appReveal style="--d: 150ms">
+          <span class="rv-eyebrow">{{ problem.eyebrow }}</span>
+          <h2 id="rv-problem-title" class="rv-title">{{ problem.title }}</h2>
+          @for (p of problem.paragraphs; track $index) {
+            <p class="rv-text">{{ p }}</p>
+          }
+
+          <p class="rv-qlabel">{{ problem.examplesTitle }} <small>(tap one to try it)</small></p>
+          <ul class="rv-q">
+            @for (q of problem.questions; track q) {
+              <li>
+                <button type="button" class="rv-q__btn" [class.is-on]="asked() === q" (click)="ask(q)">
+                  <i class="pi pi-check-circle" aria-hidden="true"></i>
+                  <span>{{ q }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+
+          <!-- Chat preview: shows the tapped question and a short "checking" pause, no real data -->
+          <div class="rv-chat" aria-live="polite">
+            <div class="rv-chat__bar"><i class="pi pi-sparkles" aria-hidden="true"></i> Hyperstock AI</div>
+            @if (asked(); as q) {
+              <p class="rv-chat__msg rv-chat__msg--you">{{ q }}</p>
+              @if (thinking()) {
+                <p class="rv-chat__msg rv-chat__msg--ai rv-chat__dots" aria-label="Hyperstock is checking your Linnworks data"><i></i><i></i><i></i></p>
+              } @else {
+                <p class="rv-chat__msg rv-chat__msg--ai">Hyperstock checks the Linnworks data it needs, joins it up and explains what it found. <a [href]="demoLink">See it live in a demo</a>.</p>
+              }
+            } @else {
+              <p class="rv-chat__hint">Tap an example question to see how it works.</p>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities: pick an area, read it on the right -->
+    <section class="rv-caps" id="capabilities" aria-labelledby="rv-caps-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ capsHead.eyebrow }}</span>
+          <h2 id="rv-caps-title">{{ capsHead.title }}</h2>
+          <p>{{ capsHead.text }}</p>
+        </header>
+
+        <div class="rv-fx" appReveal>
+          <div class="rv-fx__list" role="tablist" aria-label="Capabilities" aria-orientation="vertical">
+            @for (c of caps; track c.title; let i = $index) {
+              <button
+                type="button"
+                role="tab"
+                class="rv-fx__tab"
+                [class.is-active]="activeCap() === i"
+                [attr.aria-selected]="activeCap() === i"
+                (click)="selectCap(i)"
+                (mouseenter)="selectCap(i)"
+                (focus)="selectCap(i)"
+              >
+                <span class="rv-fx__icon"><i class="pi" [class]="c.icon" aria-hidden="true"></i></span>
+                <span class="rv-fx__name">{{ c.title }}</span>
+                <i class="pi pi-arrow-right rv-fx__go" aria-hidden="true"></i>
+              </button>
+            }
+          </div>
+
+          <!-- the key restarts the animation each time the area changes -->
+          @for (c of [caps[activeCap()]]; track c.title) {
+            <article class="rv-fx__panel" role="tabpanel" aria-live="polite">
+              <span class="rv-fx__bigicon" aria-hidden="true"><i class="pi" [class]="c.icon"></i></span>
+              <h3>{{ c.title }}</h3>
+              <p class="rv-fx__lead">{{ c.lead }}</p>
+              <ol class="rv-fx__points">
+                @for (p of c.points; track p; let j = $index) {
+                  <li [style.--j]="j">{{ p }}</li>
+                }
+              </ol>
+              <p class="rv-fx__ask"><i class="pi pi-comment" aria-hidden="true"></i> Ask: "{{ c.ask }}"</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Multi-tool questions -->
+    <section class="rv-multi" id="multi-tool" aria-labelledby="rv-multi-title">
+      <div class="rv-section rv-multi__inner">
+        <div appReveal>
+          <span class="rv-eyebrow">{{ multi.eyebrow }}</span>
+          <h2 id="rv-multi-title" class="rv-title">{{ multi.title }}</h2>
+          @for (p of multi.paragraphs; track $index) {
+            <p class="rv-text">{{ p }}</p>
+          }
+          <p class="rv-example"><strong>{{ multi.exampleLabel }}</strong> {{ multi.example }}</p>
+        </div>
+
+        <figure class="rv-multi__img" appReveal style="--d: 150ms">
+          <img [src]="images.multiTool" alt="Hands working on a laptop with a network of connected data points" loading="lazy" />
+        </figure>
+      </div>
+
+      <div class="rv-section rv-multi__steps">
+        <ol class="rv-chain" appReveal>
+          @for (s of multi.steps; track s.title; let i = $index) {
+            <li class="rv-chain__step" [style.--i]="i">
+              <span class="rv-chain__node"><i class="pi" [class]="s.icon" aria-hidden="true"></i><b aria-hidden="true">{{ i + 1 }}</b></span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- Numbers -->
+    <section class="rv-stats" aria-label="Hyperstock AI in numbers">
+      <ul class="rv-stats__inner">
+        @for (s of stats; track s.label) {
+          <li>
+            <i class="pi" [class]="s.icon" aria-hidden="true"></i>
+            <strong [appCountUp]="s.value" [countSuffix]="s.suffix">{{ s.value }}{{ s.suffix }}</strong>
+            <span>{{ s.label }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section class="rv-faq" id="faq" aria-labelledby="rv-faq-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ faqHead.eyebrow }}</span>
+          <h2 id="rv-faq-title">{{ faqHead.title }}</h2>
+        </header>
+
+        <div class="rv-acc" appReveal>
+          @for (f of faqs; track f.question; let i = $index) {
+            <div class="rv-acc__item" [class.is-open]="openFaq() === i">
+              <h3>
+                <button type="button" class="rv-acc__q" [id]="'hai-q-' + i" [attr.aria-expanded]="openFaq() === i" [attr.aria-controls]="'hai-a-' + i" (click)="toggleFaq(i)">
+                  <span class="rv-acc__no">{{ i + 1 }}</span>
+                  <span class="rv-acc__text">{{ f.question }}</span>
+                  <i class="pi" [class.pi-minus]="openFaq() === i" [class.pi-plus]="openFaq() !== i" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="rv-acc__a" [id]="'hai-a-' + i" role="region" [attr.aria-labelledby]="'hai-q-' + i">
+                <div class="rv-acc__body">
+                  <p>{{ f.answer }}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="rv-contact" id="demo" aria-labelledby="rv-contact-title">
+      <div class="rv-section rv-section--last rv-contact__inner">
+        <figure class="rv-team" appReveal>
+          <img [src]="images.contact" alt="Team members stacking their hands together" width="600" height="600" loading="lazy" />
+        </figure>
+
+        <div appReveal style="--d: 150ms">
+          <span class="rv-eyebrow">{{ contact.eyebrow }}</span>
+          <h2 id="rv-contact-title" class="rv-title">{{ contact.title }}</h2>
+          <p class="rv-text">{{ contact.text }}</p>
+          <a class="rv-btn" [href]="demoLink">
+            {{ contact.cta }}
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
