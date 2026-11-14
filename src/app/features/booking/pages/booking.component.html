@@ -1,0 +1,137 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Booking" />
+
+    <section aria-labelledby="rv-book-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">Linnworks Technical Support</span>
+          <h2 id="rv-book-title">Schedule Your Free Consultation</h2>
+          <p>Book your FREE consultation today and discover how Rishvi Ltd can help you maximize your e-commerce operations.</p>
+        </header>
+
+        <form class="rv-book" appReveal (ngSubmit)="book()" #bookForm="ngForm" novalidate>
+          <!-- 1. Service -->
+          <fieldset class="rv-step">
+            <legend><span class="rv-step__no">1</span> Select a service</legend>
+            <div class="rv-services" role="radiogroup" aria-label="Service">
+              @for (s of services; track s.id) {
+                <label class="rv-service" [class.is-on]="serviceId() === s.id">
+                  <input type="radio" name="service" [value]="s.id" [checked]="serviceId() === s.id" (change)="serviceId.set(s.id)" />
+                  <span class="rv-service__icon"><i class="pi" [class]="s.icon" aria-hidden="true"></i></span>
+                  <span class="rv-service__body">
+                    <strong>{{ s.title }}</strong>
+                    <small>{{ s.text }}</small>
+                    <em><i class="pi pi-clock" aria-hidden="true"></i> {{ s.minutes }} minutes</em>
+                  </span>
+                  <span class="rv-service__tick"><i class="pi pi-check" aria-hidden="true"></i></span>
+                </label>
+              }
+            </div>
+          </fieldset>
+
+          <!-- 2. Date and time -->
+          <div class="rv-when" [class.is-locked]="!service()">
+            <fieldset class="rv-step">
+              <legend><span class="rv-step__no">2</span> Date</legend>
+              <div class="rv-cal">
+                <div class="rv-cal__bar">
+                  <button type="button" class="rv-cal__nav" aria-label="Previous month" [disabled]="!canPrev()" (click)="shift(-1)">
+                    <i class="pi pi-chevron-left" aria-hidden="true"></i>
+                  </button>
+                  <strong>{{ monthLabel() }}</strong>
+                  <button type="button" class="rv-cal__nav" aria-label="Next month" (click)="shift(1)">
+                    <i class="pi pi-chevron-right" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="rv-cal__grid">
+                  @for (w of weekdays; track $index) {
+                    <span class="rv-cal__wd">{{ w }}</span>
+                  }
+                  @for (d of days(); track $index) {
+                    @if (d.blank) {
+                      <span></span>
+                    } @else {
+                      <button
+                        type="button"
+                        class="rv-cal__day"
+                        [class.is-picked]="isPicked(d)"
+                        [disabled]="d.disabled || !service()"
+                        (click)="pick(d)"
+                      >{{ d.label }}</button>
+                    }
+                  }
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="rv-step">
+              <legend><span class="rv-step__no">3</span> Time</legend>
+              @if (!service()) {
+                <p class="rv-hint">Select a service to see available dates and times.</p>
+              } @else if (!date()) {
+                <p class="rv-hint">Select a date to see available times.</p>
+              } @else {
+                <div class="rv-times">
+                  @for (t of times; track t) {
+                    <button type="button" class="rv-time" [class.is-picked]="time() === t" (click)="time.set(t)">{{ t }}</button>
+                  }
+                </div>
+              }
+            </fieldset>
+          </div>
+
+          <!-- 4. Details -->
+          <fieldset class="rv-step">
+            <legend><span class="rv-step__no">4</span> Add your details</legend>
+            <div class="rv-fields">
+              <div>
+                <label for="bk-name">First and surname <abbr title="required">*</abbr></label>
+                <input id="bk-name" name="name" [(ngModel)]="form.name" placeholder="First and surname" autocomplete="name" required />
+              </div>
+              <div>
+                <label for="bk-email">Email <abbr title="required">*</abbr></label>
+                <input id="bk-email" name="email" type="email" [(ngModel)]="form.email" placeholder="Email" autocomplete="email" required />
+              </div>
+              <div>
+                <label for="bk-phone">Phone number</label>
+                <input id="bk-phone" name="phone" type="tel" [(ngModel)]="form.phone" placeholder="Add your phone number" autocomplete="tel" />
+              </div>
+              <div>
+                <label for="bk-address">Address</label>
+                <input id="bk-address" name="address" [(ngModel)]="form.address" placeholder="Address" autocomplete="street-address" />
+              </div>
+              <div class="rv-fields__wide">
+                <label for="bk-msg">Add any special requests</label>
+                <textarea id="bk-msg" name="message" rows="3" [(ngModel)]="form.message" placeholder="Add any special requests"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          @if (ready()) {
+            <p class="rv-summary">
+              <i class="pi pi-calendar-clock" aria-hidden="true"></i>
+              {{ service()!.title }} · {{ date()!.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) }} at {{ time() }}
+            </p>
+          }
+
+          <div class="rv-book__foot">
+            <button type="submit" class="rv-btn" [disabled]="!ready()">
+              Book <i class="pi pi-arrow-right" aria-hidden="true"></i>
+            </button>
+            @if (!ready()) {
+              <p class="rv-hint">Choose a service, date and time, and add your name and email to book.</p>
+            } @else if (sent()) {
+              <p class="rv-hint">Your email app should open with the request. If it doesn’t, email info&#64;rishvi.co.uk.</p>
+            }
+            <p class="rv-meta">0208 050 3432 · <a href="https://rishvi.co.uk/">rishvi.co.uk</a></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

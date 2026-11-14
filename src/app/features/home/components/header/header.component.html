@@ -193,7 +193,7 @@
           </div>
         }
       </div>
-      <a class="rv-cta" routerLink="/home" fragment="contact" (click)="select('support')">
+      <a class="rv-cta" routerLink="/linnworks-technical-support" (click)="select('support')">
         <i class="pi pi-headphones" aria-hidden="true"></i> Support
       </a>
       <button type="button" class="rv-icon-btn rv-burger" aria-label="Open navigation menu" (click)="drawerVisible.set(true)">
@@ -246,7 +246,7 @@
         <a class="rv-mobile__row" [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{ item.label }}</a>
       }
     }
-    <a class="rv-cta rv-cta--block" routerLink="/home" fragment="contact" (click)="select('support')">
+    <a class="rv-cta rv-cta--block" routerLink="/linnworks-technical-support" (click)="select('support')">
       <i class="pi pi-headphones" aria-hidden="true"></i> Support
     </a>
   </nav>
