@@ -72,10 +72,11 @@ export const NAV_ITEMS: NavItem[] = [
     label: 'Website Development',
     route: '/website-development',
     children: [
-      { label: 'Angular Development', route: SERVICES, fragment: 'website-development' },
-      { label: 'React Development', route: SERVICES, fragment: 'website-development' },
-      { label: 'Custom Web Applications', route: SERVICES, fragment: 'website-development' },
-      { label: 'E-commerce Development', route: SERVICES, fragment: 'website-development' },
+      { label: 'Shopify Development', route: '/shopify-development' },
+      { label: 'Magento Services', route: '/magento-services' },
+      { label: 'WooCommerce Development', route: '/website-development', fragment: 'services' },
+      { label: 'BigCommerce', route: '/website-development', fragment: 'services' },
+      { label: 'WordPress Development', route: '/website-development', fragment: 'services' },
     ],
   },
   {

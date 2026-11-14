@@ -1,0 +1,41 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="$event ? null : onHide()"
+  (onHide)="onHide()"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [style]="{ width: 'min(520px, 94vw)' }"
+  header="Let's discuss your project"
+>
+  @if (sent()) {
+    <div class="rv-enq__done" role="status">
+      <i class="pi pi-check-circle" aria-hidden="true"></i>
+      <h3>Thank you!</h3>
+      <p>Your email app should have opened with your message. We'll get back to you shortly.</p>
+    </div>
+  } @else {
+    <form class="rv-enq" #f="ngForm" (ngSubmit)="f.valid && submit()" novalidate>
+      <p class="rv-enq__lead">Tell us a little about what you need and our team will get in touch.</p>
+
+      <label>
+        <span>Name <b>*</b></span>
+        <input type="text" name="name" [(ngModel)]="form.name" required autocomplete="name" />
+      </label>
+      <label>
+        <span>Email <b>*</b></span>
+        <input type="email" name="email" [(ngModel)]="form.email" required email autocomplete="email" />
+      </label>
+      <label>
+        <span>Message</span>
+        <textarea name="message" rows="4" [(ngModel)]="form.message"></textarea>
+      </label>
+
+      @if (f.submitted && f.invalid) {
+        <p class="rv-enq__error" role="alert">Please enter your name and a valid email address.</p>
+      }
+
+      <button type="submit" class="rv-enq__btn">Send Message <i class="pi pi-arrow-right" aria-hidden="true"></i></button>
+    </form>
+  }
+</p-dialog>

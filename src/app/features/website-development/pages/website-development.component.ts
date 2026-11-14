@@ -1,4 +1,5 @@
 import { Component, OnDestroy, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { TestimonialsComponent } from '../../../shared/components/testimonials/testimonials.component';
@@ -18,7 +19,7 @@ import {
 @Component({
   selector: 'app-website-development',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, PageBannerComponent, TestimonialsComponent, RevealDirective],
+  imports: [RouterLink, HeaderComponent, FooterComponent, PageBannerComponent, TestimonialsComponent, RevealDirective],
   templateUrl: './website-development.component.html',
   styleUrl: './website-development.component.scss',
 })

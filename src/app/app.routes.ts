@@ -63,6 +63,11 @@ export const routes: Routes = [
       import('./features/shipping-integrations/pages/shipping-integrations.component').then((m) => m.ShippingIntegrationsComponent),
   },
   {
+    path: 'linnworks/dhl-de-integration',
+    loadComponent: () =>
+      import('./features/dhl-de-integration/pages/dhl-de-integration.component').then((m) => m.DhlDeIntegrationComponent),
+  },
+  {
     path: 'linnworks/on-screen-automation',
     loadComponent: () =>
       import('./features/on-screen-automation/pages/on-screen-automation.component').then((m) => m.OnScreenAutomationComponent),
@@ -122,6 +127,16 @@ export const routes: Routes = [
   {
     path: 'contact-us',
     loadComponent: () => import('./features/contact-us/pages/contact-us.component').then((m) => m.ContactUsComponent),
+  },
+  {
+    path: 'shopify-development',
+    loadComponent: () =>
+      import('./features/shopify-development/pages/shopify-development.component').then((m) => m.ShopifyDevelopmentComponent),
+  },
+  {
+    path: 'magento-services',
+    loadComponent: () =>
+      import('./features/magento-services/pages/magento-services.component').then((m) => m.MagentoServicesComponent),
   },
   {
     path: 'website-development',

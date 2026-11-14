@@ -1,0 +1,61 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="DHL DE Integration" [crumbs]="crumbs" />
+
+    <section class="rv-dhl" aria-labelledby="rv-dhl-title">
+      <div class="rv-section">
+        <div class="rv-dhl__layout">
+          <div class="rv-dhl__text" appReveal>
+            <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+            <h2 id="rv-dhl-title">Efficient Shipping With <span class="rv-grad">DHL DE Integration</span></h2>
+            @for (p of intro.paragraphs; track p) {
+              <p>{{ p }}</p>
+            }
+            <p class="rv-dhl__note"><i class="pi pi-info-circle" aria-hidden="true"></i> <span>{{ intro.note }}</span></p>
+          </div>
+
+          <figure class="rv-dhl__photo" appReveal style="--d: 150ms">
+            <img
+              src="assest/dhl_group_hj7boirxq9_22_04_DHL_38891_large-2048x1366.webp"
+              alt="DHL delivery team beside a yellow DHL van"
+              width="2048"
+              height="1366"
+            />
+            <img
+              class="rv-dhl__photo2"
+              src="assest/my-core-pr-main1-11172023web1592896-e1700747376884-1400x786.jpg.webp"
+              alt="DHL couriers with electric vans and scooters outside a DHL service centre"
+              width="1400"
+              height="786"
+              loading="lazy"
+            />
+            <figcaption><i class="pi pi-truck" aria-hidden="true"></i> Label printing from Linnworks</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="rv-flow" aria-labelledby="rv-flow-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <h2 id="rv-flow-title">{{ lead }}</h2>
+        </header>
+
+        <ol class="rv-flow__steps">
+          @for (s of steps; track s.title; let i = $index) {
+            <li class="rv-step" appReveal [style.--d]="i * 120 + 'ms'">
+              <span class="rv-step__icon"><i [class]="'pi ' + s.icon" aria-hidden="true"></i></span>
+              <span class="rv-step__no" aria-hidden="true">0{{ i + 1 }}</span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

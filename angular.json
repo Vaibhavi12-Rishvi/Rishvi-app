@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Shopify-Stream": {
+    "Rishvi-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/Shopify-Stream",
+            "outputPath": "dist/Rishvi-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -86,13 +86,13 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "development": {
-              "buildTarget": "Shopify-Stream:build:development"
+              "buildTarget": "Rishvi-app:build:development"
             },
             "staging": {
-              "buildTarget": "Shopify-Stream:build:staging"
+              "buildTarget": "Rishvi-app:build:staging"
             },
             "production": {
-              "buildTarget": "Shopify-Stream:build:production"
+              "buildTarget": "Rishvi-app:build:production"
             }
           },
           "defaultConfiguration": "development"

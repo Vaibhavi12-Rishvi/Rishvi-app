@@ -12,5 +12,5 @@ import { ToastModule } from 'primeng/toast';
   styles: [],
 })
 export class AppComponent {
-  title = 'Shopify-Stream';
+  title = 'Rishvi-app';
 }
