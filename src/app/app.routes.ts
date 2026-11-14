@@ -167,6 +167,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'linnworks/change-despatch-date',
+    loadComponent: () =>
+      import('./features/change-despatch-date/pages/change-despatch-date.component').then((m) => m.ChangeDespatchDateComponent),
+  },
+  {
     path: 'woocommerce-development',
     loadComponent: () =>
       import('./features/woocommerce-development/pages/woocommerce-development.component').then(
@@ -235,6 +240,13 @@ export const routes: Routes = [
       ),
   },
   ...articleRoutes,
+  {
+    // Remaining Linnworks macros, custom scripts, shipping and automation pages (data-driven).
+    // Must stay after every explicit 'linnworks/...' route above.
+    path: 'linnworks/:slug',
+    loadComponent: () =>
+      import('./features/linnworks-pages/pages/linnworks-detail.component').then((m) => m.LinnworksDetailComponent),
+  },
   {
     path: 'unauthorized',
     loadComponent: () => import('./features/auth/pages/unauthorized.component').then((m) => m.UnauthorizedComponent),

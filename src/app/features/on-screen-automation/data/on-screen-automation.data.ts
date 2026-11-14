@@ -13,6 +13,7 @@ export const AUTOMATION_INTRO = {
 export const AUTOMATION_APPS: AboutPoint[] = [
   {
     icon: 'pi-calendar',
+    route: '/linnworks/change-despatch-date',
     title: 'Change Despatch Date',
     text: 'Adjust despatch dates easily for flexible order management.',
   },
