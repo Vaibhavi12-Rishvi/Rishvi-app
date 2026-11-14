@@ -1,0 +1,95 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="WooCommerce Development" [crumbs]="crumbs" />
+
+    <!-- Intro: copy + feature panel -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">WooCommerce Development <span class="rv-grad">Services</span></h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p>{{ p }}</p>
+          }
+        </div>
+
+        <div class="rv-panel" appReveal style="--d: 150ms">
+          <span class="rv-panel__cart"><i class="pi pi-shopping-cart" aria-hidden="true"></i></span>
+          <strong class="rv-panel__title">WooCommerce</strong>
+          <ul class="rv-panel__pills">
+            @for (p of intro.pills; track p.label) {
+              <li><i [class]="'pi ' + p.icon" aria-hidden="true"></i> {{ p.label }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why WooCommerce: numbered steps -->
+    <section class="rv-alt" aria-labelledby="rv-why-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ whyHead.eyebrow }}</span>
+          <h2 id="rv-why-title">{{ whyHead.title }}</h2>
+          <p>{{ whyHead.text }}</p>
+        </header>
+
+        <ol class="rv-why">
+          @for (w of why; track $index; let i = $index) {
+            <li class="rv-why__item rv-lift" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-why__no">{{ i + 1 }}</span>
+              <p>{{ w }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- Features: two checklists -->
+    <section aria-labelledby="rv-features-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ featuresHead.eyebrow }}</span>
+          <h2 id="rv-features-title">{{ featuresHead.title }}</h2>
+        </header>
+
+        <div class="rv-features">
+          <ul class="rv-list" appReveal>
+            @for (f of featuresLeft; track f) {
+              <li><i class="pi pi-check" aria-hidden="true"></i> {{ f }}</li>
+            }
+          </ul>
+          <ul class="rv-list rv-list--dark" appReveal style="--d: 120ms">
+            @for (f of featuresRight; track f) {
+              <li><i class="pi pi-check" aria-hidden="true"></i> {{ f }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services: 6 cards -->
+    <section class="rv-alt" aria-labelledby="rv-services-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ servicesHead.eyebrow }}</span>
+          <h2 id="rv-services-title">{{ servicesHead.title }}</h2>
+        </header>
+
+        <ul class="rv-cards">
+          @for (s of services; track $index; let i = $index) {
+            <li class="rv-card rv-lift" appReveal [style.--d]="(i % 3) * 100 + 'ms'">
+              <span class="rv-icon"><i [class]="'pi ' + s.icon" aria-hidden="true"></i></span>
+              <span class="rv-card__no">{{ i + 1 }}</span>
+              <p>{{ s.text }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

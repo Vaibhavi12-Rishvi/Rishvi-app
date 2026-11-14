@@ -9,18 +9,27 @@ export const CHANNEL_INTRO = {
 export const CHANNEL_APPS: AboutPoint[] = [
   {
     icon: 'pi-headphones',
+    route: '/linnworks/bandcamp-channel-integration',
     title: 'Bandcamp',
     text: 'Bandcamp is a platform that allows artists to sell music and merchandise directly to fans, offering flexible pricing and supporting independent musicians worldwide.',
   },
   {
     icon: 'pi-shopping-bag',
+    route: '/linnworks/ecwid-channel-integration',
     title: 'Ecwid Channel Integration',
     text: 'The Ecwid Channel Integration enables seamless syncing of orders, inventory, and product listings between Ecwid and Linnworks for efficient multichannel management.',
   },
   {
     icon: 'pi-shop',
+    route: '/linnworks/shopware-channel-integration',
     title: 'Shopware Channel Integration',
     text: 'This project enables seamless integration between a Shopware and Linnworks, allowing centralized order, inventory, and product management across multiple channels.',
+  },
+  {
+    icon: 'pi-globe',
+    route: '/linnworks/webflow-integration',
+    title: 'Webflow Integration',
+    text: 'This project enables seamless integration between a Webflow eCommerce store and Linnworks, allowing centralized order, inventory, and product management across multiple channels.',
   },
 ];
 

@@ -1,0 +1,111 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Shopware Channel Integration" [crumbs]="crumbs" />
+
+    <!-- Intro -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">Shopware Channel Integration <span class="rv-grad">For Linnworks</span></h2>
+          <p>{{ intro.text }}</p>
+        </div>
+
+        <figure class="rv-hero" appReveal style="--d: 150ms">
+          <img
+            src="assest/Wix-vs-Shopify-vs-BigCommerce (1).webp"
+            alt="Person using a smartphone with shopping cart, payment and delivery icons"
+            width="1200"
+            height="800"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <!-- Key features -->
+    <section class="rv-guide" aria-labelledby="rv-features-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ featuresHead.eyebrow }}</span>
+          <h2 id="rv-features-title">{{ featuresHead.title }}</h2>
+        </header>
+
+        <ul class="rv-cards">
+          @for (f of features; track f.title; let i = $index) {
+            <li class="rv-card rv-lift" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-icon"><i [class]="'pi ' + f.icon" aria-hidden="true"></i></span>
+              <div>
+                <h3>{{ f.title }}</h3>
+                <p>{{ f.text }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Setup guide: step list + screenshot -->
+    <section aria-labelledby="rv-guide-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ appHead.eyebrow }}</span>
+          <h2 id="rv-guide-title">{{ appHead.title }}</h2>
+        </header>
+
+        <div class="rv-wizard" appReveal>
+          <ol class="rv-wizard__steps" role="tablist" aria-label="Setup steps">
+            @for (s of steps; track $index; let i = $index) {
+              <li>
+                <button
+                  type="button"
+                  role="tab"
+                  class="rv-wizard__step"
+                  [class.is-active]="i === active()"
+                  [class.is-done]="i < active()"
+                  [attr.aria-selected]="i === active()"
+                  (click)="go(i)"
+                >
+                  <span class="rv-wizard__no">{{ i + 1 }}</span>
+                  <span class="rv-wizard__label">{{ s.title }}</span>
+                </button>
+              </li>
+            }
+          </ol>
+
+          <div class="rv-wizard__stage" role="tabpanel">
+            <div class="rv-wizard__bar" aria-hidden="true"><span [style.width.%]="((active() + 1) / steps.length) * 100"></span></div>
+            <p class="rv-wizard__count">Step {{ active() + 1 }} of {{ steps.length }}</p>
+            <h3>{{ steps[active()].title }}</h3>
+
+            @for (n of steps[active()].notes ?? []; track n) {
+              <p class="rv-wizard__note">{{ n }}</p>
+            }
+
+            @if (steps[active()].image) {
+              <figure class="rv-shot">
+                <img [src]="steps[active()].image" [alt]="steps[active()].alt ?? ''" />
+              </figure>
+            }
+
+            <div class="rv-wizard__nav">
+              <button type="button" class="rv-nav" [disabled]="active() === 0" (click)="go(active() - 1)">
+                <i class="pi pi-arrow-left" aria-hidden="true"></i> Previous
+              </button>
+              <button type="button" class="rv-nav rv-nav--next" [disabled]="active() === steps.length - 1" (click)="go(active() + 1)">
+                Next <i class="pi pi-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rv-install" appReveal>
+          <a class="rv-install__btn" routerLink="/contact-us">Install Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

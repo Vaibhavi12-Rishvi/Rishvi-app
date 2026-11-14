@@ -47,9 +47,22 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Macros', route: '/linnworks/macros' },
       { label: 'Custom Scripts', route: '/linnworks/custom-scripts' },
-      { label: 'Shipping Integrations', route: '/linnworks/shipping-integrations' },
+      {
+        label: 'Shipping Integrations',
+        route: '/linnworks/shipping-integrations',
+        children: [{ label: 'DHL DE Integration', route: '/linnworks/dhl-de-integration' }],
+      },
       { label: 'On Screen Automation', route: '/linnworks/on-screen-automation' },
-      { label: 'Channel Integrations', route: '/linnworks/channel-integrations' },
+      {
+        label: 'Channel Integrations',
+        route: '/linnworks/channel-integrations',
+        children: [
+          { label: 'Bandcamp Channel Integration', route: '/linnworks/bandcamp-channel-integration' },
+          { label: 'Ecwid Channel Integration', route: '/linnworks/ecwid-channel-integration' },
+          { label: 'Shopware Channel Integration', route: '/linnworks/shopware-channel-integration' },
+          { label: 'Webflow Integration', route: '/linnworks/webflow-integration' },
+        ],
+      },
       { label: 'Customization Apps', route: '/linnworks/customization-apps' },
       { label: 'Hyperstock Inventory Management', route: '/linnworks/hyperstock-inventory-management' },
       { label: 'Revolutionizing Inventory Management', route: '/linnworks/revolutionizing-inventory-management' },
@@ -74,9 +87,9 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Shopify Development', route: '/shopify-development' },
       { label: 'Magento Services', route: '/magento-services' },
-      { label: 'WooCommerce Development', route: '/website-development', fragment: 'services' },
-      { label: 'BigCommerce', route: '/website-development', fragment: 'services' },
-      { label: 'WordPress Development', route: '/website-development', fragment: 'services' },
+      { label: 'WooCommerce Development', route: '/woocommerce-development' },
+      { label: 'BigCommerce', route: '/bigcommerce' },
+      { label: 'WordPress Development', route: '/wordpress-development' },
     ],
   },
   {

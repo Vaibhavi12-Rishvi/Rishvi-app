@@ -1,0 +1,84 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Big-Commerce" [crumbs]="crumbs" />
+
+    <!-- Intro: bullet list + two overlapping photos -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">Big Commerce For <span class="rv-grad">ECommerce</span></h2>
+          <ul class="rv-bullets">
+            @for (b of intro.bullets; track $index) {
+              <li><i class="pi pi-check-circle" aria-hidden="true"></i> {{ b }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="rv-photos" appReveal style="--d: 150ms">
+          <img
+            class="rv-photos__a"
+            src="assest/Wix-vs-Shopify-vs-BigCommerce (1).webp"
+            alt="Person shopping on a smartphone with cart, payment and delivery icons"
+            width="1200"
+            height="800"
+          />
+          <img
+            class="rv-photos__b"
+            src="assest/stuttgart-germany-12312022-smartphone-logo-600nw-2245625643.webp"
+            alt="Smartphone showing the BigCommerce logo in front of a store dashboard"
+            width="600"
+            height="450"
+            loading="lazy"
+          />
+          <span class="rv-photos__tag"><i class="pi pi-shopping-cart" aria-hidden="true"></i> Built to scale</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services: 6 cards -->
+    <section class="rv-alt" aria-labelledby="rv-services-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ servicesHead.eyebrow }}</span>
+          <h2 id="rv-services-title">{{ servicesHead.title }}</h2>
+        </header>
+
+        <ul class="rv-cards">
+          @for (s of services; track s.title; let i = $index) {
+            <li class="rv-card rv-lift" appReveal [style.--d]="(i % 3) * 100 + 'ms'">
+              <span class="rv-icon"><i [class]="'pi ' + s.icon" aria-hidden="true"></i></span>
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.text }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Process: connected timeline -->
+    <section aria-labelledby="rv-process-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ processHead.eyebrow }}</span>
+          <h2 id="rv-process-title">{{ processHead.title }}</h2>
+        </header>
+
+        <ol class="rv-steps">
+          @for (p of process; track p.title; let i = $index) {
+            <li class="rv-step" appReveal [style.--d]="i * 90 + 'ms'">
+              <span class="rv-step__dot"><i [class]="'pi ' + p.icon" aria-hidden="true"></i></span>
+              <span class="rv-step__no">Step {{ i + 1 }}</span>
+              <h3>{{ p.title }}</h3>
+              <p>{{ p.text }}</p>
+            </li>
+          }
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

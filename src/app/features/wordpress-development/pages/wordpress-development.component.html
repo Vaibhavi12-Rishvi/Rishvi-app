@@ -1,0 +1,75 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="WordPress Development" [crumbs]="crumbs" />
+
+    <!-- Intro: copy + two overlapping photos -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">We Provide Tailored <span class="rv-grad">WordPress</span> Development Services</h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p>{{ p }}</p>
+          }
+          <ul class="rv-tags">
+            @for (t of intro.tags; track t) {
+              <li>{{ t }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="rv-photos" appReveal style="--d: 150ms">
+          <img
+            class="rv-photos__a"
+            src="assest/wordpress (1).jpg"
+            alt="WordPress logo over glowing lines of code"
+            width="800"
+            height="400"
+          />
+          <img
+            class="rv-photos__b"
+            src="assest/tc_wp_banner (1).jpg"
+            alt="WordPress benefits: cost-effective, responsive, SEO friendly, secure, easy to update"
+            width="870"
+            height="565"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Services: bento grid -->
+    <section class="rv-alt" aria-labelledby="rv-services-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ servicesHead.eyebrow }}</span>
+          <h2 id="rv-services-title">{{ servicesHead.title }}</h2>
+          <p>{{ servicesHead.text }}</p>
+        </header>
+
+        <ul class="rv-bento">
+          @for (s of services; track s.title; let i = $index) {
+            <li class="rv-tile rv-lift" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-icon"><i [class]="'pi ' + s.icon" aria-hidden="true"></i></span>
+              <div>
+                <h3>{{ s.title }}</h3>
+                <p>{{ s.text }}</p>
+              </div>
+            </li>
+          }
+          <li class="rv-tile rv-tile--wide" appReveal>
+            <span class="rv-icon"><i [class]="'pi ' + maintenance.icon" aria-hidden="true"></i></span>
+            <div>
+              <h3>{{ maintenance.title }}</h3>
+              <p>{{ maintenance.text }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

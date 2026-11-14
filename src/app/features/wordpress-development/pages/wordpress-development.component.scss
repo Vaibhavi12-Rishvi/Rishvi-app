@@ -1,0 +1,92 @@
+@use '../../website-development/styles/platform-base' as b;
+
+@include b.base;
+
+.rv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.45rem 0.95rem;
+    border: 1px solid var(--rv-border);
+    border-radius: 999px;
+    background: var(--rv-surface-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--rv-heading);
+  }
+}
+
+// the first photo is wide, so give it a wider crop
+.rv-photos__a {
+  aspect-ratio: 2 / 1;
+}
+
+/* ---------- Services bento ---------- */
+.rv-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rv-tile {
+  display: flex;
+  gap: 1.2rem;
+  padding: 1.8rem 1.6rem;
+
+  .rv-icon {
+    flex: none;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--rv-heading);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--rv-body);
+  }
+
+  // the last card spans both columns, in the brand gradient
+  &--wide {
+    grid-column: 1 / -1;
+    align-items: center;
+    border-radius: 20px;
+    background: var(--rv-gradient);
+    box-shadow: 0 30px 50px -30px var(--rv-shadow-strong);
+
+    .rv-icon {
+      background: #fff;
+      color: var(--rv-primary);
+      box-shadow: none;
+    }
+
+    h3,
+    p {
+      color: #fff;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .rv-bento {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .rv-tile {
+    flex-direction: column;
+  }
+}
