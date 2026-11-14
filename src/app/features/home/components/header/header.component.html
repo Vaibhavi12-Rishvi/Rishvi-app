@@ -46,7 +46,13 @@
                   <i class="pi pi-chevron-down rv-nav__chevron" aria-hidden="true"></i>
                 </button>
               }
-              <div class="rv-menu" role="menu" [id]="'menu-' + item.key" [attr.aria-label]="item.label" (keydown)="onMenuKeydown($event, li)">
+              <div
+                class="rv-menu"
+                role="menu"
+                [id]="'menu-' + item.key"
+                [attr.aria-label]="item.label"
+                (keydown)="onMenuKeydown($event, li)"
+              >
                 @for (child of item.children; track child.label; let i = $index) {
                   <div
                     class="rv-menu__item"
@@ -108,7 +114,9 @@
             </li>
           } @else {
             <li class="rv-nav__item" [class.is-active]="activeKey() === item.key">
-              <a class="rv-nav__trigger" [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{ item.label }}</a>
+              <a class="rv-nav__trigger" [routerLink]="item.route" [fragment]="item.fragment" (click)="select(item.key)">{{
+                item.label
+              }}</a>
             </li>
           }
         }
@@ -227,7 +235,9 @@
                 <a [routerLink]="child.route" [fragment]="child.fragment" (click)="select(item.key)">{{ child.label }}</a>
               }
               @for (sub of child.children ?? []; track sub.label) {
-                <a class="rv-mobile__sub-nested" [routerLink]="sub.route" [fragment]="sub.fragment" (click)="select(item.key)">{{ sub.label }}</a>
+                <a class="rv-mobile__sub-nested" [routerLink]="sub.route" [fragment]="sub.fragment" (click)="select(item.key)">{{
+                  sub.label
+                }}</a>
               }
             }
           </div>

@@ -17,10 +17,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'Shopify-Stream' title`, () => {
+  it(`should have the 'Rishvi-app' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('Shopify-Stream');
+    expect(app.title).toEqual('Rishvi-app');
   });
 
   it('should render router outlet', () => {

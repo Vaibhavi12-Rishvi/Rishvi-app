@@ -70,7 +70,11 @@
               </div>
               <h3>{{ s.title }}</h3>
               <p>{{ s.text }}</p>
-              <a class="rv-fx__link" [href]="enquiry(s.title)">Read More <i class="pi pi-arrow-circle-right" aria-hidden="true"></i></a>
+              @if (s.route) {
+                <a class="rv-fx__link" [routerLink]="s.route">Read More <i class="pi pi-arrow-circle-right" aria-hidden="true"></i></a>
+              } @else {
+                <a class="rv-fx__link" [href]="enquiry(s.title)">Read More <i class="pi pi-arrow-circle-right" aria-hidden="true"></i></a>
+              }
             </article>
           }
         </div>

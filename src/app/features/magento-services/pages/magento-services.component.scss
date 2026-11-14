@@ -1,0 +1,303 @@
+@use '../../home/styles/tokens' as t;
+
+@include t.rv-tokens;
+
+/* ---------- Scroll animation (see RevealDirective) ---------- */
+.rv-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Shared bits ---------- */
+.rv-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-accent-text);
+}
+
+.rv-grad {
+  background: var(--rv-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+
+  // extra bottom space for the call-to-action card that overlaps the footer
+  &--last {
+    padding-bottom: 9rem;
+  }
+}
+
+h2 {
+  margin: 0.6rem 0 0;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: var(--rv-heading);
+}
+
+.rv-head {
+  max-width: 48rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+
+  h2 {
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0.9rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--rv-body);
+  }
+}
+
+/* ---------- Intro ---------- */
+.rv-intro {
+  &__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: start;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  &__copy {
+    h2 {
+      margin-bottom: 1.2rem;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: var(--rv-body);
+    }
+  }
+}
+
+.rv-photos {
+  position: sticky;
+  top: 110px;
+  padding-bottom: 36%;
+
+  img {
+    display: block;
+    height: auto; // the height attribute would otherwise win over aspect-ratio
+    object-fit: cover;
+    border-radius: 22px;
+    box-shadow: 0 36px 60px -34px var(--rv-shadow-strong);
+  }
+
+  &__a {
+    width: 86%;
+    aspect-ratio: 4 / 3;
+  }
+
+  &__b {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 74%;
+    aspect-ratio: 4 / 3;
+    border: 6px solid var(--rv-surface);
+  }
+
+  &__tag {
+    position: absolute;
+    left: -0.8rem;
+    bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: var(--rv-surface);
+    box-shadow: 0 16px 30px -16px var(--rv-shadow-strong);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--rv-heading);
+
+    .pi {
+      color: var(--rv-primary);
+    }
+  }
+}
+
+/* ---------- Why choose us ---------- */
+.rv-trust,
+.rv-benefits {
+  background: var(--rv-surface-2);
+}
+
+.rv-benefits {
+  background: var(--rv-surface);
+}
+
+.rv-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // the second row of two stays centred
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rv-reason {
+  position: relative;
+  overflow: hidden;
+  flex: 0 1 calc((100% - 2.8rem) / 3);
+  min-width: 250px;
+  padding: 2rem 1.6rem;
+  border: 1px solid var(--rv-border);
+  border-radius: 20px;
+  background: var(--rv-surface);
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: var(--rv-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 30px 50px -28px var(--rv-shadow-strong);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 1.1rem;
+    border-radius: 18px;
+    background: var(--rv-gradient);
+    color: #fff;
+    font-size: 1.35rem;
+    box-shadow: 0 14px 26px -14px var(--rv-primary);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--rv-heading);
+  }
+}
+
+/* ---------- Benefits checklist ---------- */
+.rv-checks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rv-check {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--rv-border);
+  border-radius: 18px;
+  background: var(--rv-surface-2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--rv-primary);
+    box-shadow: 0 26px 46px -28px var(--rv-shadow-strong);
+  }
+
+  &__mark {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--rv-gradient);
+    color: #fff;
+    font-size: 0.85rem;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--rv-body);
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .rv-intro__inner {
+    grid-template-columns: 1fr;
+  }
+  .rv-photos {
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .rv-photos__tag {
+    left: 0.6rem;
+  }
+  .rv-reason {
+    flex-basis: calc((100% - 1.4rem) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-section {
+    padding: 3.5rem 1rem;
+
+    &--last {
+      padding-bottom: 12rem;
+    }
+  }
+  .rv-reason {
+    flex-basis: 100%;
+  }
+  .rv-checks {
+    grid-template-columns: 1fr;
+  }
+}

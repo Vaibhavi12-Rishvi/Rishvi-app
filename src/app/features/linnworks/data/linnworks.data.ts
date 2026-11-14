@@ -26,7 +26,7 @@ export const LINNWORKS_SERVICES: AboutPoint[] = [
   {
     icon: 'pi-send',
     title: 'DHL DE Integration',
-    route: '/linnworks/shipping-integrations',
+    route: '/linnworks/dhl-de-integration',
     text: 'Streamline your shipping with seamless DHL DE integration for efficient delivery management.',
   },
   {

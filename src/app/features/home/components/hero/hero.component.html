@@ -16,11 +16,11 @@
     </p>
 
     <div class="rv-hero__actions">
-      <a class="rv-btn rv-btn--primary" routerLink="/home" fragment="contact">
+      <button type="button" class="rv-btn rv-btn--primary" (click)="enquiryOpen.set(true)" aria-haspopup="dialog">
         Let's Discuss Your Project
         <i class="pi pi-arrow-right" aria-hidden="true"></i>
-      </a>
-      <a class="rv-btn rv-btn--ghost" routerLink="/home" fragment="featured-services">Explore Our Expertise</a>
+      </button>
+      <a class="rv-btn rv-btn--ghost" href="/home#featured-services" (click)="scrollToServices($event)">Explore Our Expertise</a>
     </div>
 
     <ul class="rv-trust" aria-label="Credentials">
@@ -112,23 +112,9 @@
     }
 
     <ng-template #logoTpl>
-      <svg class="rv-mark" viewBox="0 0 400 400" aria-hidden="true">
-        <defs>
-          <linearGradient id="rvMark" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#118CFF" />
-            <stop offset=".55" stop-color="#7D5BFF" />
-            <stop offset="1" stop-color="#E42BFD" />
-          </linearGradient>
-        </defs>
-        <g class="rv-mark__spin">
-          <path pathLength="1" d="M200 14c46 54 46 112 0 186-46-74-46-132 0-186Z" />
-          <path pathLength="1" d="M200 386c46-54 46-112 0-186-46 74-46 132 0 186Z" />
-          <path pathLength="1" d="M14 200c54-46 112-46 186 0-74 46-132 46-186 0Z" />
-          <path pathLength="1" d="M386 200c-54 46-112 46-186 0 74-46 132-46 186 0Z" />
-          <rect pathLength="1" x="74" y="74" width="252" height="252" rx="10" />
-        </g>
-      </svg>
-      <div class="rv-word"><strong>RISHVI</strong><small>HYPER COMMERCE</small></div>
+      <img class="rv-logo-img" src="assest/rishvi-logo-1-2048x636.webp" alt="Rishvi Hyper Commerce" width="2048" height="636" />
     </ng-template>
   </div>
 </section>
+
+<app-enquiry-dialog [(visible)]="enquiryOpen" />

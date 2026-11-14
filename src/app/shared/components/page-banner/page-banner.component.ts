@@ -1,6 +1,11 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+export interface BannerCrumb {
+  label: string;
+  route: string;
+}
+
 /**
  * Title banner for the public inner pages. It slides up under the transparent sticky header,
  * so it must be placed directly below `<app-home-header />` inside a page that includes the Rishvi tokens.
@@ -15,4 +20,6 @@ import { RouterLink } from '@angular/router';
 export class PageBannerComponent {
   readonly title = input.required<string>();
   readonly eyebrow = input<string>('');
+  /** Links between Home and the current page, e.g. [{ label: 'Linnworks', route: '/linnworks' }]. */
+  readonly crumbs = input<BannerCrumb[]>([]);
 }

@@ -1,0 +1,80 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Magento Services" [crumbs]="crumbs" />
+
+    <!-- Intro: copy + two overlapping photos -->
+    <section class="rv-intro" aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro__inner">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">Explore The <span class="rv-grad">Magento Benefits</span> With Us!</h2>
+          @for (p of intro.paragraphs; track $index) {
+            <p>{{ p }}</p>
+          }
+        </div>
+
+        <div class="rv-photos" appReveal style="--d: 150ms">
+          <img
+            class="rv-photos__a"
+            src="assest/Everything-Merchants-and-Developers-need-to-know-about-Magento.avif"
+            alt="Team reviewing documents around a laptop showing the Magento logo"
+            width="870"
+            height="430"
+          />
+          <img
+            class="rv-photos__b"
+            src="assest/2@2x-min-2048x1227.png"
+            alt="Hands typing on a laptop with floating learning icons and the Magento logo"
+            width="2048"
+            height="1227"
+            loading="lazy"
+          />
+          <span class="rv-photos__tag"><i class="pi pi-bolt" aria-hidden="true"></i> Faster · Scalable · Feature-rich</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why choose us: 5 cards -->
+    <section class="rv-trust" aria-labelledby="rv-trust-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ trust.eyebrow }}</span>
+          <h2 id="rv-trust-title">{{ trust.title }}</h2>
+          <p>{{ trust.text }}</p>
+        </header>
+
+        <ul class="rv-reasons">
+          @for (r of reasons; track r.title; let i = $index) {
+            <li class="rv-reason" appReveal [style.--d]="(i % 3) * 100 + 'ms'">
+              <span class="rv-reason__icon"><i [class]="'pi ' + r.icon" aria-hidden="true"></i></span>
+              <h3>{{ r.title }}</h3>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Benefits: numbered checklist -->
+    <section class="rv-benefits" aria-labelledby="rv-benefits-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ benefitsHead.eyebrow }}</span>
+          <h2 id="rv-benefits-title">{{ benefitsHead.title }}</h2>
+        </header>
+
+        <ul class="rv-checks">
+          @for (b of benefits; track $index; let i = $index) {
+            <li class="rv-check" appReveal [style.--d]="(i % 2) * 100 + 'ms'">
+              <span class="rv-check__mark" aria-hidden="true"><i class="pi pi-check"></i></span>
+              <p>{{ b }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

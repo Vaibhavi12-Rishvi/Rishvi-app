@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { EnquiryDialogComponent } from '../enquiry-dialog/enquiry-dialog.component';
 import { ThemeService } from '../../../../core/services/theme.service';
 import { HeroSystem, OrbitChip } from '../../../../models/home.model';
 
 @Component({
   selector: 'app-home-hero',
   standalone: true,
-  imports: [RouterLink, NgTemplateOutlet],
+  imports: [NgTemplateOutlet, EnquiryDialogComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })
@@ -17,6 +18,21 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private timer?: ReturnType<typeof setInterval>;
 
   readonly theme = inject(ThemeService);
+  private readonly router = inject(Router);
+
+  /** Whether the "Let's discuss your project" popup is open. */
+  readonly enquiryOpen = signal(false);
+
+  /** Smooth-scrolls to Featured Services (works even if the URL already ends in #featured-services). */
+  scrollToServices(event: Event): void {
+    event.preventDefault();
+    const el = document.getElementById('featured-services');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      void this.router.navigate(['/home'], { fragment: 'featured-services' });
+    }
+  }
 
   /** Systems orbiting the logo. Ring 1 is the inner ring, ring 2 the outer one. */
   readonly chips: OrbitChip[] = [

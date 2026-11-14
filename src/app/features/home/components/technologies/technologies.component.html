@@ -18,9 +18,8 @@
 
     <ul class="rv-tech__grid">
       @for (t of items(); track t.name) {
-        <li class="rv-chip">
-          <span class="rv-chip__logo"><img [src]="t.image" [alt]="t.name" loading="lazy" /></span>
-          <span class="rv-chip__name">{{ t.name }}</span>
+        <li class="rv-chip" [attr.title]="t.name">
+          <img [src]="t.image" [alt]="t.name" loading="lazy" />
         </li>
       }
     </ul>
