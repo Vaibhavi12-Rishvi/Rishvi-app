@@ -1,4 +1,5 @@
 import { Component, OnDestroy, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { RevealDirective } from '../../../shared/directives/reveal.directive';
@@ -10,7 +11,7 @@ import { CHANNEL_ABOUT, CHANNEL_APPS, CHANNEL_FAQS, CHANNEL_INTRO } from '../dat
 @Component({
   selector: 'app-channel-integrations',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, PageBannerComponent, RevealDirective],
+  imports: [HeaderComponent, FooterComponent, PageBannerComponent, RevealDirective, RouterLink],
   templateUrl: './channel-integrations.component.html',
   styleUrl: './channel-integrations.component.scss',
 })

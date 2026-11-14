@@ -25,9 +25,9 @@ export const WEB_SERVICES_HEAD = {
 export const WEB_SERVICES: WebService[] = [
   { icon: 'pi-shopping-bag', route: '/shopify-development', title: 'Shopify Development', text: 'Custom Shopify development for a unique, optimized online store.' },
   { icon: 'pi-server', route: '/magento-services', title: 'Magento Services', text: 'Customized Magento services for scalable eCommerce solutions.' },
-  { icon: 'pi-shopping-cart', title: 'Woocommerce Development', text: 'Tailored WooCommerce development for powerful and flexible online stores.' },
-  { icon: 'pi-th-large', title: 'Big-Commerce', text: 'Robust BigCommerce solutions for scalable and growth-driven online businesses.' },
-  { icon: 'pi-globe', title: 'Wordpress Development', text: 'Custom WordPress development for dynamic, user-friendly websites.' },
+  { icon: 'pi-shopping-cart', route: '/woocommerce-development', title: 'Woocommerce Development', text: 'Tailored WooCommerce development for powerful and flexible online stores.' },
+  { icon: 'pi-th-large', route: '/bigcommerce', title: 'Big-Commerce', text: 'Robust BigCommerce solutions for scalable and growth-driven online businesses.' },
+  { icon: 'pi-globe', route: '/wordpress-development', title: 'Wordpress Development', text: 'Custom WordPress development for dynamic, user-friendly websites.' },
 ];
 
 export const WEB_TESTIMONIALS_HEAD = {

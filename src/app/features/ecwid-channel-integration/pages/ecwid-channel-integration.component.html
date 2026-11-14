@@ -1,0 +1,83 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Ecwid Channel Integration" [crumbs]="crumbs" />
+
+    <!-- Intro -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">Streamline Your <span class="rv-grad">Ecwid</span> Operations With Rishvi Ltd’s Linnworks Integration</h2>
+          <p>{{ intro.text }}</p>
+        </div>
+
+        <ul class="rv-feats" appReveal style="--d: 150ms">
+          @for (f of intro.features; track f.label) {
+            <li>
+              <span class="rv-feats__icon"><i [class]="'pi ' + f.icon" aria-hidden="true"></i></span>
+              {{ f.label }}
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Setup guide: step list + big screenshot -->
+    <section class="rv-guide" aria-labelledby="rv-guide-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ appHead.eyebrow }}</span>
+          <h2 id="rv-guide-title">{{ appHead.title }}</h2>
+        </header>
+
+        <div class="rv-wizard" appReveal>
+          <ol class="rv-wizard__steps" role="tablist" aria-label="Setup steps">
+            @for (s of steps; track $index; let i = $index) {
+              <li>
+                <button
+                  type="button"
+                  role="tab"
+                  class="rv-wizard__step"
+                  [class.is-active]="i === active()"
+                  [class.is-done]="i < active()"
+                  [attr.aria-selected]="i === active()"
+                  (click)="go(i)"
+                >
+                  <span class="rv-wizard__no">{{ i + 1 }}</span>
+                  <span class="rv-wizard__label">{{ s.title }}</span>
+                </button>
+              </li>
+            }
+          </ol>
+
+          <div class="rv-wizard__stage" role="tabpanel">
+            <div class="rv-wizard__bar" aria-hidden="true"><span [style.width.%]="((active() + 1) / steps.length) * 100"></span></div>
+            <p class="rv-wizard__count">Step {{ active() + 1 }} of {{ steps.length }}</p>
+            <h3>{{ steps[active()].title }}</h3>
+
+            <figure class="rv-shot">
+              <img [src]="steps[active()].image" [alt]="steps[active()].alt" width="1253" height="590" />
+            </figure>
+
+            <div class="rv-wizard__nav">
+              <button type="button" class="rv-nav" [disabled]="active() === 0" (click)="go(active() - 1)">
+                <i class="pi pi-arrow-left" aria-hidden="true"></i> Previous
+              </button>
+              <button type="button" class="rv-nav rv-nav--next" [disabled]="active() === steps.length - 1" (click)="go(active() + 1)">
+                Next <i class="pi pi-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rv-install" appReveal>
+          <a class="rv-install__btn" routerLink="/contact-us">Install Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

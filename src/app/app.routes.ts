@@ -139,6 +139,52 @@ export const routes: Routes = [
       import('./features/magento-services/pages/magento-services.component').then((m) => m.MagentoServicesComponent),
   },
   {
+    path: 'linnworks/bandcamp-channel-integration',
+    loadComponent: () =>
+      import('./features/bandcamp-channel-integration/pages/bandcamp-channel-integration.component').then(
+        (m) => m.BandcampChannelIntegrationComponent,
+      ),
+  },
+  {
+    path: 'linnworks/ecwid-channel-integration',
+    loadComponent: () =>
+      import('./features/ecwid-channel-integration/pages/ecwid-channel-integration.component').then(
+        (m) => m.EcwidChannelIntegrationComponent,
+      ),
+  },
+  {
+    path: 'linnworks/shopware-channel-integration',
+    loadComponent: () =>
+      import('./features/shopware-channel-integration/pages/shopware-channel-integration.component').then(
+        (m) => m.ShopwareChannelIntegrationComponent,
+      ),
+  },
+  {
+    path: 'linnworks/webflow-integration',
+    loadComponent: () =>
+      import('./features/webflow-integration/pages/webflow-integration.component').then(
+        (m) => m.WebflowIntegrationComponent,
+      ),
+  },
+  {
+    path: 'woocommerce-development',
+    loadComponent: () =>
+      import('./features/woocommerce-development/pages/woocommerce-development.component').then(
+        (m) => m.WoocommerceDevelopmentComponent,
+      ),
+  },
+  {
+    path: 'bigcommerce',
+    loadComponent: () => import('./features/bigcommerce/pages/bigcommerce.component').then((m) => m.BigcommerceComponent),
+  },
+  {
+    path: 'wordpress-development',
+    loadComponent: () =>
+      import('./features/wordpress-development/pages/wordpress-development.component').then(
+        (m) => m.WordpressDevelopmentComponent,
+      ),
+  },
+  {
     path: 'website-development',
     loadComponent: () =>
       import('./features/website-development/pages/website-development.component').then((m) => m.WebsiteDevelopmentComponent),

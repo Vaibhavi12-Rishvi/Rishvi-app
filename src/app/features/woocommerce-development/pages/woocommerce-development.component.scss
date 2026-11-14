@@ -1,0 +1,220 @@
+@use '../../website-development/styles/platform-base' as b;
+
+@include b.base;
+
+/* ---------- Intro feature panel (no photo supplied) ---------- */
+.rv-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 2.6rem 2rem;
+  border-radius: 28px;
+  background: var(--rv-gradient);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 40px 70px -36px var(--rv-shadow-strong);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+  }
+  &::before {
+    width: 220px;
+    height: 220px;
+    top: -80px;
+    right: -60px;
+  }
+  &::after {
+    width: 160px;
+    height: 160px;
+    bottom: -60px;
+    left: -40px;
+  }
+
+  &__cart {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--rv-primary);
+    font-size: 2.2rem;
+    box-shadow: 0 20px 36px -18px rgba(0, 0, 0, 0.45);
+  }
+
+  &__title {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-bottom: 1.4rem;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  &__pills {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+}
+
+/* ---------- Why: numbered 2x2 ---------- */
+.rv-why {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__item {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.8rem 1.6rem;
+
+    p {
+      margin: 0;
+      line-height: 1.7;
+      color: var(--rv-body);
+    }
+  }
+
+  &__no {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--rv-gradient);
+    color: #fff;
+    font-weight: 800;
+  }
+}
+
+/* ---------- Features: light + gradient lists ---------- */
+.rv-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+}
+
+.rv-list {
+  margin: 0;
+  padding: 1.6rem 1.8rem;
+  list-style: none;
+  border: 1px solid var(--rv-border);
+  border-radius: 22px;
+  background: var(--rv-surface);
+  box-shadow: 0 26px 46px -34px var(--rv-shadow-strong);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.7rem 0;
+    font-weight: 500;
+    color: var(--rv-body);
+  }
+
+  .pi {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--rv-gradient);
+    color: #fff;
+    font-size: 0.7rem;
+  }
+
+  &--dark {
+    border: 0;
+    background: var(--rv-gradient);
+
+    li {
+      color: #fff;
+    }
+    .pi {
+      background: #fff;
+      color: var(--rv-primary);
+    }
+  }
+}
+
+/* ---------- Services ---------- */
+.rv-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rv-card {
+  padding: 1.8rem 1.5rem;
+
+  .rv-icon {
+    margin-bottom: 1.1rem;
+  }
+
+  &__no {
+    position: absolute;
+    top: 0.8rem;
+    right: 1.2rem;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--rv-border-strong);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--rv-body);
+  }
+}
+
+@media (max-width: 1000px) {
+  .rv-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .rv-why,
+  .rv-features {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-cards {
+    grid-template-columns: 1fr;
+  }
+}
