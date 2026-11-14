@@ -221,6 +221,15 @@ export const routes: Routes = [
       import('./features/optimisation-services/pages/optimisation-services.component').then((m) => m.OptimisationServicesComponent),
   },
   {
+    path: 'booking',
+    loadComponent: () => import('./features/booking/pages/booking.component').then((m) => m.BookingComponent),
+  },
+  {
+    path: 'linnworks-technical-support',
+    loadComponent: () =>
+      import('./features/technical-support/pages/technical-support.component').then((m) => m.TechnicalSupportComponent),
+  },
+  {
     path: 'linnworks-efficiency-audit',
     loadComponent: () => import('./features/efficiency-audit/pages/efficiency-audit.component').then((m) => m.EfficiencyAuditComponent),
   },

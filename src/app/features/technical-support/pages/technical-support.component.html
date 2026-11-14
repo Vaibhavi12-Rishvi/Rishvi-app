@@ -1,0 +1,100 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Linnworks Technical Support" [crumbs]="crumbs" />
+
+    <!-- Intro -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">{{ intro.title }}</h2>
+          <p>{{ intro.text }}</p>
+          <p>Book your <strong>FREE consultation</strong> today and discover how Rishvi Ltd can help you maximize your e-commerce operations.</p>
+          <a class="rv-btn" routerLink="/booking" [queryParams]="{ service: 'linnworks-technical-support' }">
+            Book Free Consultation <i class="pi pi-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="rv-photos" appReveal style="--d: 150ms">
+          <img class="rv-photos__a" [src]="intro.images[0].src" [alt]="intro.images[0].alt" />
+          <img class="rv-photos__b" [src]="intro.images[1].src" [alt]="intro.images[1].alt" loading="lazy" />
+          <span class="rv-photos__tag"><i class="pi pi-headphones" aria-hidden="true"></i> Certified Partner</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plans -->
+    <section class="rv-alt" aria-labelledby="rv-plans-title">
+      <div class="rv-section">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ plansHead.eyebrow }}</span>
+          <h2 id="rv-plans-title">{{ plansHead.title }}</h2>
+          <p>{{ plansHead.text }}</p>
+        </header>
+
+        <div class="rv-plans">
+          @for (p of plans; track p.title; let i = $index) {
+            <article class="rv-plan rv-lift" appReveal [style.--d]="i * 120 + 'ms'">
+              <span class="rv-icon"><i [class]="'pi ' + p.icon" aria-hidden="true"></i></span>
+              <h3>{{ p.title }}</h3>
+              <p class="rv-plan__tag">{{ p.tagline }}</p>
+              <p class="rv-plan__price">{{ p.price }}</p>
+              <ul class="rv-plan__list">
+                @for (f of features; track f) {
+                  <li><i class="pi pi-check" aria-hidden="true"></i> <span>{{ f }}</span></li>
+                }
+              </ul>
+              <a class="rv-btn" routerLink="/booking" [queryParams]="{ service: 'linnworks-technical-support' }">{{ p.cta }} <i class="pi pi-arrow-right" aria-hidden="true"></i></a>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section aria-labelledby="rv-faq-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">FAQ's</span>
+          <h2 id="rv-faq-title">Frequently Asked Questions</h2>
+        </header>
+
+        <div class="rv-acc" appReveal>
+          @for (f of faqs; track f.question; let i = $index) {
+            <div class="rv-acc__item" [class.is-open]="openIndex() === i">
+              <h3>
+                <button
+                  type="button"
+                  class="rv-acc__q"
+                  [id]="'faq-q-' + i"
+                  [attr.aria-expanded]="openIndex() === i"
+                  [attr.aria-controls]="'faq-a-' + i"
+                  (click)="toggle(i)"
+                >
+                  <span class="rv-acc__no">{{ i + 1 }}</span>
+                  <span class="rv-acc__text">{{ f.question }}</span>
+                  <i class="pi" [class.pi-minus]="openIndex() === i" [class.pi-plus]="openIndex() !== i" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="rv-acc__a" [id]="'faq-a-' + i" role="region" [attr.aria-labelledby]="'faq-q-' + i">
+                <div class="rv-acc__body">
+                  <p>{{ f.answer }}</p>
+                  @if (f.points) {
+                    <ul>
+                      @for (pt of f.points; track pt) {
+                        <li>{{ pt }}</li>
+                      }
+                    </ul>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>
