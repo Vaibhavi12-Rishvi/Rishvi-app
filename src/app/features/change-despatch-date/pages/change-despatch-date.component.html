@@ -1,0 +1,108 @@
+<div class="rv-home">
+  <app-home-header />
+
+  <main id="main">
+    <app-page-banner title="Change Despatch Date" [crumbs]="crumbs" />
+
+    <!-- Intro: copy + two overlapping photos -->
+    <section aria-labelledby="rv-intro-title">
+      <div class="rv-section rv-intro">
+        <div class="rv-intro__copy" appReveal>
+          <span class="rv-eyebrow">{{ intro.eyebrow }}</span>
+          <h2 id="rv-intro-title">RIS-PG-1002 <span class="rv-grad">Change Despatch Date</span></h2>
+          <p>{{ intro.text }}</p>
+          <p class="rv-intro__label">{{ intro.multipleLabel }}</p>
+          <ol class="rv-checklist">
+            @for (m of intro.multiple; track $index; let i = $index) {
+              <li><i class="pi pi-check-circle" aria-hidden="true"></i> {{ i + 1 }}. {{ m }}</li>
+            }
+          </ol>
+        </div>
+
+        <div class="rv-photos" appReveal style="--d: 150ms">
+          <img
+            class="rv-photos__a"
+            src="assest/360_F_138067977_NokvPQ7EUAnvspOOBVCR6yeAJyBG1LnE.jpg"
+            alt="Delivery worker checking parcels with a tablet"
+            width="500"
+            height="334"
+          />
+          <img
+            class="rv-photos__b"
+            src="assest/man-van-featured-image-1280x720-1.jpg.webp"
+            alt="Smiling courier lifting a parcel beside a van"
+            width="1280"
+            height="720"
+            loading="lazy"
+          />
+          <span class="rv-photos__tag"><i class="pi pi-calendar" aria-hidden="true"></i> Reschedule in seconds</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="rv-summary" aria-labelledby="rv-summary-title">
+      <div class="rv-section" appReveal>
+        <h2 id="rv-summary-title">{{ summary.title }}</h2>
+        <p>{{ summary.text }}</p>
+      </div>
+    </section>
+
+    <!-- Setup guide -->
+    <section aria-labelledby="rv-guide-title">
+      <div class="rv-section rv-section--last">
+        <header class="rv-head" appReveal>
+          <span class="rv-eyebrow">{{ appHead.eyebrow }}</span>
+          <h2 id="rv-guide-title">{{ appHead.title }}</h2>
+          <p>{{ appHead.sub }}</p>
+        </header>
+
+        <div class="rv-wizard" appReveal>
+          <ol class="rv-wizard__steps" role="tablist" aria-label="Steps">
+            @for (s of steps; track $index; let i = $index) {
+              <li>
+                <button
+                  type="button"
+                  role="tab"
+                  class="rv-wizard__step"
+                  [class.is-active]="i === active()"
+                  [class.is-done]="i < active()"
+                  [attr.aria-selected]="i === active()"
+                  (click)="go(i)"
+                >
+                  <span class="rv-wizard__no">{{ i + 1 }}</span>
+                  <span class="rv-wizard__label">{{ s.title }}</span>
+                </button>
+              </li>
+            }
+          </ol>
+
+          <div class="rv-wizard__stage" role="tabpanel">
+            <div class="rv-wizard__bar" aria-hidden="true"><span [style.width.%]="((active() + 1) / steps.length) * 100"></span></div>
+            <p class="rv-wizard__count">Step {{ active() + 1 }} of {{ steps.length }}</p>
+            <h3>{{ steps[active()].title }}</h3>
+
+            <figure class="rv-shot">
+              <img [src]="steps[active()].image" [alt]="steps[active()].alt" />
+            </figure>
+
+            <div class="rv-wizard__nav">
+              <button type="button" class="rv-nav" [disabled]="active() === 0" (click)="go(active() - 1)">
+                <i class="pi pi-arrow-left" aria-hidden="true"></i> Previous
+              </button>
+              <button type="button" class="rv-nav rv-nav--next" [disabled]="active() === steps.length - 1" (click)="go(active() + 1)">
+                Next <i class="pi pi-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rv-install" appReveal>
+          <a class="rv-install__btn" routerLink="/contact-us">Install Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <app-home-footer />
+</div>

@@ -1,0 +1,247 @@
+<div class="rv-home">
+  <app-home-header />
+
+  @if (page(); as p) {
+    @if (info(); as k) {
+      <main id="main">
+        <app-page-banner [title]="p.title" [crumbs]="crumbs()" />
+
+        <!-- Intro: copy + media -->
+        <section aria-labelledby="rv-intro-title">
+          <div class="rv-section rv-intro">
+            <div class="rv-intro__copy" appReveal>
+              <span class="rv-tag">
+                <i [class]="'pi ' + k.icon" aria-hidden="true"></i> {{ k.badge }}@if (code()) { · {{ code() }} }
+              </span>
+              <span class="rv-eyebrow">{{ p.kind === 'macro' ? 'Start using the macro' : 'Overview' }}</span>
+              <h2 id="rv-intro-title">{{ overviewHeading() }}</h2>
+              @for (t of p.introParas; track $index) {
+                <p>{{ t }}</p>
+              }
+              @if (p.introLines.length) {
+                <ul class="rv-checklist">
+                  @for (l of p.introLines; track $index) {
+                    <li><i class="pi pi-check" aria-hidden="true"></i> <span>{{ l }}</span></li>
+                  }
+                </ul>
+              }
+            </div>
+
+            @if (p.images.length > 1) {
+              <div class="rv-photos" appReveal style="--d: 150ms">
+                <img class="rv-photos__a" [src]="p.images[0].src" [alt]="p.images[0].alt || p.title" />
+                <img class="rv-photos__b" [src]="p.images[1].src" [alt]="p.images[1].alt || p.title" loading="lazy" />
+                <span class="rv-photos__tag"><i [class]="'pi ' + k.icon" aria-hidden="true"></i> {{ p.title }}</span>
+              </div>
+            } @else if (p.images.length === 1) {
+              <figure [class]="p.kind === 'shipping' ? 'rv-solo-figure' : 'rv-hero-figure'" appReveal style="--d: 150ms">
+                <img [src]="p.images[0].src" [alt]="p.images[0].alt || p.title" />
+              </figure>
+            }
+          </div>
+        </section>
+
+        <!-- Content sections -->
+        @for (s of p.sections; track $index; let si = $index) {
+          <section [class.rv-alt]="si % 2 === 0" [attr.aria-label]="s.title">
+            <div class="rv-section" [class.rv-section--last]="si === p.sections.length - 1 && !p.steps.length">
+              <header class="rv-head" appReveal>
+                @if (s.eyebrow) {
+                  <span class="rv-eyebrow">{{ s.eyebrow }}</span>
+                }
+                <h2>{{ s.title }}</h2>
+              </header>
+
+              @for (t of s.paras; track $index) {
+                <p class="rv-lead">{{ t }}</p>
+              }
+
+              @if (s.table; as t) {
+                <div class="rv-table" appReveal role="region" [attr.aria-label]="s.title + ' table'" tabindex="0">
+                  <table>
+                    <thead>
+                      <tr>
+                        @for (c of t[0]; track $index) {
+                          <th scope="col">{{ c }}</th>
+                        }
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (row of t.slice(1); track $index) {
+                        <tr>
+                          @for (c of row; track $index; let ci = $index) {
+                            @if (ci === 0) {
+                              <th scope="row"><span class="rv-code">{{ c }}</span></th>
+                            } @else {
+                              <td>{{ c }}</td>
+                            }
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+
+              @if (s.items.length) {
+                @if (p.kind === 'script') {
+                  <dl class="rv-params" appReveal>
+                    @for (it of s.items; track $index) {
+                      @if (splitLabel(it); as kv) {
+                        <div class="rv-params__row">
+                          <dt><span class="rv-code">{{ kv.label }}</span></dt>
+                          <dd>{{ kv.text }}</dd>
+                        </div>
+                      } @else {
+                        <div class="rv-params__row"><dd>{{ it }}</dd></div>
+                      }
+                    }
+                  </dl>
+                } @else {
+                  <ul class="rv-checklist" appReveal>
+                    @for (it of s.items; track $index) {
+                      <li><i class="pi pi-check" aria-hidden="true"></i> <span>{{ it }}</span></li>
+                    }
+                  </ul>
+                }
+              }
+
+              @if (s.groups.length) {
+                <div class="rv-groups">
+                  @for (g of s.groups; track $index; let gi = $index) {
+                    <article class="rv-card rv-lift" appReveal [style.--d]="(gi % 2) * 100 + 'ms'">
+                      <span class="rv-card__no">{{ gi + 1 }}</span>
+                      <h3>{{ g.title }}</h3>
+                      @if (cardLines(g.paras); as lines) {
+                        <ol class="rv-lines">
+                          @for (line of lines; track $index) {
+                            <li>
+                              @if (splitLabel(line); as kv) {
+                                <span class="rv-code">{{ kv.label }}</span> {{ kv.text }}
+                              } @else {
+                                {{ stripNo(line) }}
+                              }
+                            </li>
+                          }
+                        </ol>
+                      } @else {
+                        @for (t of g.paras; track $index) {
+                          <p>{{ t }}</p>
+                        }
+                      }
+                      @if (g.items.length) {
+                        <ul class="rv-lines rv-lines--dots">
+                          @for (it of g.items; track $index) {
+                            <li>{{ it }}</li>
+                          }
+                        </ul>
+                      }
+                    </article>
+                  }
+                </div>
+              }
+
+              @if (s.images.length) {
+                <div class="rv-figures">
+                  @for (im of s.images; track im.src) {
+                    <img [src]="im.src" [alt]="im.alt || s.title" loading="lazy" />
+                  }
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Setup steps -->
+        @if (p.steps.length) {
+          <section class="rv-guide" id="configure" aria-labelledby="rv-guide-title">
+            <div class="rv-section rv-section--last">
+              <header class="rv-head" appReveal>
+                <span class="rv-eyebrow">{{ p.stepsHead?.eyebrow || 'Our App' }}</span>
+                <h2 id="rv-guide-title">{{ p.stepsHead?.title || 'Configure' }}</h2>
+                @if (p.stepsHead?.intro && p.kind !== 'automation') {
+                  <p>{{ p.stepsHead?.intro }}</p>
+                }
+              </header>
+
+              <div class="rv-wizard" appReveal>
+                <ol class="rv-wizard__steps" role="tablist" aria-label="Setup steps">
+                  @for (s of p.steps; track $index; let i = $index) {
+                    <li>
+                      <button
+                        type="button"
+                        role="tab"
+                        class="rv-wizard__step"
+                        [class.is-active]="i === active()"
+                        [class.is-done]="i < active()"
+                        [attr.aria-selected]="i === active()"
+                        (click)="go(i)"
+                      >
+                        <span class="rv-wizard__no">{{ i + 1 }}</span>
+                        <span class="rv-wizard__label">{{ s.title }}</span>
+                      </button>
+                    </li>
+                  }
+                </ol>
+
+                <div class="rv-wizard__stage" role="tabpanel">
+                  <div class="rv-wizard__bar" aria-hidden="true"><span [style.width.%]="((active() + 1) / p.steps.length) * 100"></span></div>
+                  <p class="rv-wizard__count">Step {{ active() + 1 }} of {{ p.steps.length }}</p>
+                  <h3>{{ p.steps[active()].title }}</h3>
+                  @if (p.steps[active()].notes.length) {
+                    <ul class="rv-lines rv-lines--dots rv-wizard__notes">
+                      @for (n of p.steps[active()].notes; track $index) {
+                        <li>{{ n }}</li>
+                      }
+                    </ul>
+                  }
+                  @if (p.steps[active()].image; as img) {
+                    <figure class="rv-shot">
+                      <img [src]="img" [alt]="p.steps[active()].alt || p.steps[active()].title" />
+                    </figure>
+                  }
+                  <div class="rv-wizard__nav">
+                    <button type="button" class="rv-nav" [disabled]="active() === 0" (click)="go(active() - 1)">
+                      <i class="pi pi-arrow-left" aria-hidden="true"></i> Previous
+                    </button>
+                    <button type="button" class="rv-nav rv-nav--next" [disabled]="active() === p.steps.length - 1" (click)="go(active() + 1)">
+                      Next <i class="pi pi-arrow-right" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rv-install" appReveal>
+                <a class="rv-install__btn" routerLink="/contact-us">Install Now</a>
+              </div>
+            </div>
+          </section>
+        }
+
+        <!-- Related -->
+        <section [class.rv-alt]="!p.steps.length" aria-labelledby="rv-related">
+          <div class="rv-section rv-section--last">
+            <header class="rv-head" appReveal>
+              <span class="rv-eyebrow">Keep exploring</span>
+              <h2 id="rv-related">{{ k.relatedTitle }}</h2>
+            </header>
+            <ul class="rv-related">
+              @for (r of related(); track r.slug; let i = $index) {
+                <li class="rv-lift" appReveal [style.--d]="i * 100 + 'ms'">
+                  <a [routerLink]="['/linnworks', r.slug]">
+                    <span class="rv-icon"><i [class]="'pi ' + k.icon" aria-hidden="true"></i></span>
+                    <strong>{{ r.title }}</strong>
+                    <span class="rv-related__go">View <i class="pi pi-arrow-right" aria-hidden="true"></i></span>
+                  </a>
+                </li>
+              }
+            </ul>
+            <p class="rv-back"><a [routerLink]="k.parentRoute"><i class="pi pi-arrow-left" aria-hidden="true"></i> All {{ k.parentLabel }}</a></p>
+          </div>
+        </section>
+      </main>
+    }
+  }
+
+  <app-home-footer />
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { PageBannerComponent } from '../../../shared/components/page-banner/page-banner.component';
 import { RevealDirective } from '../../../shared/directives/reveal.directive';
@@ -10,7 +11,7 @@ import { AUTOMATION_ABOUT, AUTOMATION_APPS, AUTOMATION_FAQS, AUTOMATION_INTRO, A
 @Component({
   selector: 'app-on-screen-automation',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, PageBannerComponent, RevealDirective],
+  imports: [HeaderComponent, FooterComponent, PageBannerComponent, RevealDirective, RouterLink],
   templateUrl: './on-screen-automation.component.html',
   styleUrl: './on-screen-automation.component.scss',
 })

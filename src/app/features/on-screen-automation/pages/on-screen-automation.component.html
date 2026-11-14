@@ -33,6 +33,11 @@
               <span class="rv-service__icon"><i class="pi" [class]="a.icon" aria-hidden="true"></i></span>
               <h3>{{ a.title }}</h3>
               <p>{{ a.text }}</p>
+              @if (a.route) {
+                <a class="rv-service__more" [routerLink]="a.route" style="display: inline-block; margin-top: 0.9rem; font-weight: 700; color: var(--rv-primary)">
+                  View setup guide <i class="pi pi-arrow-right" aria-hidden="true"></i>
+                </a>
+              }
             </article>
           }
         </div>
