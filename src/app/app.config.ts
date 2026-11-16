@@ -7,7 +7,6 @@ import Aura from '@primeng/themes/aura';
 import { MessageService } from 'primeng/api';
 
 import { routes } from './app.routes';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,15 +15,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     MessageService,
     providePrimeNG({
       theme: {
         preset: Aura,
         options: {
-          darkModeSelector: '.dark-theme'
-        }
-      }
-    })
-  ]
+          darkModeSelector: '.dark-theme',
+        },
+      },
+    }),
+  ],
 };
