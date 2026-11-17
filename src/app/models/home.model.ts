@@ -90,7 +90,7 @@ export interface PartnerBadge {
 }
 
 // ---- About us ----
-export interface AboutStat {
+export interface  AboutStat {
   icon: string;
   value: string;
   label: string;

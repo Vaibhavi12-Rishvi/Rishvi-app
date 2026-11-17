@@ -38,7 +38,7 @@
       </div>
 
       <!-- Live half-circle: two orbits that sway, with the real partner logos riding on them -->
-      <div class="uk-orbit" role="img" aria-label="QuickBooks, Xero, Sage, Odoo, Tally and Shopify connected to the Rishvi platform">
+      <div class="uk-orbit" aria-label="QuickBooks, Xero, Sage, Odoo, Tally and Shopify connected to the Rishvi platform">
         @for (ring of orbit.rings; track ring.id) {
           <div class="uk-ring" [class.uk-ring--outer]="ring.id === 'outer'" [class.uk-ring--inner]="ring.id === 'inner'">
             <span class="uk-ring__line"></span>
@@ -140,7 +140,7 @@
                   <span>{{ m.label }}</span>
                   <b>{{ mode() === 'traditional' ? m.traditional : m.electronic }}<small>/10</small></b>
                 </div>
-                <div class="uk-bars__track" role="img" [attr.aria-label]="m.label + ': traditional ' + m.traditional + ' of 10, electronic ' + m.electronic + ' of 10'">
+                <div class="uk-bars__track" [attr.aria-label]="m.label + ': traditional ' + m.traditional + ' of 10, electronic ' + m.electronic + ' of 10'">
                   <i class="uk-bars__ghost" [style.width.%]="(mode() === 'traditional' ? m.electronic : m.traditional) * 10"></i>
                   <i class="uk-bars__fill" [class.is-good]="mode() === 'electronic'" [style.width.%]="(mode() === 'traditional' ? m.traditional : m.electronic) * 10"></i>
                 </div>
@@ -298,7 +298,7 @@
                   <i class="pi" [class.pi-minus]="openFaq() === i" [class.pi-plus]="openFaq() !== i" aria-hidden="true"></i>
                 </button>
               </h3>
-              <div class="uk-acc__a" [id]="'uk-a-' + i" role="region" [attr.aria-labelledby]="'uk-q-' + i">
+              <div class="uk-acc__a" [id]="'uk-a-' + i" [attr.aria-labelledby]="'uk-q-' + i">
                 <div><p>{{ f.answer }}</p></div>
               </div>
             </div>

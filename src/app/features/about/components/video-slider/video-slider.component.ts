@@ -16,7 +16,7 @@ export class VideoSliderComponent {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly videos: VideoItem[] = WORK_VIDEOS;
 
-  private readonly width = signal(typeof window === 'undefined' ? 1200 : window.innerWidth);
+  private readonly width = signal(typeof globalThis === 'undefined' ? 1200 : window.innerWidth);
   private readonly start = signal(0);
 
   readonly perPage = computed(() => (this.width() >= 960 ? 3 : this.width() >= 640 ? 2 : 1));

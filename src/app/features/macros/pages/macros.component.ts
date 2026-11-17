@@ -7,12 +7,13 @@ import { RevealDirective } from '../../../shared/directives/reveal.directive';
 import { FooterComponent } from '../../home/components/footer/footer.component';
 import { HeaderComponent } from '../../home/components/header/header.component';
 import { MACRO_APPS, MACRO_BENEFITS, MACRO_FAQS, MACRO_INTRO, MACRO_TYPES, MACRO_VIDEO } from '../data/macros.data';
+import { RouterLink } from '@angular/router';
 
 /** Public Macros page, shown at /linnworks/macros. */
 @Component({
   selector: 'app-macros',
   standalone: true,
-  imports: [DialogModule, HeaderComponent, FooterComponent, PageBannerComponent, RevealDirective],
+  imports: [DialogModule, HeaderComponent, FooterComponent, PageBannerComponent, RevealDirective, RouterLink],
   templateUrl: './macros.component.html',
   styleUrl: './macros.component.scss',
 })

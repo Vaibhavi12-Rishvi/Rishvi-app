@@ -1,4 +1,4 @@
-@use '../../home/styles/tokens' as t;
+@use "../../home/styles/tokens" as t;
 
 @include t.rv-tokens;
 
@@ -6,7 +6,9 @@
 .rv-reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease var(--d, 0ms), transform 0.6s ease var(--d, 0ms);
+  transition:
+    opacity 0.6s ease var(--d, 0ms),
+    transform 0.6s ease var(--d, 0ms);
 
   &.is-visible {
     opacity: 1;
@@ -86,7 +88,9 @@
   font-weight: 700;
   text-decoration: none;
   box-shadow: 0 16px 30px -18px var(--p-primary-500);
-  transition: transform 0.2s ease, background-position 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    background-position 0.3s ease;
 
   .pi {
     font-size: 0.85rem;
@@ -108,10 +112,8 @@
   }
 }
 
-
 /* ---------- Service cards ---------- */
 .rv-services {
-
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -128,10 +130,14 @@
   background: var(--rv-surface);
   border: 1px solid var(--rv-border);
   border-radius: 18px;
-  transition: opacity 0.6s ease var(--d, 0ms), transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    opacity 0.6s ease var(--d, 0ms),
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     z-index: 0;
@@ -155,8 +161,19 @@
     }
 
     h3,
-    p {
+    p,
+    .rv-service__more {
       color: #fff;
+    }
+
+    .rv-service__more .pi {
+      transform: translateX(4px);
+    }
+
+    .rv-service__icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transform: scale(1.1) rotate(-6deg);
     }
 
     .rv-service__icon {
@@ -176,7 +193,10 @@
     font-size: 1.6rem;
     color: var(--rv-primary);
     background: color-mix(in oklab, var(--p-primary-500) 14%, transparent);
-    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      background 0.3s ease,
+      color 0.3s ease;
 
     .pi {
       font-size: inherit;
@@ -215,7 +235,9 @@
     background: var(--rv-surface);
     border: 1px solid var(--rv-border);
     border-radius: 14px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
 
     &.is-open {
       border-color: var(--rv-primary);
@@ -274,7 +296,9 @@
     font-size: 0.85rem;
     color: var(--rv-primary);
     background: color-mix(in oklab, var(--p-primary-500) 14%, transparent);
-    transition: background 0.25s ease, color 0.25s ease;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease;
   }
 
   &__item.is-open &__no {
@@ -304,7 +328,6 @@
     }
   }
 }
-
 
 /* ---------- Intro and "types" sections (text + overlapping photos) ---------- */
 .rv-split {
@@ -409,7 +432,9 @@
     color: var(--rv-body);
     background: var(--rv-surface-2);
     counter-increment: type;
-    transition: transform 0.25s ease, border-color 0.25s ease;
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease;
 
     &::before {
       content: counter(type);
@@ -502,7 +527,7 @@
 
     // soft pulse so it is clear the video can be played
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0;
       border-radius: 50%;

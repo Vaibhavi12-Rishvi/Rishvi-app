@@ -12,56 +12,67 @@ export const MACRO_APPS: AboutPoint[] = [
   {
     icon: 'pi-envelope',
     title: 'Missing Phone Number and Email',
+    route: '/linnworks/macros/missing-phone-email',
     text: 'Identify and manage orders with missing phone numbers and emails efficiently.',
   },
   {
     icon: 'pi-print',
     title: 'Print Shipping Label And Save In FTP',
+    route: '/linnworks/macros/print-shipping-label-save-ftp',
     text: 'Automatically print shipping labels and save them directly to FTP for easy access.',
   },
   {
     icon: 'pi-credit-card',
     title: 'Assign Payment Method By Source and SubSource',
+    route: '/linnworks/macros/assign-payment-method-by-source-subsource',
     text: 'Assign payment methods based on source and subsource for precise transaction management.',
   },
   {
     icon: 'pi-pencil',
     title: 'Shipping Delivery Note',
+    route: '/linnworks/macros/shipping-delivery-note',
     text: 'Generate accurate shipping delivery notes for clear and efficient order fulfillment.',
   },
   {
     icon: 'pi-check-circle',
     title: 'Mark Order Process Shipping Label Printed',
+    route: '/linnworks/macros/mark-order-process-shipping-label-printed',
     text: 'Mark orders as ‘Shipping Label Printed’ for streamlined tracking and processing.',
   },
   {
     icon: 'pi-inbox',
     title: 'Auto Archive Inventory',
+    route: '/linnworks/macros/auto-archive-inventory',
     text: 'Automatically archive inventory for streamlined and up-to-date records management.',
   },
   {
     icon: 'pi-percentage',
     title: 'Reduce Item’s Discount',
+    route: '/linnworks/macros/reduce-items-discount',
     text: 'Efficiently manage pricing by reducing item discounts as needed.',
   },
   {
     icon: 'pi-file-edit',
     title: 'IOSS Note',
+    route: '/linnworks/macros/ioss-note',
     text: 'Include IOSS notes for smooth cross-border EU transactions and compliance.',
   },
   {
     icon: 'pi-file-export',
     title: 'Auto File Manifest',
+    route: '/linnworks/macros/auto-file-manifest',
     text: 'Automatically file manifests to streamline your shipping process.',
   },
   {
     icon: 'pi-amazon',
     title: 'Amazon Customisation',
+    route: '/linnworks/macros/amazon-customisation',
     text: 'Amazon Customisation enables tailored listings and automated order handling in Linnworks.',
   },
   {
     icon: 'pi-language',
     title: 'Order Address Character Replacement',
+    route: '/linnworks/macros/order-address-character-replacement',
     text: 'Order Address Character Replacement auto-corrects invalid characters in addresses.',
   },
 ];

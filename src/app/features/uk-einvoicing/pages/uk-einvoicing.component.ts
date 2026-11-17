@@ -72,7 +72,7 @@ export class UkEinvoicingComponent implements OnDestroy {
     else window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  @HostListener('window:scroll')
+  @HostListener('window:scroll')                                                                                                                        
   onScroll(): void {
     this.scrolled.set(window.scrollY > 8);
   }

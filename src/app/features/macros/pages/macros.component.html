@@ -16,8 +16,20 @@
         </div>
 
         <div class="rv-photos rv-split__photos" appReveal style="--d: 150ms">
-          <img class="rv-photos__a" src="assest/download-2-1.webp" alt="Control equipment with live data overlay" width="963" height="544" />
-          <img class="rv-photos__b" src="assest/download-3-1.webp" alt="Engineer using a tablet on a factory floor" width="963" height="544" />
+          <img
+            class="rv-photos__a"
+            src="assest/download-2-1.webp"
+            alt="Control equipment with live data overlay"
+            width="963"
+            height="544"
+          />
+          <img
+            class="rv-photos__b"
+            src="assest/download-3-1.webp"
+            alt="Engineer using a tablet on a factory floor"
+            width="963"
+            height="544"
+          />
         </div>
       </div>
     </section>
@@ -36,6 +48,11 @@
               <span class="rv-service__icon"><i class="pi" [class]="a.icon" aria-hidden="true"></i></span>
               <h3>{{ a.title }}</h3>
               <p>{{ a.text }}</p>
+              <!-- Cards without their own page yet open the Linnworks section of Services. -->
+              <a class="rv-service__more" [routerLink]="a.route ?? '/services'" [fragment]="a.route ? undefined : 'linnworks'">
+                Learn More
+                <i class="pi pi-arrow-circle-right" aria-hidden="true"></i>
+              </a>
             </article>
           }
         </div>
@@ -46,8 +63,22 @@
     <section class="rv-split rv-split--types" id="macro-automation" aria-labelledby="rv-types-title">
       <div class="rv-split__inner">
         <div class="rv-photos rv-split__photos" appReveal>
-          <img class="rv-photos__a" src="assest/emersons-flexible-control-May2024.jpeg" alt="Business person touching a automation workflow screen" width="1000" height="667" loading="lazy" />
-          <img class="rv-photos__b" src="assest/revamp-in-action-using-ai-to-streamline-your-path-to-optimal-control.jpg" alt="Hand touching a target icon surrounded by business icons" width="414" height="310" loading="lazy" />
+          <img
+            class="rv-photos__a"
+            src="assest/emersons-flexible-control-May2024.jpeg"
+            alt="Business person touching a automation workflow screen"
+            width="1000"
+            height="667"
+            loading="lazy"
+          />
+          <img
+            class="rv-photos__b"
+            src="assest/revamp-in-action-using-ai-to-streamline-your-path-to-optimal-control.jpg"
+            alt="Hand touching a target icon surrounded by business icons"
+            width="414"
+            height="310"
+            loading="lazy"
+          />
         </div>
 
         <div class="rv-split__copy" appReveal style="--d: 150ms">
